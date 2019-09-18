@@ -1,6 +1,11 @@
 package com.application.hanchat;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,8 +60,6 @@ public class ChatAdapter extends BaseAdapter {
     private class ChatHolder {
         TextView c_textView;
         LinearLayout layout;
-        View leftView;
-        View rightView;
     }
 
     @Override
@@ -66,27 +69,21 @@ public class ChatAdapter extends BaseAdapter {
 
         ChatHolder chatHolder = null;
         LinearLayout layout = null;
-        View viewLeft = null;
-        View viewRight = null;
         TextView chattextView = null;
 
         //  convertView == null : 현재 화면에 보이지 않음
         if (convertView == null) {
             // view == null : chatHolder 가져와 보여줌
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.chat_contents, parent, false);
+            convertView = inflater.inflate(R.layout.chat_item, parent, false);
 
             layout = (LinearLayout) convertView.findViewById(R.id.layout);
-            viewLeft = (View) convertView.findViewById(R.id.imageViewleft);
-            viewRight = (View) convertView.findViewById(R.id.imageViewright);
             chattextView = (TextView) convertView.findViewById(R.id.chattextView);
 
 
             // 홀더 생성 및 Tag로 등록
             chatHolder = new ChatHolder();
             chatHolder.layout = layout;
-            chatHolder.leftView = viewLeft;
-            chatHolder.rightView = viewRight;
             chatHolder.c_textView = chattextView;
 
             convertView.setTag(chatHolder);
@@ -94,8 +91,6 @@ public class ChatAdapter extends BaseAdapter {
         else {
             chatHolder = (ChatHolder) convertView.getTag();
             layout = chatHolder.layout;
-            viewLeft = chatHolder.leftView;
-            viewRight = chatHolder.rightView;
             chattextView = chatHolder.c_textView;
         }
 
@@ -105,15 +100,11 @@ public class ChatAdapter extends BaseAdapter {
 
         if (chat_list.get(i).talker == 0) {
             chattextView.setBackgroundResource(R.drawable.chatbubble_left); // 챗봇이 말하는 상황의 백그라운드 이미지
-            layout.setGravity(Gravity.LEFT);
-            viewRight.setVisibility(View.GONE);
-            viewLeft.setVisibility(View.GONE);
+            layout.setGravity(Gravity.START);
         }
         else if (chat_list.get(i).talker == 1) {
             chattextView.setBackgroundResource(R.drawable.chatbubble_right); // 사용자가 말하는 상황의 백그라운드 이미지
-            layout.setGravity(Gravity.RIGHT);
-            viewRight.setVisibility(View.GONE);
-            viewLeft.setVisibility(View.GONE);
+            layout.setGravity(Gravity.END);
         }
 
 

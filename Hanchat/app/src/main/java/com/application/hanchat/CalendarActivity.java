@@ -3,14 +3,8 @@ package com.application.hanchat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-
-import java.util.Calendar;
 
 public class CalendarActivity extends NavActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,22 +20,10 @@ public class CalendarActivity extends NavActivity
         intent = new Intent(CalendarActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-        // 앱 상단 툴바
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        // 좌측 상단 토글 (네비게이션 서랍)
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-
         // 우측 상단 버튼 (캘린더 화면으로 이동)
         bt_go_chat = findViewById(R.id.bt_go_chat);
 
+        NavSetting();
         ButtonSetting();
     }
 
