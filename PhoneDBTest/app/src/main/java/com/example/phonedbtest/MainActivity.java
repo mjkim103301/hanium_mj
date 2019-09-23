@@ -6,11 +6,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -91,21 +96,21 @@ public class MainActivity extends AppCompatActivity {
                 tv_result.setText(myHelper.getResult());
             }
         });
+
+        ArrayList<String> list=new ArrayList<>();
+        for(int i=0;i<100;i++){
+            list.add(String.format("Text %d", i));
+        }
+
+        RecyclerView recyclerView=findViewById(R.id.recycler1);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        RecyclerViewAdapter adapter=new RecyclerViewAdapter(list);
+        recyclerView.setAdapter(adapter);
+
+
     }
-//    public class myDBHelper extends SQLiteOpenHelper{
-//        public myDBHelper(Context context){
-//
-//            super(context, "test", null, 1);
-//        }
-//        @Override
-//        public void onCreate(SQLiteDatabase db){//테이블 새로 생성
-//           db.execSQL("create table id ( userID char(20) primary key);");
-//        }
-//        @Override
-//        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){//테이블 삭제한 후 다시 생성
-//            db.execSQL("drop table if exists id");
-//        }
-//    }
+
 
 
 
