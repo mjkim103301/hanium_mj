@@ -7,8 +7,8 @@ class Database {
     const Config = JSON.parse(fs.readFileSync(ConfigPath));
     this.connection = sql.createConnection(Config);
 
-    this.connection.connect();
-    console.log('Database Connected');
+    //this.connection.connect();
+    //console.log('Database Connected');
 
 /*
     this.connection.query('Select * from tester', (err, rows, fields)=>{
