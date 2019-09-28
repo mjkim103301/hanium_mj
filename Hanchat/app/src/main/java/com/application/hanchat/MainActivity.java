@@ -2,20 +2,15 @@ package com.application.hanchat;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.support.v4.view.GravityCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends NavActivity
@@ -33,7 +28,9 @@ public class MainActivity extends NavActivity
 
     ChatAdapter chatAdapter;
     ListView chating_list;
+
     Intent intent;
+    Intent intent_profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,34 +38,25 @@ public class MainActivity extends NavActivity
         setContentView(R.layout.activity_main);
 
         intent = new Intent(MainActivity.this, CalendarActivity.class);
+        intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
+        navigationView = findViewById(R.id.nav_view);
+        headerview = navigationView.getHeaderView(0);
+
         connecter = HTTPConnecter.getinstance(IP, 55252);
-        bt_go_cal = findViewById(R.id.bt_go_cal);
+        bt_go_cal =  (Button) findViewById(R.id.bt_go_cal);
         et_chat = findViewById(R.id.et_chat);
         bt_chat = findViewById(R.id.bt_chat);
         bt_image = findViewById(R.id.bt_image);
 
-
-        // 앱 상단 툴바
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        // 좌측 상단 토글 (네비게이션 서랍)
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-
-
+        NavSetting();
         ChatAdapterSetting();
         ButtonSetting();
         et_chat.setText("안녕");
         bt_chat.callOnClick();
     }
+
 
     private void ChatAdapterSetting(){
 
@@ -80,15 +68,24 @@ public class MainActivity extends NavActivity
         chating_list.setAdapter(chatAdapter);
 
         // 임시 코드
-        //chatAdapter.add(0, "안녕하세요 HANCHAT 임시UI입니다!");
-        //chatAdapter.add(1,"내일 11시에 은행동에서 친구랑 만나");
-        //chatAdapter.add(0, "아직 기능은 구현되지 않았습니다.(여기까지 MainActivity 65번째줄 임시 코드)");
-        //chatAdapter.notifyDataSetChanged();
-
+        chatAdapter.add(0, "안녕하세요 HANCHAT 임시UI입니다!");
+        chatAdapter.add(1,"내일 7시에 은행동에서 친구랑 만나!");
+        chatAdapter.add(0, "이제 시작해볼까요?");
+        chatAdapter.notifyDataSetChanged();
     }
 
     //버튼 세팅들은 여기에
     private void ButtonSetting(){
+        // 네비게이션 헤더 클릭시 프로필로 이동
+        headerview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intent_profile);
+            }
+        });
+        // 이미지는 연결 안됨
+        //img_header.setOnClickListener(profileClickListener);
+
         // 우측 상단 버튼 (캘린더 화면으로 이동)
         bt_go_cal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,4 +113,6 @@ public class MainActivity extends NavActivity
         super.onActivityResult(requestCode, resultCode, data);
         imageManagement.onActivityResult(requestCode, resultCode, data);
     }
+
+
 }

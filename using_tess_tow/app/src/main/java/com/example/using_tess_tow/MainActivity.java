@@ -9,10 +9,10 @@ import android.provider.DocumentsContract;
 import android.support.v4.content.CursorLoader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.gun0912.tedpermission.PermissionListener;
@@ -48,9 +48,13 @@ import android.widget.ImageView;
 
 //base64 인코딩하기
 import android.util.Base64;
+//import org.apache.commons.codec.binary.Base64;
 
 //서버로 이미지 전송
 import org.json.JSONObject;
+
+//google cloud vision api
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
         //이미지 디코딩을 위한 초기화
         image = BitmapFactory.decodeResource(getResources(), R.drawable.text_sample_kor); //샘플이미지파일
+        //base64
+        base64(image, Bitmap.CompressFormat.JPEG, 100);
         //image = BitmapFactory.decodeResource(getResources(), R.drawable.text_sample4); //샘플이미지파일
         //언어파일 경로
         datapath = getFilesDir()+ "/tesseract/";
@@ -194,11 +200,14 @@ public class MainActivity extends AppCompatActivity {
                 //이미지가 한계이상(?) 크면 불러 오지 못하므로 사이즈를 줄여 준다.
 
                 int nh = (int) (bitmap.getHeight() * (1024.0 / bitmap.getWidth()));
-                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 1024, nh, true);
+                image= Bitmap.createScaledBitmap(bitmap, 1024, nh, true);
 
+                //base64
+                base64(image, Bitmap.CompressFormat.JPEG, 100);
 
                 ImageView imgView = (ImageView) findViewById(R.id.imageView3);
-                imgView.setImageBitmap(scaled);
+                imgView.setImageBitmap(image);
+
 
 
 
@@ -226,20 +235,19 @@ public class MainActivity extends AppCompatActivity {
        int index=cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
        cursor.moveToFirst();
        String path=cursor.getString(index);
-       base64(path);
-       return path;
-
-
-
-
-
+      /*  try {
+            base64(path);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }*/
+        return path;
 
     }
     String encodedImage;
 
 
     //이미지를 base64로 바꿔줌
-    public void base64(String path){
+ /*   public void base64(String path){
 
         Bitmap bm = BitmapFactory.decodeFile(path);
 
@@ -247,10 +255,26 @@ public class MainActivity extends AppCompatActivity {
         bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
         byte[] b = baos.toByteArray();
         encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+
+
+    }*/
+
+    //경로를 base64로 바꾸는 거였음...
+/*    public void base64(String path)throws UnsupportedEncodingException{
+        byte[] data = path.getBytes("UTF-8");
+        encodedImage= Base64.encodeToString(data, Base64.DEFAULT);
         TextView txt_base64=(TextView) findViewById(R.id.txt_base64);
         txt_base64.setText("base64: "+encodedImage);
+    }*/
 
-
+    public void base64(Bitmap scaled, Bitmap.CompressFormat compressFormat, int quality)
+    {
+        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
+        image.compress(compressFormat, quality, byteArrayOS);
+        encodedImage=Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
+        TextView txt_base64=(TextView) findViewById(R.id.txt_base64);
+        txt_base64.setText("base64: "+encodedImage);
     }
 
     //이미지 서버처리
@@ -283,6 +307,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
 }
 
