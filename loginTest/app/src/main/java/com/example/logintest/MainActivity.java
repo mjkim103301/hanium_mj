@@ -19,11 +19,13 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private int RC_SIGN_IN = 1000;
+    private int RC_SIGN_IN = 999;
     com.google.android.gms.auth.api.signin.GoogleSignInClient mGoogleSignInClient;
+    public static GoogleSignInAccount account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,57 +46,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("@@@@ ", "signIn() 실행");
-                        signIn();
-
+                signIn();
+                updateUI();
+                Intent intent_move = new Intent(getApplicationContext(), CalendarActivity.class);
+                startActivity(intent_move);
             }
         });
 
         // //이전에 로그인 한적있는 유저의 정보 받아옴
-       //GoogleSignInAccount account = GoogleSignInAccount.getLastSignedInAccount(this);
-        //updateUI(account);
+        //account = GoogleSignInAccount.getLastSignedInAccount(this);
+        // updateUI(account);
     }
-
-//    private void handleSignInResult(Task<GoogleSignInAccount> task) {
-//        Log.d("@@@@ ", "handleSignInResult 진입");
-//        try{
-//            // 에러 발생
-//            GoogleSignInAccount account = task.getResult(ApiException.class);
-//
-//            Log.d("@@@@ ", "정보 받아오는 중2");
-//            String email = account.getEmail();
-//            String name1 = account.getFamilyName();
-//            String name2 = account.getGivenName();
-//            String name3 = account.getDisplayName();
-//
-//            Log.d("@@@@", email);
-//            Log.d("@@@@", name1);
-//            Log.d("@@@@", name2);
-//            Log.d("@@@@", name3);
-//        }
-//        catch (ApiException e) {
-//            Log.d("@@@@ ", "ApiException 발생"+e.getStatusCode());
-//            Toast.makeText(this, "ApiException 발생" + e.getStatusCode(), Toast.LENGTH_SHORT).show();
-//            e.printStackTrace();
-//        }
-//    }
-
+    private void updateUI(){
+        Intent intent_move = new Intent(getApplicationContext(), CalendarActivity.class);
+        startActivity(intent_move);
+    }
     private void handleSignInResult(GoogleSignInResult result)
     {
         Log.d("@@@@", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess())
         {
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
+            account = result.getSignInAccount();
 
-            Log.d("@@@@", "" + acct.getDisplayName());
-            Log.d("@@@@", "" + acct.getEmail());
-            Log.d("@@@@", "" + acct.getPhotoUrl());
-            Log.d("@@@@", "" + acct.getId());
+            Log.d("@@@@", "" + account.getDisplayName());
+            Log.d("@@@@", "" + account.getEmail());
+            Log.d("@@@@", "" + account.getPhotoUrl());
+            Log.d("@@@@", "" + account.getId());
         }
-        else
-        {
-            // Signed out, show unauthenticated UI.
-        }
+        //로그인 실패 UI
     }
 
 
