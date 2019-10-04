@@ -7,13 +7,58 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder> {
     private List<Object> mCalendarList;
-    private final int Empty_type=1;
-    private final int Day_type=2;
+    private final int EMPTY_TYPE=1;
+    private final int DAY_TYPE=2;
+
+   public CalendarAdapter(List<Object> CalendarList){
+
+        mCalendarList=CalendarList;
+    }
+    public void setcalendarList(List<Object> CalendarList){
+        mCalendarList=CalendarList;
+    }
+
+    @Override
+    public int getItemViewType(int position) { //뷰타입 나누기
+        Object item = mCalendarList.get(position);
+         if (item instanceof String) {
+            return EMPTY_TYPE; // 비어있는 일자 타입
+        } else {
+            return DAY_TYPE; // 일자 타입
+
+        }
+    }
+
+
+    @NonNull
+    @Override
+    public CalendarAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+       else if (viewType == EMPTY_TYPE) { //비어있는 일자 타입
+            EmptyDayBinding binding =
+                    DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_day_empty, parent, false);
+            return new EmptyViewHolder(binding);
+        }
+        DayItemBinding binding =
+                DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_day, parent, false);// 일자 타입
+        return new DayViewHolder(binding);
+
+    }
+    @Override
+    public void onBindViewHolder(@NonNull CalendarAdapter.ViewHolder viewHolder, int i) {
+        int viewType
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return mDate.size();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView textView1;
@@ -22,32 +67,5 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
 
             //textView1=itemView.findViewById(R.id.text1);
         }
-    }
-   public CalendarAdapter(List<Object> CalendarList){
-        mCalendarList=CalendarList;
-    }
-    public void setcalendarList(List<Object> calendarList){
-
-    }
-    @NonNull
-    @Override
-    public CalendarAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-
-        Context context=viewGroup.getContext();
-        LayoutInflater inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view=inflater.inflate(R.layout.recyclerview_item, viewGroup, false);
-        CalendarAdapter.ViewHolder vh=new CalendarAdapter.ViewHolder(view);
-        return vh;
-    }
-    @Override
-    public void onBindViewHolder(@NonNull CalendarAdapter.ViewHolder viewHolder, int i) {
-        int text=mDate.get(i);
-        viewHolder.textView1.setText(text);
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return mDate.size();
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.database.Cursor;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import android.provider.MediaStore;
 import android.net.Uri;
@@ -20,6 +20,7 @@ import android.util.Base64;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hanchat.module.HTTPConnecter;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -39,7 +40,7 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
 
     ImageManagement_mj(AppCompatActivity Activity, HTTPConnecter connecter, ChatAdapter chatAdapter){
         MainActivity = Activity;
-        this.connecter = connecter;
+        this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port);
         this.chatAdapter = chatAdapter;
         //Activity.onActivityResult += this.onActivityResult;
     }

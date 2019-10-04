@@ -1,7 +1,9 @@
-package com.example.hanchat;
+package com.example.hanchat.module;
 
 import android.graphics.Bitmap;
 import android.os.Handler;
+
+import androidx.annotation.StringRes;
 
 import org.json.JSONObject;
 
@@ -19,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import static android.provider.Settings.Global.getString;
+
 
 /*완료*/
 //8.16  경고 수정
@@ -28,7 +32,7 @@ import java.util.Random;
 //자세한 사용법은 드라이브에
 
 
-class HTTPConnecter {
+public class HTTPConnecter {
 
     //통신 완료 후에 실행될 콜백 함수 정의를 위한 인터페이스
     public interface Callback{
@@ -58,8 +62,21 @@ class HTTPConnecter {
     }
 
     //ip주소, 포트번호를 전달받음
-    static HTTPConnecter getinstance(String Hostip, int Port){
+    public static HTTPConnecter getinstance(String Hostip, int Port){
         String host = "http://" + Hostip + ":" + Port;
+        if(instanceMap.containsKey(host)){
+            return instanceMap.get(host);
+        }
+        else{
+            HTTPConnecter newinstance = new HTTPConnecter(host);
+            instanceMap.put(host, newinstance);
+            return newinstance;
+        }
+    }
+
+    //ip주소, 포트번호를 전달받음
+    public static HTTPConnecter getinstance(@StringRes int Hostip, int Port){
+        String host = "http://" + getString(Hostip) + ":" + Port;
         if(instanceMap.containsKey(host)){
             return instanceMap.get(host);
         }
@@ -73,7 +90,7 @@ class HTTPConnecter {
     //Post 형식으로 전달할때
     //Pathname : 주소에서 /로 시작해서 ? 전까지의 부분 (ex : "/chatbot_data"), Map과 통신 이후에 수행할 콜백을 받음
     //콜백은 위의 인터페이스 활용
-    void Post(String Pathname, Map<String, String> data, Callback callback){
+    public void Post(String Pathname, Map<String, String> data, Callback callback){
         PostSender th_Sender = new PostSender();
         th_Sender.SetConnection(Host + Pathname);
         th_Sender.SetMessage(data);
@@ -81,7 +98,7 @@ class HTTPConnecter {
         th_Sender.start();
     }
 
-    void Get(String Pathname, Map<String, String> data, Callback callback){
+    public void Get(String Pathname, Map<String, String> data, Callback callback){
         Sender th_Sender = new Sender();
         String address = Host + Pathname;
         if(data != null){
@@ -105,7 +122,7 @@ class HTTPConnecter {
         th_Sender.start();
     }
 
-    void sendImage(String Pathname, Map<String, String> data, String filepath, Callback callback){
+    public void sendImage(String Pathname, Map<String, String> data, String filepath, Callback callback){
         ImageSender th_Sender = new ImageSender();
         th_Sender.SetConnection(Host + Pathname);
         th_Sender.SetMessage(data, filepath);
