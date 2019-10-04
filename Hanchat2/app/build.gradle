@@ -29,8 +29,18 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-
     //image load_mj
     implementation "gun0912.ted:tedpermission:2.2.2"
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
+    //google calendar
+    implementation 'androidx.media:media:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'pub.devrel:easypermissions:0.3.0'
+    implementation('com.google.api-client:google-api-client-android:1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation('com.google.apis:google-api-services-calendar:v3-rev99-1.19.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
 }

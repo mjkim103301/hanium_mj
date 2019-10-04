@@ -43,13 +43,16 @@ public class MainActivity extends NavActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 화면 전환
         intent = new Intent(MainActivity.this, CalendarActivity.class);
         intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
+        //네비게이션 바의 헤더 얻어옴
         navigationView = findViewById(R.id.nav_view);
         headerview = navigationView.getHeaderView(0);
 
+        //버튼 연결
         connecter = HTTPConnecter.getinstance(IP, 55252);
         bt_go_cal =  (Button) findViewById(R.id.bt_go_cal);
         et_chat = findViewById(R.id.et_chat);
@@ -59,6 +62,8 @@ public class MainActivity extends NavActivity
         NavSetting();
         ChatAdapterSetting();
         ButtonSetting();
+
+        //서버 연결 테스트
         et_chat.setText("안녕");
         bt_chat.callOnClick();
     }
