@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hanchat.R;
+
 import java.util.ArrayList;
 
 public class ChatAdapter extends BaseAdapter {
@@ -29,12 +31,12 @@ public class ChatAdapter extends BaseAdapter {
     }
 
     // 어댑터 생성자
-    ChatAdapter() {
+    public ChatAdapter() {
         chat_list = new ArrayList<>();
     }
 
     // 어댑터 대화 추가
-    void add(int _talker, String _text) {
+    public void add(int _talker, String _text) {
         chat_list.add(new ChatItem(_talker, _text));
     }
 

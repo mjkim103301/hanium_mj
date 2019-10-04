@@ -1,4 +1,4 @@
-package com.example.hanchat;
+package com.example.hanchat.module;
 
 import android.Manifest;
 
@@ -20,7 +20,8 @@ import android.util.Base64;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hanchat.module.HTTPConnecter;
+import com.example.hanchat.R;
+import com.example.hanchat.ChatAdapter;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -38,9 +39,9 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
     HTTPConnecter connecter;
     ChatAdapter chatAdapter;
 
-    ImageManagement_mj(AppCompatActivity Activity, HTTPConnecter connecter, ChatAdapter chatAdapter){
+    public ImageManagement_mj(AppCompatActivity Activity, ChatAdapter chatAdapter){
         MainActivity = Activity;
-        this.connecter = connecter;
+        this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, MainActivity);
         this.chatAdapter = chatAdapter;
         //Activity.onActivityResult += this.onActivityResult;
     }
