@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static android.provider.Settings.Global.getString;
 
 
 /*완료*/
@@ -75,8 +74,8 @@ public class HTTPConnecter {
     }
 
     //ip주소, 포트번호를 전달받음
-    public static HTTPConnecter getinstance(@StringRes int Hostip, int Port){
-        String host = "http://" + getString(Hostip) + ":" + Port;
+    public static HTTPConnecter getinstance(@StringRes int Hostip, @StringRes int Port){
+        String host = "http://" +  Hostip + ":" + Port;
         if(instanceMap.containsKey(host)){
             return instanceMap.get(host);
         }
