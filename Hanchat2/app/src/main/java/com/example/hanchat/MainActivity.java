@@ -19,11 +19,14 @@ public class MainActivity extends NavActivity
 
     ImageManagement_mj imageManagement;
 
+    final String IP = "18.219.204.210";
 
     Button bt_go_cal;
     EditText et_chat;
     Button bt_chat;
     Button bt_image;
+
+    HTTPConnecter connecter;
 
     ChatAdapter chatAdapter;
     ListView chating_list;
@@ -100,8 +103,8 @@ public class MainActivity extends NavActivity
         });
 
         // 채팅 전송
-        bt_chat.setOnClickListener(new ButtonAction(this, et_chat, chatAdapter));
-        imageManagement=new ImageManagement_mj(this, chatAdapter);
+        bt_chat.setOnClickListener(new ButtonAction(this, connecter, et_chat, chatAdapter));
+        imageManagement=new ImageManagement_mj(this, connecter, chatAdapter);
     }
 
     // + 버튼 눌렀을때 실행됨(나 다른방법 써서 버튼 세팅 안할듯)

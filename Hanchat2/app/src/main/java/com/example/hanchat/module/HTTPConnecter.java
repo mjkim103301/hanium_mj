@@ -76,7 +76,7 @@ public class HTTPConnecter {
 
     //ip주소, 포트번호를 전달받음
     public static HTTPConnecter getinstance(@StringRes int Hostip, int Port){
-        String host = "http://" + getString(Hostip) + ":" + Port;
+        String host = "http://" + Hostip + ":" + Port;
         if(instanceMap.containsKey(host)){
             return instanceMap.get(host);
         }
@@ -130,7 +130,7 @@ public class HTTPConnecter {
         th_Sender.start();
     }
 
-    void sendImage(String Pathname, Map<String, String> data, Bitmap bitmap, Callback callback){
+    public void sendImage(String Pathname, Map<String, String> data, Bitmap bitmap, Callback callback){
         ImageSender th_Sender = new ImageSender();
         th_Sender.SetConnection(Host + Pathname);
         th_Sender.SetMessage(data, bitmap);

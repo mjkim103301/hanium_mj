@@ -19,7 +19,7 @@ public class ButtonAction implements View.OnClickListener {
     ChatAdapter chatAdapter;
 
     public ButtonAction(AppCompatActivity Activity, HTTPConnecter connecter, EditText et, ChatAdapter chatAdapter) {
-        this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port);
+        this.connecter = connecter;
         this.et_chat = et;
         this.Activity = Activity;
         this.chatAdapter = chatAdapter;

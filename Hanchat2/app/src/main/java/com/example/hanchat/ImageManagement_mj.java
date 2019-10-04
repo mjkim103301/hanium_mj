@@ -40,7 +40,7 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
 
     ImageManagement_mj(AppCompatActivity Activity, HTTPConnecter connecter, ChatAdapter chatAdapter){
         MainActivity = Activity;
-        this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port);
+        this.connecter = connecter;
         this.chatAdapter = chatAdapter;
         //Activity.onActivityResult += this.onActivityResult;
     }
