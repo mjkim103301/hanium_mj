@@ -6,10 +6,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.android.material.navigation.NavigationView;
 /*완료*/
@@ -18,12 +20,17 @@ public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     NavigationView navigationView;
-    View headerview;
+    View headerView;
+    Intent intent_profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.nav_header);
+
+    }
+
+    public void IntentProfileSetting(AppCompatActivity activity){
+        intent_profile = new Intent(activity.getApplicationContext(), ProfileActivity.class);
     }
 
     // 네비게이션 서랍 세팅들은 여기에
@@ -35,11 +42,20 @@ public class NavActivity extends AppCompatActivity
         // 좌측 상단 토글 (네비게이션 서랍)
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        headerView = navigationView.getHeaderView(0);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intent_profile);
+            }
+        });
+
     }
 
     @Override

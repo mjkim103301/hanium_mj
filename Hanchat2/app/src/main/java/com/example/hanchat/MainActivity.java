@@ -32,7 +32,6 @@ public class MainActivity extends NavActivity
     ListView chating_list;
 
     Intent intent;
-    Intent intent_profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +40,7 @@ public class MainActivity extends NavActivity
 
         // 화면 전환
         intent = new Intent(MainActivity.this, CalendarActivity.class);
-        intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-        //네비게이션 바의 헤더 얻어옴
-        navigationView = findViewById(R.id.nav_view);
-        headerview = navigationView.getHeaderView(0);
 
         //버튼 연결
         connecter = HTTPConnecter.getinstance(IP, 55252);
@@ -56,6 +50,7 @@ public class MainActivity extends NavActivity
         bt_image = findViewById(R.id.bt_image);
 
         NavSetting();
+        IntentProfileSetting(MainActivity.this);
         ChatAdapterSetting();
         ButtonSetting();
 
@@ -83,16 +78,6 @@ public class MainActivity extends NavActivity
 
     //버튼 세팅들은 여기에
     private void ButtonSetting(){
-        // 네비게이션 헤더 클릭시 프로필로 이동
-        headerview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(intent_profile);
-            }
-        });
-        // 이미지는 연결 안됨
-        //img_header.setOnClickListener(profileClickListener);
-
         // 우측 상단 버튼 (캘린더 화면으로 이동)
         bt_go_cal.setOnClickListener(new View.OnClickListener() {
             @Override
