@@ -3,10 +3,10 @@ package com.example.hanchat;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.hanchat.module.HTTPConnecter;
-
 import android.view.View;
 
+import com.example.hanchat.module.ChatBotConnecter;
+import com.example.hanchat.module.ImageManagement_mj;
 import com.google.android.material.navigation.NavigationView;
 
 import android.widget.Button;
@@ -48,8 +48,8 @@ public class MainActivity extends NavActivity
         navigationView = findViewById(R.id.nav_view);
         headerview = navigationView.getHeaderView(0);
 
+
         //버튼 연결
-        connecter = HTTPConnecter.getinstance(IP, 55252);
         bt_go_cal =  (Button) findViewById(R.id.bt_go_cal);
         et_chat = findViewById(R.id.et_chat);
         bt_chat = findViewById(R.id.bt_chat);
@@ -103,8 +103,8 @@ public class MainActivity extends NavActivity
         });
 
         // 채팅 전송
-        bt_chat.setOnClickListener(new ButtonAction(this, connecter, et_chat, chatAdapter));
-        imageManagement=new ImageManagement_mj(this, connecter, chatAdapter);
+        bt_chat.setOnClickListener(new ChatBotConnecter(this, et_chat, chatAdapter));
+        imageManagement=new ImageManagement_mj(this, chatAdapter);
     }
 
     // + 버튼 눌렀을때 실행됨(나 다른방법 써서 버튼 세팅 안할듯)
