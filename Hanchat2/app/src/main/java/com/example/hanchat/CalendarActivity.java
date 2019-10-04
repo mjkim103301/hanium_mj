@@ -578,7 +578,7 @@ public class CalendarActivity extends NavActivity
                 break;
         }
     }
-    
+
     // Android 6.0 (API 23) 이상에서 런타임 권한 요청시 결과를 리턴받음
     @Override
     public void onRequestPermissionsResult(
