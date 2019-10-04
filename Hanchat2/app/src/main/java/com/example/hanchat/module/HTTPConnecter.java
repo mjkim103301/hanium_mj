@@ -1,9 +1,11 @@
 package com.example.hanchat.module;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 
 import androidx.annotation.StringRes;
+import androidx.core.content.res.TypedArrayUtils;
 
 import org.json.JSONObject;
 
@@ -62,6 +64,11 @@ public class HTTPConnecter {
 
     //ip주소, 포트번호를 전달받음
     public static HTTPConnecter getinstance(String Hostip, int Port){
+        return getinstance(Hostip, String.valueOf(Port));
+    }
+
+    //ip주소, 포트번호를 전달받음
+    public static HTTPConnecter getinstance(String Hostip, String Port){
         String host = "http://" + Hostip + ":" + Port;
         if(instanceMap.containsKey(host)){
             return instanceMap.get(host);
@@ -73,17 +80,11 @@ public class HTTPConnecter {
         }
     }
 
+
+
     //ip주소, 포트번호를 전달받음
-    public static HTTPConnecter getinstance(@StringRes int Hostip, @StringRes int Port){
-        String host = "http://" +  Hostip + ":" + Port;
-        if(instanceMap.containsKey(host)){
-            return instanceMap.get(host);
-        }
-        else{
-            HTTPConnecter newinstance = new HTTPConnecter(host);
-            instanceMap.put(host, newinstance);
-            return newinstance;
-        }
+    public static HTTPConnecter getinstance(@StringRes int Hostip, @StringRes int Port, Context context){
+        return getinstance(context.getString(Hostip), context.getString(Port));
     }
 
     //Post 형식으로 전달할때
@@ -129,7 +130,7 @@ public class HTTPConnecter {
         th_Sender.start();
     }
 
-    void sendImage(String Pathname, Map<String, String> data, Bitmap bitmap, Callback callback){
+    public void sendImage(String Pathname, Map<String, String> data, Bitmap bitmap, Callback callback){
         ImageSender th_Sender = new ImageSender();
         th_Sender.SetConnection(Host + Pathname);
         th_Sender.SetMessage(data, bitmap);

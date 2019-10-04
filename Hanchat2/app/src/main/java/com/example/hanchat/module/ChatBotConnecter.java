@@ -1,4 +1,4 @@
-package com.example.hanchat;
+package com.example.hanchat.module;
 
 import android.view.View;
 import android.widget.EditText;
@@ -6,20 +6,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hanchat.module.HTTPConnecter;
+import com.example.hanchat.ChatAdapter;
+import com.example.hanchat.R;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /*완료*/
-public class ButtonAction implements View.OnClickListener {
+public class ChatBotConnecter implements View.OnClickListener {
     HTTPConnecter connecter;
     AppCompatActivity Activity;
     EditText et_chat;
     ChatAdapter chatAdapter;
 
-    public ButtonAction(AppCompatActivity Activity, HTTPConnecter connecter, EditText et, ChatAdapter chatAdapter) {
-        this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port);
+    public ChatBotConnecter(AppCompatActivity Activity, EditText et, ChatAdapter chatAdapter) {
+        this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, Activity);
         this.et_chat = et;
         this.Activity = Activity;
         this.chatAdapter = chatAdapter;
