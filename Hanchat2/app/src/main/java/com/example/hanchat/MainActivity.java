@@ -37,7 +37,7 @@ public class MainActivity extends NavActivity
         setContentView(R.layout.activity_main);
 
         // 화면 전환
-        intent = new Intent(MainActivity.this, CalendarActivity.class);
+        intent = new Intent(MainActivity.this, GroupMainActivity.class);
         intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
