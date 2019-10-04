@@ -5,7 +5,6 @@ public class CalendarAPIManager {
 
 
 /*
-package com.example.hanchat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -61,13 +60,10 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class CalendarActivity extends NavActivity
+public class CalendarAPIManager
         implements NavigationView.OnNavigationItemSelectedListener
         , EasyPermissions.PermissionCallbacks
 {
-    Button bt_go_chat;
-    Intent intent;
-    Intent intent_profile;
     String TAG = "@@@@ ";
 
     // Google Calendar API 객체

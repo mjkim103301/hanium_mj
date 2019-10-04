@@ -5,7 +5,9 @@ import android.os.Bundle;
 
 import android.view.View;
 
+import com.example.hanchat.module.ChatAdapter;
 import com.example.hanchat.module.ChatBotConnecter;
+import com.example.hanchat.module.HTTPConnecter;
 import com.example.hanchat.module.ImageManagement_mj;
 import com.google.android.material.navigation.NavigationView;
 

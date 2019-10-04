@@ -21,7 +21,6 @@ import android.util.Base64;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hanchat.R;
-import com.example.hanchat.ChatAdapter;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 

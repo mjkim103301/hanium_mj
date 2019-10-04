@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hanchat.ChatAdapter;
 import com.example.hanchat.R;
 
 import java.util.HashMap;
