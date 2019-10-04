@@ -33,4 +33,6 @@ dependencies {
     //image load_mj
     implementation "gun0912.ted:tedpermission:2.2.2"
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 }

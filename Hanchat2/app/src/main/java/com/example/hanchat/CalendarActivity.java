@@ -44,5 +44,5 @@ public class CalendarActivity extends NavActivity
 
     }
 
-    //이미지파일을 보내려면 /apptest/test로 sendImage
+    //이미지파일을 보내려면 /apptest/image로 sendImage
 }

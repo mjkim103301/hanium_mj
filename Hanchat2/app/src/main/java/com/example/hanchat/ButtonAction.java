@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hanchat.module.HTTPConnecter;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +19,7 @@ public class ButtonAction implements View.OnClickListener {
     ChatAdapter chatAdapter;
 
     public ButtonAction(AppCompatActivity Activity, HTTPConnecter connecter, EditText et, ChatAdapter chatAdapter) {
-        this.connecter = connecter;
+        this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port);
         this.et_chat = et;
         this.Activity = Activity;
         this.chatAdapter = chatAdapter;
