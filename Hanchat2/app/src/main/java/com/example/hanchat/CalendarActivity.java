@@ -5,19 +5,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.hanchat.module.CalendarAPIManager;
 import com.google.android.material.navigation.NavigationView;
 
 /*완료*/
 public class CalendarActivity extends NavActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    CalendarAPIManager calendarAPIManager;
     Button bt_go_chat;
     Intent intent;
     String TAG = "@@@@ ";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+
+        calendarAPIManager = new CalendarAPIManager(CalendarActivity.this);
 
         intent = new Intent(CalendarActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
