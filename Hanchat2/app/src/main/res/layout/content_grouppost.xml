@@ -4,54 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
     android:background="@drawable/edge">
 
     <ImageView
-
-        android:id="@+id/GroupImage"
+        android:id="@+id/Content_GroupPost_GroupImage"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="GroupImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/hanrang" />
 
     <TextView
-        android:id="@+id/tv_groupname"
+        android:id="@+id/Content_GroupPost_GroupName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="testGroupName"
+        android:text="@string/test_string"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/GroupImage"
-        app:layout_constraintStart_toEndOf="@+id/GroupImage"
-        app:layout_constraintTop_toTopOf="@+id/GroupImage" />
+        app:layout_constraintBottom_toBottomOf="@+id/Content_GroupPost_GroupImage"
+        app:layout_constraintStart_toEndOf="@+id/Content_GroupPost_GroupImage"
+        app:layout_constraintTop_toTopOf="@+id/Content_GroupPost_GroupImage" />
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/Content_GroupPost_WriterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="testName"
+        android:text="@string/test_string"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_groupname"
+        app:layout_constraintBottom_toBottomOf="@+id/Content_GroupPost_GroupImage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_groupname" />
+        app:layout_constraintTop_toTopOf="@+id/Content_GroupPost_GroupImage" />
 
     <TextView
-        android:id="@+id/tv_content"
+        android:id="@+id/Content_GroupPost_Content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="testcontent"
+        android:text="@string/test_string"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/GroupImage" />
+        app:layout_constraintTop_toBottomOf="@+id/Content_GroupPost_GroupImage" />
 </androidx.constraintlayout.widget.ConstraintLayout>
