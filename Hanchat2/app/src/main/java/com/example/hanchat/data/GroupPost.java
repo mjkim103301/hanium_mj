@@ -2,17 +2,19 @@ package com.example.hanchat.data;
 
 import android.content.Context;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.hanchat.R;
+import androidx.databinding.DataBindingUtil;
+
+import com.example.hanchat.databinding.ContentGrouppostBinding;
 import com.example.hanchat.module.RecyclerAdapter;
 
-import org.w3c.dom.Text;
+public class GroupPost implements RecyclerAdapter.RecyclerItem {
+    @Override
+    public int getViewType() {
+        return RecyclerAdapter.GROUPPOST;
+    }
 
-public class GroupPost implements RecyclerAdapter.Recycleritem {
     Uri groupProfileImage = null;
     String groupName;
     String writerName;
@@ -28,20 +30,9 @@ public class GroupPost implements RecyclerAdapter.Recycleritem {
     }
 
     @Override
-    public void setRecyclerContent(View itemView) {
-        if(groupProfileImage != null){
-            ((ImageView)itemView.findViewById(R.id.Content_GroupPost_GroupImage)).setImageURI(groupProfileImage);
-        }
-        ((TextView)itemView.findViewById(R.id.Content_GroupPost_WriterName)).setText(writerName);
-        ((TextView)itemView.findViewById(R.id.Content_GroupPost_GroupName)).setText(groupName);
-        TextView view_Content = (TextView)itemView.findViewById(R.id.Content_GroupPost_Content);
-        view_Content.setMaxLines(maxLInes);
-        view_Content.setEllipsize(TextUtils.TruncateAt.END);
-        view_Content.setText(content);
-        if(view_Content.getLineCount() > maxLInes){
-            TextView tv_more = new TextView(context);
-
-        }
+    public void setRecyclerContent(final View itemView) {
+        ContentGrouppostBinding binding = DataBindingUtil.bind(itemView);
+        binding.setModel(this);
     }
 
     public void setGroupProfileImage(Uri imagepath){
@@ -53,4 +44,8 @@ public class GroupPost implements RecyclerAdapter.Recycleritem {
         this.writerName = writerName;
         this.content = content;
     }
+
+    public String getGroupName(){return groupName;}
+    public String getWriterName(){return writerName;}
+    public String getContent(){return content;}
 }

@@ -3,4 +3,26 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--<include layout="@layout/content_grouppost"
+                android:id="@+id/GroupPost_PostContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/Rview_GroupPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
