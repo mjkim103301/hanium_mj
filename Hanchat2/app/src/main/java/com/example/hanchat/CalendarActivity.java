@@ -5,17 +5,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+
 import com.example.hanchat.module.CalendarAPIManager;
 import com.google.android.material.navigation.NavigationView;
+
+import pub.devrel.easypermissions.EasyPermissions;
+
 
 /*완료*/
 public class CalendarActivity extends NavActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     CalendarAPIManager calendarAPIManager;
     Button bt_go_chat;
     Intent intent;
-    String TAG = "@@@@ ";
 
 
     @Override
@@ -46,4 +49,18 @@ public class CalendarActivity extends NavActivity
         });
 
     }
+
+    /* CalendarAPIManager 사용하는 액티비티에서 이 코드 써야함 */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        calendarAPIManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+    /* CalendarAPIManager 사용하는 액티비티에서 이 코드 써야함 끝 */
 }

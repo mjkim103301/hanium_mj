@@ -18,7 +18,6 @@ import android.widget.ListView;
 /*완료*/
 public class MainActivity extends NavActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     ImageManagement_mj imageManagement;
 
     final String IP = "18.219.204.210";
@@ -34,6 +33,8 @@ public class MainActivity extends NavActivity
     ListView chating_list;
 
     Intent intent;
+
+    String TAG="@@@@ ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +107,4 @@ public class MainActivity extends NavActivity
         super.onActivityResult(requestCode, resultCode, data);
         imageManagement.onActivityResult(requestCode, resultCode, data);
     }
-
-
 }
