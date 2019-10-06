@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hanchat.data.GroupPost;
 import com.example.hanchat.module.RecyclerAdapter;
+import com.example.hanchat.module.RecyclerManager;
 
 import java.util.ArrayList;
 
 
 public class GroupMainActivity extends NavActivity {
-    RecyclerAdapter<GroupPost> adapter;
+    RecyclerManager<GroupPost> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,10 +26,10 @@ public class GroupMainActivity extends NavActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
 
 
-        adapter = new RecyclerAdapter<>();
-        adapter.setItemViewAction(new RecyclerAdapter.ItemViewAction() {
+        adapter = new RecyclerAdapter();
+        adapter.setItemViewAction(new RecyclerManager.ItemViewAction() {
             @Override
-            public void setItemView(final View itemView, final RecyclerAdapter.RecyclerItem item, final int viewType) {
+            public void setItemView(final View itemView, final RecyclerManager.RecyclerItem item, final int viewType) {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -43,9 +44,9 @@ public class GroupMainActivity extends NavActivity {
                 });
             }
         });
-        adapter.setLastPositionAction(new RecyclerAdapter.LastPositionAction() {
+        adapter.setLastPositionAction(new RecyclerManager.LastPositionAction() {
             @Override
-            public void lastPositionFunc(RecyclerAdapter adapter) {
+            public void lastPositionFunc(RecyclerManager adapter) {
                 addData();
             }
         });

@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--<include layout="@layout/content_grouppost"
+            <!--<include layout="@layout/rcycler_item_grouppost"
                 android:id="@+id/GroupPost_PostContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>-->

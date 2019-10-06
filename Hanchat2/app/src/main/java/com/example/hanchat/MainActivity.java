@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.example.hanchat.module.ChatBotConnecter;
 import com.example.hanchat.module.ImageManagement_mj;
+import com.example.hanchat.module.RecyclerManager;
 import com.google.android.material.navigation.NavigationView;
 
 import android.widget.Button;
@@ -54,11 +55,16 @@ public class MainActivity extends NavActivity
 
         NavSetting();
         ChatAdapterSetting();
+        testAdapterSetting();
         ButtonSetting();
 
         //서버 연결 테스트
         et_chat.setText("안녕");
         bt_chat.callOnClick();
+    }
+
+    private void testAdapterSetting() {
+
     }
 
 
