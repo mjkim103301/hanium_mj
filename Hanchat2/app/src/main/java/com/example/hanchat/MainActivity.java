@@ -3,6 +3,7 @@ package com.example.hanchat;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.view.View;
 
 import com.example.hanchat.data.EmptyData;
@@ -71,7 +72,13 @@ public class MainActivity extends NavActivity
             @Override
             public void addItem(RecyclerItem item) {
                 super.addItem(item);
-                ((LinearLayoutManager) parentView.getLayoutManager()).scrollToPosition(this.getItemCount() - 1);
+                //((LinearLayoutManager) parentView.getLayoutManager()).scrollToPosition(this.getItemCount() - 1);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        parentView.scrollToPosition(adapter.getItemSize() - 1);
+                    }
+                },50);
             }
         };
         chating_list.setLayoutManager(new LinearLayoutManager(this));
