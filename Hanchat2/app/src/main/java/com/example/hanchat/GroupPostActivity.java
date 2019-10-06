@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hanchat.data.GroupPost;
 import com.example.hanchat.data.PostComment;
 import com.example.hanchat.module.RecyclerAdapter;
-import com.example.hanchat.module.RecyclerManager;
 
 import java.util.ArrayList;
 
@@ -20,7 +19,7 @@ public class GroupPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grouppost);
 
-        ArrayList<RecyclerManager.RecyclerItem> list = new ArrayList<>();
+        ArrayList<RecyclerAdapter.RecyclerItem> list = new ArrayList<>();
 
         Intent intent = getIntent();
         GroupPost post = new GroupPost(this);
@@ -36,9 +35,9 @@ public class GroupPostActivity extends AppCompatActivity {
         }
 
         RecyclerView rv = findViewById(R.id.Rview_GroupPost);
-        RecyclerManager adapter = new RecyclerAdapter();
+        RecyclerAdapter adapter = new RecyclerAdapter();
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter.addContent(list);
+        adapter.addItem(list);
         rv.setAdapter(adapter);
     }
 }

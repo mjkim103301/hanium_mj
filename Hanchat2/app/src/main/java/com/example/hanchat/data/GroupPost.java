@@ -6,7 +6,7 @@ import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.example.hanchat.databinding.ContentGrouppostBinding;
+import com.example.hanchat.databinding.RcyclerItemGrouppostBinding;
 import com.example.hanchat.module.RecyclerAdapter;
 
 public class GroupPost implements RecyclerAdapter.RecyclerItem {
@@ -31,7 +31,7 @@ public class GroupPost implements RecyclerAdapter.RecyclerItem {
 
     @Override
     public void setRecyclerContent(final View itemView) {
-        ContentGrouppostBinding binding = DataBindingUtil.bind(itemView);
+        RcyclerItemGrouppostBinding binding = DataBindingUtil.bind(itemView);
         binding.setModel(this);
     }
 

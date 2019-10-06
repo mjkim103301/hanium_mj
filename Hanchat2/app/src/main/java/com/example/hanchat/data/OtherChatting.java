@@ -2,6 +2,9 @@ package com.example.hanchat.data;
 
 import android.view.View;
 
+import androidx.databinding.DataBindingUtil;
+
+import com.example.hanchat.databinding.RcyclerItemChatOtherBinding;
 import com.example.hanchat.module.RecyclerAdapter;
 
 public class OtherChatting extends Chatting {
@@ -10,4 +13,17 @@ public class OtherChatting extends Chatting {
         return RecyclerAdapter.OTHERCHATTING;
     }
 
+    public OtherChatting() {
+        super();
+    }
+
+    @Override
+    public void setRecyclerContent(View itemView) {
+        RcyclerItemChatOtherBinding binding = DataBindingUtil.bind(itemView);
+        binding.setModel(this);
+    }
+
+    public OtherChatting(String str) {
+        super(str);
+    }
 }

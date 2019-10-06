@@ -6,8 +6,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hanchat.ChatAdapter;
 import com.example.hanchat.R;
+import com.example.hanchat.data.OtherChatting;
+import com.example.hanchat.data.UserChatting;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +18,9 @@ public class ChatBotConnecter implements View.OnClickListener {
     HTTPConnecter connecter;
     AppCompatActivity Activity;
     EditText et_chat;
-    ChatAdapter chatAdapter;
+    RecyclerAdapter chatAdapter;
 
-    public ChatBotConnecter(AppCompatActivity Activity, EditText et, ChatAdapter chatAdapter) {
+    public ChatBotConnecter(AppCompatActivity Activity, EditText et, RecyclerAdapter chatAdapter) {
         this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, Activity);
         this.et_chat = et;
         this.Activity = Activity;
@@ -29,9 +30,10 @@ public class ChatBotConnecter implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         String des = et_chat.getText().toString();
-        chatAdapter.add(1, des);    // 0은 챗봇, 1은 사용자
+        chatAdapter.addItem(new UserChatting(des));
+        //chatAdapter.add(1, des);    // 0은 챗봇, 1은 사용자
         et_chat.setText(null);
-        chatAdapter.notifyDataSetChanged(); // 데이터 변화 시 갱신해 줌
+        //chatAdapter.notifyDataSetChanged(); // 데이터 변화 시 갱신해 줌
 
         try{
             //서버로 보낼 내용 : des
@@ -66,8 +68,9 @@ public class ChatBotConnecter implements View.OnClickListener {
                     //위의 함수에서 받은 내용을 토스트메시지로 출력
                     String answer = (String) obj;
                     Toast.makeText(Activity.getApplicationContext(), answer, Toast.LENGTH_LONG).show();
-                    chatAdapter.add(0, answer);
-                    chatAdapter.notifyDataSetChanged(); // 데이터 변화 시 갱신해 줌
+                    chatAdapter.addItem(new OtherChatting(answer));
+                    //chatAdapter.add(0, answer);
+                    //chatAdapter.notifyDataSetChanged(); // 데이터 변화 시 갱신해 줌
                     //view.append((String) obj);
                 }
             });

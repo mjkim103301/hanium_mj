@@ -24,11 +24,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chating_list"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:cacheColorHint="#00000000"
-            android:divider="#000000"
-            android:listSelector="#00000000"
-            android:transcriptMode="alwaysScroll" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <!-- 입력창 -->

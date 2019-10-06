@@ -21,7 +21,7 @@ import android.util.Base64;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hanchat.R;
-import com.example.hanchat.ChatAdapter;
+import com.example.hanchat.data.OtherChatting;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -37,9 +37,9 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
     static final String TAG = "MainActivity";
     AppCompatActivity MainActivity;
     HTTPConnecter connecter;
-    ChatAdapter chatAdapter;
+    RecyclerAdapter chatAdapter;
 
-    public ImageManagement_mj(AppCompatActivity Activity, ChatAdapter chatAdapter){
+    public ImageManagement_mj(AppCompatActivity Activity, RecyclerAdapter chatAdapter){
         MainActivity = Activity;
         this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, MainActivity);
         this.chatAdapter = chatAdapter;
@@ -164,8 +164,7 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
                 @Override
                 public void HandlerMethod(Object obj) {
                     //Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
-                    chatAdapter.add(0, (String) obj);
-                    chatAdapter.notifyDataSetChanged();
+                    chatAdapter.addItem(new OtherChatting((String) obj));
                 }
             });
         }
@@ -192,7 +191,7 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
                 @Override
                 public void HandlerMethod(Object obj) {
                     //Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
-                    chatAdapter.add(0, (String) obj);
+                    chatAdapter.addItem(new OtherChatting ((String) obj));
                     chatAdapter.notifyDataSetChanged();
                 }
             });

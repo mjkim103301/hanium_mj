@@ -5,7 +5,7 @@ import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.example.hanchat.databinding.ContentPostcommentBinding;
+import com.example.hanchat.databinding.RcyclerItemPostcommentBinding;
 import com.example.hanchat.module.RecyclerAdapter;
 
 public class PostComment implements RecyclerAdapter.RecyclerItem {
@@ -20,7 +20,7 @@ public class PostComment implements RecyclerAdapter.RecyclerItem {
 
     @Override
     public void setRecyclerContent(final View itemView) {
-        ContentPostcommentBinding binding = DataBindingUtil.bind(itemView);
+        RcyclerItemPostcommentBinding binding = DataBindingUtil.bind(itemView);
         binding.setModel(this);
     }
 

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+    <data>
+        <variable
+            name="model"
+            type="com.example.hanchat.data.Chatting" />
+    </data>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/chatting_oppositeside_margin">
 
-    <include
+    <TextView
         layout="@layout/chat"
         android:id="@+id/textView3"
         android:layout_width="match_parent"
@@ -13,6 +19,7 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:paddingLeft="15dp"
-        android:background="@drawable/chatbubble_right" />
+        android:background="@drawable/chatbubble_right"
+        android:text="@{model.chat}"/>
 </LinearLayout>
 </layout>

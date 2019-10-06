@@ -4,7 +4,7 @@ import androidx.annotation.LayoutRes;
 
 import com.example.hanchat.R;
 
-public class RecyclerAdapter extends RecyclerManager {
+public class RecyclerAdapter<T extends RecyclerManager.RecyclerItem> extends RecyclerManager<T> {
 
     public static final int GROUPPOST = 1;
     public static final int POSTCOMMENT = 2;

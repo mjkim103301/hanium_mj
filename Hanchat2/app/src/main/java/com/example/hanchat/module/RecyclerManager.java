@@ -10,15 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hanchat.R;
-
 import java.util.ArrayList;
 
 
 //T에 Recycleritem을 상속받는 데이터 클래스
 public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> extends RecyclerView.Adapter {
-
-
 
     //이 어댑터에 사용할 아이템에 상속받아야 할 인터페이스
     public interface RecyclerItem {
@@ -53,6 +49,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
     private ArrayList<T> items = new ArrayList<>();
     ItemViewAction itemViewFunc = null;
     LastPositionAction lastPositionFunc = null;
+    protected RecyclerView parentView = null;
 
 
     public RecyclerManager() {
@@ -60,7 +57,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
     }
     public RecyclerManager(ArrayList<T> list) {
         super();
-        addContent(list);
+        addItem(list);
     }
 
 
@@ -92,6 +89,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+        this.parentView = recyclerView;
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -129,15 +127,15 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
     }
 
 
-    public void addContent(ArrayList<T> list) {
+    public void addItem(ArrayList<T> list) {
         items.addAll(list);
         notifyDataSetChanged();
     }
-    public void addContent(T item){
+    public void addItem(T item){
         items.add(item);
         notifyDataSetChanged();
     }
 
     @LayoutRes
-    public abstract int getLayoutRes(int viewType);
+    protected abstract int getLayoutRes(int viewType);
 }

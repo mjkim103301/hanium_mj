@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 
 public class GroupMainActivity extends NavActivity {
-    RecyclerManager<GroupPost> adapter;
+    RecyclerAdapter<GroupPost> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +65,7 @@ public class GroupMainActivity extends NavActivity {
                     String.format("Content %d", i * 10));
             list.add(gp);
         }
-        adapter.addContent(list);
+        adapter.addItem(list);
     }
 }
 

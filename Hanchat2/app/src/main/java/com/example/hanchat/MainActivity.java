@@ -5,14 +5,20 @@ import android.os.Bundle;
 
 import android.view.View;
 
+import com.example.hanchat.data.Chatting;
+import com.example.hanchat.data.OtherChatting;
+import com.example.hanchat.data.UserChatting;
 import com.example.hanchat.module.ChatBotConnecter;
 import com.example.hanchat.module.ImageManagement_mj;
+import com.example.hanchat.module.RecyclerAdapter;
 import com.example.hanchat.module.RecyclerManager;
 import com.google.android.material.navigation.NavigationView;
 
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /*완료*/
 public class MainActivity extends NavActivity
@@ -26,8 +32,7 @@ public class MainActivity extends NavActivity
     Button bt_chat;
     Button bt_image;
 
-    ChatAdapter chatAdapter;
-    ListView chating_list;
+    chatt<Chatting> adapter;
 
     Intent intent;
     Intent intent_profile;
@@ -54,7 +59,6 @@ public class MainActivity extends NavActivity
         bt_image = findViewById(R.id.bt_image);
 
         NavSetting();
-        ChatAdapterSetting();
         testAdapterSetting();
         ButtonSetting();
 
@@ -64,25 +68,17 @@ public class MainActivity extends NavActivity
     }
 
     private void testAdapterSetting() {
+        RecyclerView chating_list = findViewById(R.id.chating_list);
+        adapter = new chatt<>();
+        chating_list.setLayoutManager(new LinearLayoutManager(this));
+        chating_list.setAdapter(adapter);
+
+        adapter.addItem(new OtherChatting("안녕하세요 HANCHAT 임시UI입니다!"));
+        adapter.addItem(new UserChatting("내일 7시에 은행동에서 친구랑 만나!"));
+        adapter.addItem(new OtherChatting("이제 시작해볼까요?"));
 
     }
 
-
-    private void ChatAdapterSetting(){
-
-        // 채팅 리스트 관리하는 어댑터 객체 생성
-        chatAdapter =  new ChatAdapter();
-        chating_list = (ListView) findViewById(R.id.chating_list);
-        chating_list.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL); //스크롤을 늘 리스트뷰의 제일 마지막으로
-        chating_list.setStackFromBottom(true);  //아래로 계속 생성되도록 함
-        chating_list.setAdapter(chatAdapter);
-
-        // 임시 코드
-        chatAdapter.add(0, "안녕하세요 HANCHAT 임시UI입니다!");
-        chatAdapter.add(1,"내일 7시에 은행동에서 친구랑 만나!");
-        chatAdapter.add(0, "이제 시작해볼까요?");
-        chatAdapter.notifyDataSetChanged();
-    }
 
     //버튼 세팅들은 여기에
     private void ButtonSetting(){
@@ -106,8 +102,8 @@ public class MainActivity extends NavActivity
         });
 
         // 채팅 전송
-        bt_chat.setOnClickListener(new ChatBotConnecter(this, et_chat, chatAdapter));
-        imageManagement=new ImageManagement_mj(this, chatAdapter);
+        bt_chat.setOnClickListener(new ChatBotConnecter(this, et_chat, adapter));
+        imageManagement=new ImageManagement_mj(this, adapter);
     }
 
     // + 버튼 눌렀을때 실행됨(나 다른방법 써서 버튼 세팅 안할듯)
@@ -125,4 +121,13 @@ public class MainActivity extends NavActivity
     }
 
 
+}
+
+class chatt<T extends RecyclerManager.RecyclerItem> extends RecyclerAdapter<T>{
+
+    @Override
+    public void addItem(T item) {
+        super.addItem(item);
+        ((LinearLayoutManager) parentView.getLayoutManager()).scrollToPosition(this.getItemCount() - 1);
+    }
 }
