@@ -12,6 +12,9 @@ public class RecyclerAdapter<T extends RecyclerManager.RecyclerItem> extends Rec
     public static final int OTHERCHATTING = 3;
     public static final int USERCHATTING = 4;
 
+    public static final int DayCalendar=5;
+    public static final int MonthCalendar=6;
+
     @Override
     public int getLayoutRes(int viewType) {
         @LayoutRes int LayoutResId = EMPTY;
@@ -30,6 +33,13 @@ public class RecyclerAdapter<T extends RecyclerManager.RecyclerItem> extends Rec
                 break;
             case USERCHATTING:
                 LayoutResId = R.layout.rcycler_item_chat_user;
+                break;
+
+            case DayCalendar:
+                LayoutResId=R.layout.recycler_calendar_item;
+                break;
+            case MonthCalendar:
+                LayoutResId=R.layout.recycler_recycler_calendar;
                 break;
         }
 

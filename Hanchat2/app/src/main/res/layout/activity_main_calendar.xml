@@ -39,60 +39,63 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="일"
+            android:layout_marginStart="8dp"
             android:textSize="11sp"
-            android:gravity="center_horizontal"/>
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="월"
             android:textSize="11sp"
-            android:gravity="center_horizontal"/>
+            android:layout_marginStart="8dp"
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="화"
             android:textSize="11sp"
-            android:gravity="center_horizontal"/>
+            android:layout_marginStart="8dp"
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="수"
             android:textSize="11sp"
-            android:gravity="center_horizontal"/>
+            android:layout_marginStart="8dp"
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="목"
             android:textSize="11sp"
-            android:gravity="center_horizontal"/>
+            android:layout_marginStart="8dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="금"
             android:textSize="11sp"
-            android:gravity="center_horizontal"/>
+            android:layout_marginStart="8dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="토"
             android:textSize="11sp"
-            android:gravity="center_horizontal"/>
+            android:layout_marginStart="8dp"/>
 
 
     </LinearLayout>
 
 
-<androidx.recyclerview.widget.RecyclerView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-  />
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_Month"/>
 
 
 </LinearLayout>

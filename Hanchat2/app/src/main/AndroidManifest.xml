@@ -26,14 +26,17 @@
         <activity android:name=".GroupMainActivity"/>
         <activity android:name=".NavActivity" />
         <activity android:name=".GroupPostActivity"/>
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".NewCalendarActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
     </application>
 
