@@ -9,6 +9,7 @@ import com.example.hanchat.data.Chatting;
 import com.example.hanchat.data.OtherChatting;
 import com.example.hanchat.data.UserChatting;
 import com.example.hanchat.module.ChatBotConnecter;
+import com.example.hanchat.module.HTTPConnecter;
 import com.example.hanchat.module.ImageManagement_mj;
 import com.example.hanchat.module.RecyclerAdapter;
 import com.example.hanchat.module.RecyclerManager;
@@ -23,9 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 /*완료*/
 public class MainActivity extends NavActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     ImageManagement_mj imageManagement;
 
+    final String IP = "18.219.204.210";
 
     Button bt_go_cal;
     EditText et_chat;
@@ -35,7 +36,8 @@ public class MainActivity extends NavActivity
     chatt<Chatting> adapter;
 
     Intent intent;
-    Intent intent_profile;
+
+    String TAG="@@@@ ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +45,8 @@ public class MainActivity extends NavActivity
         setContentView(R.layout.activity_main);
 
         // 화면 전환
-        intent = new Intent(MainActivity.this, GroupMainActivity.class);
-        intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
+        intent = new Intent(MainActivity.this, CalendarActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-        //네비게이션 바의 헤더 얻어옴
-        navigationView = findViewById(R.id.nav_view);
-        headerview = navigationView.getHeaderView(0);
-
 
         //버튼 연결
         bt_go_cal =  (Button) findViewById(R.id.bt_go_cal);
@@ -59,6 +55,7 @@ public class MainActivity extends NavActivity
         bt_image = findViewById(R.id.bt_image);
 
         NavSetting();
+        IntentProfileSetting(MainActivity.this);
         testAdapterSetting();
         ButtonSetting();
 
@@ -82,16 +79,6 @@ public class MainActivity extends NavActivity
 
     //버튼 세팅들은 여기에
     private void ButtonSetting(){
-        // 네비게이션 헤더 클릭시 프로필로 이동
-        headerview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(intent_profile);
-            }
-        });
-        // 이미지는 연결 안됨
-        //img_header.setOnClickListener(profileClickListener);
-
         // 우측 상단 버튼 (캘린더 화면으로 이동)
         bt_go_cal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,8 +106,6 @@ public class MainActivity extends NavActivity
         super.onActivityResult(requestCode, resultCode, data);
         imageManagement.onActivityResult(requestCode, resultCode, data);
     }
-
-
 }
 
 class chatt<T extends RecyclerManager.RecyclerItem> extends RecyclerAdapter<T>{

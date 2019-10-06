@@ -1,4 +1,4 @@
-package com.example.hanchat;
+package com.example.hanchat.module;
 
 import android.content.Context;
 import android.view.Gravity;
