@@ -7,8 +7,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hanchat.R;
-import com.example.hanchat.data.OtherChatting;
-import com.example.hanchat.data.UserChatting;
+import com.example.hanchat.data.chatting.OtherChatting;
+import com.example.hanchat.data.chatting.UserChatting;
 
 import java.util.HashMap;
 import java.util.Map;

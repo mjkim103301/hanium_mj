@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hanchat.data.GroupPost;
-import com.example.hanchat.data.PostComment;
+import com.example.hanchat.data.group.GroupPost;
+import com.example.hanchat.data.group.PostComment;
 import com.example.hanchat.module.RecyclerAdapter;
 
 import java.util.ArrayList;

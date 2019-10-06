@@ -1,4 +1,4 @@
-package com.example.hanchat.data;
+package com.example.hanchat.data.chatting;
 
 import android.view.View;
 
@@ -19,6 +19,7 @@ public class OtherChatting extends Chatting {
 
     @Override
     public void setRecyclerContent(View itemView) {
+        super.setRecyclerContent(itemView);
         RcyclerItemChatOtherBinding binding = DataBindingUtil.bind(itemView);
         binding.setModel(this);
     }

@@ -3,7 +3,7 @@
     <data>
         <variable
             name="model"
-            type="com.example.hanchat.data.Chatting" />
+            type="com.example.hanchat.data.chatting.Chatting" />
     </data>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

@@ -6,6 +6,7 @@ import com.example.hanchat.R;
 
 public class RecyclerAdapter<T extends RecyclerManager.RecyclerItem> extends RecyclerManager<T> {
 
+    public static final int EMPTY = 0;
     public static final int GROUPPOST = 1;
     public static final int POSTCOMMENT = 2;
     public static final int OTHERCHATTING = 3;
@@ -13,8 +14,11 @@ public class RecyclerAdapter<T extends RecyclerManager.RecyclerItem> extends Rec
 
     @Override
     public int getLayoutRes(int viewType) {
-        @LayoutRes int LayoutResId = 0;
+        @LayoutRes int LayoutResId = EMPTY;
         switch (viewType) {
+            case EMPTY:
+                LayoutResId = R.layout.rcycler_item_emptyview;
+                break;
             case GROUPPOST:
                 LayoutResId = R.layout.rcycler_item_grouppost;
                 break;

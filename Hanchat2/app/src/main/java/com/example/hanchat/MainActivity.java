@@ -5,11 +5,10 @@ import android.os.Bundle;
 
 import android.view.View;
 
-import com.example.hanchat.data.Chatting;
-import com.example.hanchat.data.OtherChatting;
-import com.example.hanchat.data.UserChatting;
+import com.example.hanchat.data.chatting.Chatting;
+import com.example.hanchat.data.chatting.OtherChatting;
+import com.example.hanchat.data.chatting.UserChatting;
 import com.example.hanchat.module.ChatBotConnecter;
-import com.example.hanchat.module.HTTPConnecter;
 import com.example.hanchat.module.ImageManagement_mj;
 import com.example.hanchat.module.RecyclerAdapter;
 import com.example.hanchat.module.RecyclerManager;
@@ -26,14 +25,14 @@ public class MainActivity extends NavActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ImageManagement_mj imageManagement;
 
-    final String IP = "18.219.204.210";
+    //final String IP = "18.219.204.210";
 
     Button bt_go_cal;
     EditText et_chat;
     Button bt_chat;
     Button bt_image;
 
-    chatt<Chatting> adapter;
+    RecyclerAdapter<Chatting> adapter;
 
     Intent intent;
 
@@ -56,7 +55,7 @@ public class MainActivity extends NavActivity
 
         NavSetting();
         IntentProfileSetting(MainActivity.this);
-        testAdapterSetting();
+        chatAdapterSetting();
         ButtonSetting();
 
         //서버 연결 테스트
@@ -64,9 +63,15 @@ public class MainActivity extends NavActivity
         bt_chat.callOnClick();
     }
 
-    private void testAdapterSetting() {
+    private void chatAdapterSetting() {
         RecyclerView chating_list = findViewById(R.id.chating_list);
-        adapter = new chatt<>();
+        adapter = new RecyclerAdapter(){
+            @Override
+            public void addItem(RecyclerItem item) {
+                super.addItem(item);
+                ((LinearLayoutManager) parentView.getLayoutManager()).scrollToPosition(this.getItemCount() - 1);
+            }
+        };
         chating_list.setLayoutManager(new LinearLayoutManager(this));
         chating_list.setAdapter(adapter);
 
@@ -74,6 +79,19 @@ public class MainActivity extends NavActivity
         adapter.addItem(new UserChatting("내일 7시에 은행동에서 친구랑 만나!"));
         adapter.addItem(new OtherChatting("이제 시작해볼까요?"));
 
+        adapter.setItemViewAction(new RecyclerManager.ItemViewAction() {
+            @Override
+            public void setItemView(final RecyclerManager.ViewHolder holder,final RecyclerManager.RecyclerItem item, int viewType) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ((Chatting)item).setVisible(false);
+                        adapter.notifyItemChanged(holder.getAdapterPosition());
+                        //adapter.notifyItemMoved(0, adapter.getItemCount() - 1);
+                    }
+                });
+            }
+        });
     }
 
 

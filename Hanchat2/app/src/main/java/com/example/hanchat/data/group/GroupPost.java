@@ -1,4 +1,4 @@
-package com.example.hanchat.data;
+package com.example.hanchat.data.group;
 
 import android.content.Context;
 import android.net.Uri;

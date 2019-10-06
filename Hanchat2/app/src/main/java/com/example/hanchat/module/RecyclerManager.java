@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hanchat.data.EmptyData;
+
 import java.util.ArrayList;
 
 
@@ -25,7 +27,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
 
     //아이템뷰에 추가 액션 붙이기
     public interface ItemViewAction {
-        void setItemView(final View itemView, final RecyclerItem item, final int viewType);
+        void setItemView(final RecyclerManager.ViewHolder holder, final RecyclerItem item, final int viewType);
     }
 
     //스크롤이 마지막으로 갔을때의 액션
@@ -40,21 +42,28 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
             super(itemView);
         }
 
-        public void setContent(T content) {
+        public void setContent(RecyclerItem content) {
             content.setRecyclerContent(itemView);
         }
+
+
     }
 
 
-    private ArrayList<T> items = new ArrayList<>();
+    private ArrayList<T> items;
+    private ArrayList<EmptyData> emptyItems;
     ItemViewAction itemViewFunc = null;
     LastPositionAction lastPositionFunc = null;
     protected RecyclerView parentView = null;
+    int lastSpace = 0;
 
 
     public RecyclerManager() {
         super();
+        items = new ArrayList<>();
+        emptyItems = new ArrayList<>();
     }
+
     public RecyclerManager(ArrayList<T> list) {
         super();
         addItem(list);
@@ -78,10 +87,14 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        T content = items.get(position);
+        RecyclerItem content;
+        if(position < getItemSize())
+            content = items.get(position);
+        else
+            content = emptyItems.get(position - getItemSize());
         ((RecyclerManager.ViewHolder) holder).setContent(content);
         if (itemViewFunc != null) {
-            itemViewFunc.setItemView(((ViewHolder) holder).itemView, content, getItemViewType(position));
+            itemViewFunc.setItemView((RecyclerManager.ViewHolder) holder, content, getItemViewType(position));
         }
 
     }
@@ -104,7 +117,13 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
 
     @Override
     public int getItemCount() {
+        return items.size() + emptyItems.size();
+    }
+    public int getItemSize(){
         return items.size();
+    }
+    public int getEmptyItemSize(){
+        return emptyItems.size();
     }
 
     @Override
@@ -116,6 +135,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
     public void setItemViewAction(ItemViewAction func) {
         this.itemViewFunc = func;
     }
+
     public void setLastPositionAction(LastPositionAction func) {
         this.lastPositionFunc = func;
     }
@@ -126,12 +146,17 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
         }
     }
 
+    public void putLastSpace(EmptyData emptyData) {
+        lastSpace++;
+        emptyItems.add(emptyData);
+    }
 
     public void addItem(ArrayList<T> list) {
         items.addAll(list);
         notifyDataSetChanged();
     }
-    public void addItem(T item){
+
+    public void addItem(T item) {
         items.add(item);
         notifyDataSetChanged();
     }

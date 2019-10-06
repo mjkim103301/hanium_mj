@@ -7,7 +7,7 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hanchat.data.GroupPost;
+import com.example.hanchat.data.group.GroupPost;
 import com.example.hanchat.module.RecyclerAdapter;
 import com.example.hanchat.module.RecyclerManager;
 
@@ -29,8 +29,8 @@ public class GroupMainActivity extends NavActivity {
         adapter = new RecyclerAdapter();
         adapter.setItemViewAction(new RecyclerManager.ItemViewAction() {
             @Override
-            public void setItemView(final View itemView, final RecyclerManager.RecyclerItem item, final int viewType) {
-                itemView.setOnClickListener(new View.OnClickListener() {
+            public void setItemView(RecyclerManager.ViewHolder holder, final RecyclerManager.RecyclerItem item, int viewType) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(GroupMainActivity.this, GroupPostActivity.class);
@@ -43,6 +43,7 @@ public class GroupMainActivity extends NavActivity {
                     }
                 });
             }
+
         });
         adapter.setLastPositionAction(new RecyclerManager.LastPositionAction() {
             @Override
