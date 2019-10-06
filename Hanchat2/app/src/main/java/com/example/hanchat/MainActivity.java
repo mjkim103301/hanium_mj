@@ -5,32 +5,34 @@ import android.os.Bundle;
 
 import android.view.View;
 
-import com.example.hanchat.module.ChatAdapter;
+import com.example.hanchat.data.chatting.Chatting;
+import com.example.hanchat.data.chatting.OtherChatting;
+import com.example.hanchat.data.chatting.UserChatting;
 import com.example.hanchat.module.ChatBotConnecter;
-import com.example.hanchat.module.HTTPConnecter;
 import com.example.hanchat.module.ImageManagement_mj;
+import com.example.hanchat.module.RecyclerAdapter;
+import com.example.hanchat.module.RecyclerManager;
 import com.google.android.material.navigation.NavigationView;
 
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /*완료*/
 public class MainActivity extends NavActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ImageManagement_mj imageManagement;
 
-    final String IP = "18.219.204.210";
+    //final String IP = "18.219.204.210";
 
     Button bt_go_cal;
     EditText et_chat;
     Button bt_chat;
     Button bt_image;
 
-    HTTPConnecter connecter;
-
-    ChatAdapter chatAdapter;
-    ListView chating_list;
+    RecyclerAdapter<Chatting> adapter;
 
     Intent intent;
 
@@ -53,7 +55,7 @@ public class MainActivity extends NavActivity
 
         NavSetting();
         IntentProfileSetting(MainActivity.this);
-        ChatAdapterSetting();
+        chatAdapterSetting();
         ButtonSetting();
 
         //서버 연결 테스트
@@ -61,22 +63,37 @@ public class MainActivity extends NavActivity
         bt_chat.callOnClick();
     }
 
+    private void chatAdapterSetting() {
+        RecyclerView chating_list = findViewById(R.id.chating_list);
+        adapter = new RecyclerAdapter(){
+            @Override
+            public void addItem(RecyclerItem item) {
+                super.addItem(item);
+                ((LinearLayoutManager) parentView.getLayoutManager()).scrollToPosition(this.getItemCount() - 1);
+            }
+        };
+        chating_list.setLayoutManager(new LinearLayoutManager(this));
+        chating_list.setAdapter(adapter);
 
-    private void ChatAdapterSetting(){
+        adapter.addItem(new OtherChatting("안녕하세요 HANCHAT 임시UI입니다!"));
+        adapter.addItem(new UserChatting("내일 7시에 은행동에서 친구랑 만나!"));
+        adapter.addItem(new OtherChatting("이제 시작해볼까요?"));
 
-        // 채팅 리스트 관리하는 어댑터 객체 생성
-        chatAdapter =  new ChatAdapter();
-        chating_list = (ListView) findViewById(R.id.chating_list);
-        chating_list.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL); //스크롤을 늘 리스트뷰의 제일 마지막으로
-        chating_list.setStackFromBottom(true);  //아래로 계속 생성되도록 함
-        chating_list.setAdapter(chatAdapter);
-
-        // 임시 코드
-        chatAdapter.add(0, "안녕하세요 HANCHAT 임시UI입니다!");
-        chatAdapter.add(1,"내일 7시에 은행동에서 친구랑 만나!");
-        chatAdapter.add(0, "이제 시작해볼까요?");
-        chatAdapter.notifyDataSetChanged();
+        adapter.setItemViewAction(new RecyclerManager.ItemViewAction() {
+            @Override
+            public void setItemView(final RecyclerManager.ViewHolder holder,final RecyclerManager.RecyclerItem item, int viewType) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ((Chatting)item).setVisible(false);
+                        adapter.notifyItemChanged(holder.getAdapterPosition());
+                        //adapter.notifyItemMoved(0, adapter.getItemCount() - 1);
+                    }
+                });
+            }
+        });
     }
+
 
     //버튼 세팅들은 여기에
     private void ButtonSetting(){
@@ -90,8 +107,8 @@ public class MainActivity extends NavActivity
         });
 
         // 채팅 전송
-        bt_chat.setOnClickListener(new ChatBotConnecter(this, et_chat, chatAdapter));
-        imageManagement=new ImageManagement_mj(this, chatAdapter);
+        bt_chat.setOnClickListener(new ChatBotConnecter(this, et_chat, adapter));
+        imageManagement=new ImageManagement_mj(this, adapter);
     }
 
     // + 버튼 눌렀을때 실행됨(나 다른방법 써서 버튼 세팅 안할듯)
@@ -106,5 +123,14 @@ public class MainActivity extends NavActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         imageManagement.onActivityResult(requestCode, resultCode, data);
+    }
+}
+
+class chatt<T extends RecyclerManager.RecyclerItem> extends RecyclerAdapter<T>{
+
+    @Override
+    public void addItem(T item) {
+        super.addItem(item);
+        ((LinearLayoutManager) parentView.getLayoutManager()).scrollToPosition(this.getItemCount() - 1);
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="model"
+            type="com.example.hanchat.data.chatting.Chatting" />
+    </data>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="@dimen/chatting_oppositeside_margin">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="8dp"
+        app:srcCompat="@drawable/hanrang" />
+
+    <TextView
+        android:id="@+id/chat_other_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingLeft="25dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="15dp"
+        android:background="@drawable/chatbubble_left"
+        android:text="@{model.chat}"/>
+
+</LinearLayout>
+</layout>
