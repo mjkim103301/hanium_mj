@@ -3,6 +3,7 @@ package com.example.hanchat;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,7 +13,7 @@ import com.example.hanchat.module.RecyclerAdapter;
 
 import java.util.ArrayList;
 
-public class GroupPostActivity extends NavActivity {
+public class GroupPostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

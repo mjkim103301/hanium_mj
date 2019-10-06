@@ -14,28 +14,21 @@ import java.util.ArrayList;
 
 
 public class GroupMainActivity extends NavActivity {
+    RecyclerAdapter<GroupPost> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groupmain);
 
-        ArrayList<GroupPost> list = new ArrayList<>();
-
-        for(int i = 0;i < 20; i++){
-            GroupPost gp = new GroupPost(this);
-            gp.set(String.format("Group %d", 20 - i), String.format("Writer %d", i),
-                    String.format("Content %d", i * 10));
-            list.add(gp);
-        }
 
         RecyclerView rv = findViewById(R.id.Rview_Groupmain);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
 
-        RecyclerAdapter<GroupPost> adapter = new RecyclerAdapter<>();
-        adapter.setViewFunc(new RecyclerAdapter.ItemFunction() {
+        adapter = new RecyclerAdapter<>();
+        adapter.setItemViewAction(new RecyclerAdapter.ItemViewAction() {
             @Override
-            public void setView(final View itemView, final RecyclerAdapter.RecyclerItem item, final int viewType) {
+            public void setItemView(final View itemView, final RecyclerAdapter.RecyclerItem item, final int viewType) {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -50,9 +43,28 @@ public class GroupMainActivity extends NavActivity {
                 });
             }
         });
-        adapter.addContent(list);
+        adapter.setLastPositionAction(new RecyclerAdapter.LastPositionAction() {
+            @Override
+            public void lastPositionFunc(RecyclerAdapter adapter) {
+                addData();
+            }
+        });
         rv.setAdapter(adapter);
 
+        addData();
+    }
+
+    private void addData(){
+
+        ArrayList<GroupPost> list = new ArrayList<>();
+
+        for(int i = 0;i < 20; i++){
+            GroupPost gp = new GroupPost(this);
+            gp.set(String.format("Group %d", 20 - i), String.format("Writer %d", i),
+                    String.format("Content %d", i * 10));
+            list.add(gp);
+        }
+        adapter.addContent(list);
     }
 }
 
