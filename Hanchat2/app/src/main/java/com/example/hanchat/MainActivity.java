@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import android.view.View;
 
+import com.example.hanchat.data.EmptyData;
 import com.example.hanchat.data.chatting.Chatting;
 import com.example.hanchat.data.chatting.OtherChatting;
 import com.example.hanchat.data.chatting.UserChatting;
@@ -94,10 +95,12 @@ public class MainActivity extends NavActivity
         adapter.addItem(new OtherChatting("안녕하세요 HANCHAT 임시UI입니다!"));
         adapter.addItem(new UserChatting("내일 7시에 은행동에서 친구랑 만나!"));
         adapter.addItem(new OtherChatting("이제 시작해볼까요?"));
+        adapter.putLastSpace(new EmptyData());
 
         adapter.setItemViewAction(new RecyclerManager.ItemViewAction() {
             @Override
             public void setItemView(final RecyclerManager.ViewHolder holder,final RecyclerManager.RecyclerItem item, int viewType) {
+
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -180,6 +183,7 @@ public class MainActivity extends NavActivity
     }
 }
 
+/*
 class chatt<T extends RecyclerManager.RecyclerItem> extends RecyclerAdapter<T>{
 
     @Override
@@ -188,3 +192,4 @@ class chatt<T extends RecyclerManager.RecyclerItem> extends RecyclerAdapter<T>{
         ((LinearLayoutManager) parentView.getLayoutManager()).scrollToPosition(this.getItemCount() - 1);
     }
 }
+*/
