@@ -16,10 +16,9 @@ import pub.devrel.easypermissions.EasyPermissions;
 /*완료*/
 public class CalendarActivity extends NavActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    CalendarAPIManager calendarAPIManager;
+    static CalendarAPIManager calendarAPIManager;
     Button bt_go_chat;
     Intent intent;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -35,13 +35,7 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -55,9 +49,11 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_OK;
-
-
-//모듈 안정화 후 연결 필요
+// #### : 데이터 포맷
+// android.accounts.Account = getSelectedAccount()
+//선택한 Google 계정을 반환하거나 null없음을 반환합니다
+// String = getSelectedAccountName()
+//        선택한 Google 계정 이름 (이메일 주소)를 반환, 예를 들어 "johndoe@gmail.com", 또는 null없음을 위해
 public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
     private String TAG = "@@@@ ";
 
@@ -80,57 +76,17 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
     // Google Calendar API 읽고쓰기 모두가능 (Not CALENDAR_READONLY)
     private static final String[] SCOPES = {CalendarScopes.CALENDAR};
 
-    private Button mAddCalendarButton;
-    private Button mAddEventButton;
-    private Button mGetEventButton;
-
-    private TextView mResultText;
-
     public CalendarAPIManager(AppCompatActivity activity){
         this.activity= activity;
 
-        mAddCalendarButton = activity.findViewById(R.id.button_main_add_calendar);
-        mAddEventButton =  activity.findViewById(R.id.button_main_add_event);
-        mGetEventButton =  activity.findViewById(R.id.button_main_get_event);
+        // 계정 연동 회원 가입
+        // mID = 1;
 
-        mResultText = activity.findViewById(R.id.textview_main_result);
+        // 일정 추가
+        // mID = 2;
 
-        mAddCalendarButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAddCalendarButton.setEnabled(false);
-                mID = 1;           //캘린더 생성
-                getResultsFromApi();
-                mAddCalendarButton.setEnabled(true);
-            }
-        });
-
-
-        mAddEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAddEventButton.setEnabled(false);
-                mID = 2;        //이벤트 생성
-                getResultsFromApi();
-                mAddEventButton.setEnabled(true);
-            }
-        });
-
-
-        mGetEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mGetEventButton.setEnabled(false);
-                mID = 3;        //이벤트 가져오기
-                getResultsFromApi();
-                mGetEventButton.setEnabled(true);
-            }
-        });
-
-
-        // Google Calendar API의 호출 결과를 표시하는 TextView를 준비
-        mResultText.setVerticalScrollBarEnabled(true);
-        mResultText.setMovementMethod(new ScrollingMovementMethod());
+        // 일정 조회
+        //mID = 3;
 
         mProgress = new ProgressDialog(activity);
         mProgress.setMessage("Google Calendar API 호출 중입니다.");
@@ -276,7 +232,6 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
         protected void onPostExecute(String output) {
             mProgress.hide();
             Toast.makeText(activity, output, Toast.LENGTH_SHORT).show();
-            if (mID == 3) mResultText.setText(TextUtils.join("\n\n", eventStrings));
         }
 
         @Override
@@ -390,7 +345,6 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
     // 구글 계정 선택 다이얼로그
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
     private void chooseAccount() {
-        Log.d(TAG, "chooseAccount On");
         // GET_ACCOUNTS 권한을 가지고 있다면
 
         if (EasyPermissions.hasPermissions(activity, Manifest.permission.GET_ACCOUNTS)) {
@@ -398,9 +352,9 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
             String accountName = activity.getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
 
-            Log.d(TAG, "accountName : "+accountName);
-
             if (accountName != null) {
+
+                Log.d(TAG, "chooseAccount() : accountName != null");
                 // 선택된 구글 계정으로 설정
                 mCredential.setSelectedAccountName(accountName);
                 getResultsFromApi();
@@ -410,6 +364,7 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
                 activity.startActivityForResult(
                         mCredential.newChooseAccountIntent(),
                         REQUEST_ACCOUNT_PICKER);
+
             }
         }
         // GET_ACCOUNTS 권한을 가지고 있지 않다면
@@ -479,7 +434,8 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
                 Log.d(TAG,"REQUEST_ACCOUNT_PICKER : "+ REQUEST_ACCOUNT_PICKER);
                 if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
                     String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    Log.d(TAG,"data.getExtras() : "+ data.getExtras() + "data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME) : "+ data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME));
+                    Log.d(TAG,"data.getExtras() : "+ data.getExtras() );
+                    Log.d(TAG, "accountName : "+ data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME));
                     if (accountName != null) {
                         SharedPreferences settings = activity.getPreferences(Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = settings.edit();
@@ -524,12 +480,12 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
         // 아무일도 하지 않음
     }
 
-    public void selectedAccountName(String accountName){
-        mCredential.setSelectedAccountName(accountName);
-    }
+//    public void selectedAccountName(String accountName){
+//        mCredential.setSelectedAccountName(accountName);
+//    }
+
     // 캘린더 이름에 대응하는 캘린더 ID를 리턴
     private String getCalendarID(String calendarTitle) {
-
         String id = null;
 
         // Iterate through entries in calendar list
@@ -538,24 +494,40 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
             CalendarList calendarList = null;
             try {
                 calendarList = mService.calendarList().list().setPageToken(pageToken).execute();
-            } catch (UserRecoverableAuthIOException e) {
+            }
+            catch (UserRecoverableAuthIOException e) {
                 activity.startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
+
+            // 일정 리스트
             List<CalendarListEntry> items = calendarList.getItems();
 
-
-            for (CalendarListEntry calendarListEntry : items) {
-
-                if (calendarListEntry.getSummary().toString().equals(calendarTitle)) {
-
-                    id = calendarListEntry.getId().toString();
+            for (CalendarListEntry c : items) {
+                if (c.getSummary().equals(calendarTitle)) {
+                    // 일정 아이디
+                    id = c.getId();
+                    Log.d(TAG, id+" "+c.getSummary());
                 }
             }
-            pageToken = ((CalendarList) calendarList).getNextPageToken();
+            pageToken = (calendarList).getNextPageToken();
         } while (pageToken != null);
 
         return id;
     }
+
+    public void setmIDButton(int m){
+        mID = m;
+        getResultsFromApi();
+    }
+    public String getUserName(){
+        return mCredential.getSelectedAccountName();
+    }
+
+    public String getUserID(){
+        return mCredential.getSelectedAccountName();
+    }
+
 }
