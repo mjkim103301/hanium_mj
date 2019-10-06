@@ -14,6 +14,8 @@ import com.example.hanchat.data.EmptyData;
 
 import java.util.ArrayList;
 
+import static com.example.hanchat.module.RecyclerAdapter.EMPTY;
+
 
 //T에 Recycleritem을 상속받는 데이터 클래스
 public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> extends RecyclerView.Adapter {
@@ -93,7 +95,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
         else
             content = emptyItems.get(position - getItemSize());
         ((RecyclerManager.ViewHolder) holder).setContent(content);
-        if (itemViewFunc != null) {
+        if (itemViewFunc != null && getItemViewType(position) != EMPTY) {
             itemViewFunc.setItemView((RecyclerManager.ViewHolder) holder, content, getItemViewType(position));
         }
 
@@ -109,7 +111,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
                 super.onScrolled(recyclerView, dx, dy);
                 int currentPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
                         .findLastCompletelyVisibleItemPosition();
-                if (currentPosition == getItemCount() - 3)
+                if (currentPosition == getItemSize() - 3)
                     lastPositionScrolled();
             }
         });
@@ -128,7 +130,10 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
 
     @Override
     public int getItemViewType(int position) {
-        return items.get(position).getViewType();
+        if(position < getItemSize())
+            return items.get(position).getViewType();
+        else
+            return emptyItems.get(position - getItemSize()).getViewType();
     }
 
 
