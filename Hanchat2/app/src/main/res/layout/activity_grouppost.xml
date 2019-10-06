@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--<include layout="@layout/rcycler_item_grouppost"
+                android:id="@+id/GroupPost_PostContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/Rview_GroupPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
