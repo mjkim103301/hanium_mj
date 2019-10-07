@@ -14,7 +14,7 @@ public class RecyclerAdapter<T extends RecyclerManager.RecyclerItem> extends Rec
 
     @Override
     public int getLayoutRes(int viewType) {
-        @LayoutRes int LayoutResId = EMPTY;
+        @LayoutRes int LayoutResId = R.layout.rcycler_item_emptyview;
         switch (viewType) {
             case EMPTY:
                 LayoutResId = R.layout.rcycler_item_emptyview;

@@ -16,7 +16,6 @@ import com.example.hanchat.module.RecyclerAdapter;
 import com.example.hanchat.module.RecyclerManager;
 import com.google.android.material.navigation.NavigationView;
 
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -89,9 +88,9 @@ public class MainActivity extends NavActivity
         adapter.addItem(new OtherChatting("이제 시작해볼까요?"));
         adapter.putLastSpace(new EmptyData());
 
-        adapter.setItemViewAction(new RecyclerManager.ItemViewAction() {
+        adapter.setItemViewBindAction(new RecyclerManager.ItemViewBindAction() {
             @Override
-            public void setItemView(final RecyclerManager.ViewHolder holder,final RecyclerManager.RecyclerItem item, int viewType) {
+            public void ItemViewBinded(final RecyclerManager.ViewHolder holder, final RecyclerManager.RecyclerItem item) {
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override

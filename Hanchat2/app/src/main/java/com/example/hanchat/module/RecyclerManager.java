@@ -24,37 +24,56 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
     public interface RecyclerItem {
         int getViewType();
 
-        void setRecyclerContent(final View itemView);
+        void setRecyclerContent(View itemView);
+    }
+
+    //아이템뷰에 추가 액션 한번만 붙이기
+    public interface ItemViewCreateAction {
+        void ItemViewCreated(RecyclerManager.ViewHolder holder);
     }
 
     //아이템뷰에 추가 액션 붙이기
-    public interface ItemViewAction {
-        void setItemView(final RecyclerManager.ViewHolder holder, final RecyclerItem item, final int viewType);
+    public interface ItemViewBindAction {
+        void ItemViewBinded(RecyclerManager.ViewHolder holder, RecyclerItem item);
     }
 
     //스크롤이 마지막으로 갔을때의 액션
     public interface LastPositionAction {
-        void lastPositionFunc(final RecyclerManager adapter);
+        void lastPositionFunc(RecyclerManager adapter);
     }
 
     //뷰홀더
     public class ViewHolder extends RecyclerView.ViewHolder {
+        boolean isSetted = false;
+        ItemViewCreateAction createAction;
+        RecyclerItem item = null;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, ItemViewCreateAction createAction) {
             super(itemView);
+            this.createAction = createAction;
         }
 
-        public void setContent(RecyclerItem content) {
-            content.setRecyclerContent(itemView);
+        public void setItem(RecyclerItem item) {
+            item.setRecyclerContent(itemView);
+            this.item = item;
+            if(!isSetted){
+                isSetted = true;
+                if(createAction != null)
+                    createAction.ItemViewCreated(this);
+            }
         }
 
+        public RecyclerItem getItem(){
+            return item;
+        }
 
     }
 
 
     private ArrayList<T> items;
     private ArrayList<EmptyData> emptyItems;
-    ItemViewAction itemViewFunc = null;
+    ItemViewCreateAction itemViewCreateFunc = null;
+    ItemViewBindAction itemViewBindFunc = null;
     LastPositionAction lastPositionFunc = null;
     protected RecyclerView parentView = null;
     int lastSpace = 0;
@@ -80,9 +99,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = inflater.inflate(LayoutResId, parent, false);
-
-
-        RecyclerManager.ViewHolder vh = new RecyclerManager.ViewHolder(view);
+        RecyclerManager.ViewHolder vh = new RecyclerManager.ViewHolder(view, itemViewCreateFunc);
 
         return vh;
     }
@@ -94,9 +111,9 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
             content = items.get(position);
         else
             content = emptyItems.get(position - getItemSize());
-        ((RecyclerManager.ViewHolder) holder).setContent(content);
-        if (itemViewFunc != null && getItemViewType(position) != EMPTY) {
-            itemViewFunc.setItemView((RecyclerManager.ViewHolder) holder, content, getItemViewType(position));
+        ((RecyclerManager.ViewHolder) holder).setItem(content);
+        if (itemViewBindFunc != null && getItemViewType(position) != EMPTY) {
+            itemViewBindFunc.ItemViewBinded((RecyclerManager.ViewHolder) holder, content);
         }
 
     }
@@ -106,13 +123,19 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
         super.onAttachedToRecyclerView(recyclerView);
         this.parentView = recyclerView;
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            boolean isworked = true;
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull final RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int currentPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
-                        .findLastCompletelyVisibleItemPosition();
-                if (currentPosition == getItemSize() - 3)
-                    lastPositionScrolled();
+                if(isworked){
+                    final LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    final int currentPosition = manager.findLastCompletelyVisibleItemPosition();
+                    if (currentPosition == getItemSize() - 3){
+                        isworked = false;
+                        isworked = lastPositionScrolled();
+                    }
+                }
+
             }
         });
     }
@@ -136,19 +159,24 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
             return emptyItems.get(position - getItemSize()).getViewType();
     }
 
+    public void setItemViewCreateAction(ItemViewCreateAction func){
+        this.itemViewCreateFunc = func;
+    }
 
-    public void setItemViewAction(ItemViewAction func) {
-        this.itemViewFunc = func;
+    public void setItemViewBindAction(ItemViewBindAction func) {
+        this.itemViewBindFunc = func;
     }
 
     public void setLastPositionAction(LastPositionAction func) {
         this.lastPositionFunc = func;
     }
 
-    private void lastPositionScrolled() {
+    private boolean lastPositionScrolled() {
         if (lastPositionFunc != null) {
             lastPositionFunc.lastPositionFunc(this);
+            return true;
         }
+        return false;
     }
 
     public void putLastSpace(EmptyData emptyData) {
