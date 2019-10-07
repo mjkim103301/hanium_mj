@@ -45,6 +45,7 @@ public class GroupMainActivity extends NavActivity {
                         @Override
                         public boolean onPreDraw() {
                             TextView tv = ((GroupPost)holder.getItem()).getBinding().ContentGroupPostContent;
+                            if(tv.getLayout() == null) return false;
                             int ellipseCount = tv.getLayout().getEllipsisCount(tv.getLineCount() - 1);
                             if(ellipseCount > 0){
                                 ((GroupPost)holder.getItem()).getBinding().ContentMore.setVisibility(View.VISIBLE);
