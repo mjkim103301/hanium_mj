@@ -13,7 +13,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:background="@drawable/edge">
+    android:background="@drawable/border_bottom">
 
 
 
@@ -74,7 +74,7 @@
             android:id="@+id/Content_More"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="더 보기"
+            android:text="   ..더 보기"
             android:visibility="gone"/>
     </LinearLayout>
 

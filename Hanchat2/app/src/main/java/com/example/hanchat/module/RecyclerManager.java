@@ -130,7 +130,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
                 if(isworked){
                     final LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
                     final int currentPosition = manager.findLastCompletelyVisibleItemPosition();
-                    if (currentPosition == getItemSize() - 3){
+                    if (currentPosition > getItemSize() - 3){
                         isworked = false;
                         isworked = lastPositionScrolled();
                     }
@@ -186,14 +186,27 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
 
     public void addItem(ArrayList<T> list) {
         items.addAll(list);
-        notifyDataSetChanged();
+        parentView.post(new Runnable() {
+            public void run() {
+                getthis().notifyItemInserted(items.size() - 1);
+            }
+        });
+        //notifyDataSetChanged();
     }
 
     public void addItem(T item) {
         items.add(item);
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
+        parentView.post(new Runnable() {
+            public void run() {
+                getthis().notifyItemInserted(items.size() - 1);
+            }
+        });
     }
 
     @LayoutRes
     protected abstract int getLayoutRes(int viewType);
+    RecyclerManager<T> getthis(){
+        return this;
+    }
 }

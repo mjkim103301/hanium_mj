@@ -26,8 +26,6 @@ public class GroupPost implements RecyclerAdapter.RecyclerItem {
 
     Context context;
 
-    final int maxLInes = 5;
-
     public GroupPost(Context context) {
         super();
         this.context = context;
