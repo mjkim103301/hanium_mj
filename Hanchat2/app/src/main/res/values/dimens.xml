@@ -9,4 +9,6 @@
     <dimen name="text_margin">16dp</dimen>
     
     <dimen name="chatting_oppositeside_margin">50dp</dimen>
+    <dimen name="list_minheight">40dp</dimen>
+    <dimen name="list_minpadding_horizontal">30dp</dimen>
 </resources>

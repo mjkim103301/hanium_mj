@@ -70,24 +70,24 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
     }
 
 
-    private ArrayList<T> items;
-    private ArrayList<EmptyData> emptyItems;
-    ItemViewCreateAction itemViewCreateFunc = null;
-    ItemViewBindAction itemViewBindFunc = null;
-    LastPositionAction lastPositionFunc = null;
+    private ArrayList<RecyclerItem> items;
+    private ItemViewCreateAction itemViewCreateFunc = null;
+    private ItemViewBindAction itemViewBindFunc = null;
+    private LastPositionAction lastPositionFunc = null;
     protected RecyclerView parentView = null;
+    int inserted = 0;
     int lastSpace = 0;
 
 
     public RecyclerManager() {
         super();
         items = new ArrayList<>();
-        emptyItems = new ArrayList<>();
     }
 
     public RecyclerManager(ArrayList<T> list) {
         super();
         addItem(list);
+        inserted = list.size() - 1;
     }
 
 
@@ -107,10 +107,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         RecyclerItem content;
-        if(position < getItemSize())
-            content = items.get(position);
-        else
-            content = emptyItems.get(position - getItemSize());
+        content = items.get(position);
         ((RecyclerManager.ViewHolder) holder).setItem(content);
         if (itemViewBindFunc != null && getItemViewType(position) != EMPTY) {
             itemViewBindFunc.ItemViewBinded((RecyclerManager.ViewHolder) holder, content);
@@ -130,7 +127,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
                 if(isworked){
                     final LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
                     final int currentPosition = manager.findLastCompletelyVisibleItemPosition();
-                    if (currentPosition > getItemSize() - 3){
+                    if (currentPosition > getItemCount() - 3){
                         isworked = false;
                         isworked = lastPositionScrolled();
                     }
@@ -142,21 +139,12 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
 
     @Override
     public int getItemCount() {
-        return items.size() + emptyItems.size();
-    }
-    public int getItemSize(){
         return items.size();
-    }
-    public int getEmptyItemSize(){
-        return emptyItems.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(position < getItemSize())
-            return items.get(position).getViewType();
-        else
-            return emptyItems.get(position - getItemSize()).getViewType();
+        return items.get(position).getViewType();
     }
 
     public void setItemViewCreateAction(ItemViewCreateAction func){
@@ -179,29 +167,29 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
         return false;
     }
 
-    public void putLastSpace(EmptyData emptyData) {
-        lastSpace++;
-        emptyItems.add(emptyData);
+    public void itemChanged(final int position){
+        if(parentView != null){
+            parentView.post(new Runnable() {
+                public void run() {
+                    getthis().notifyItemInserted(position - 1);
+                }
+            });
+        }
+        else
+            notifyDataSetChanged();
     }
 
     public void addItem(ArrayList<T> list) {
+        int insertposition = items.size();
         items.addAll(list);
-        parentView.post(new Runnable() {
-            public void run() {
-                getthis().notifyItemInserted(items.size() - 1);
-            }
-        });
-        //notifyDataSetChanged();
+        itemChanged(insertposition);
     }
 
-    public void addItem(T item) {
+    public void addItem(RecyclerItem item) {
+        int insertposition = items.size();
         items.add(item);
+        itemChanged(insertposition);
         //notifyDataSetChanged();
-        parentView.post(new Runnable() {
-            public void run() {
-                getthis().notifyItemInserted(items.size() - 1);
-            }
-        });
     }
 
     @LayoutRes

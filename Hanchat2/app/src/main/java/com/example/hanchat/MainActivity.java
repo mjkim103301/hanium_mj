@@ -62,46 +62,46 @@ public class MainActivity extends NavActivity
 
         //서버 연결 테스트
         et_chat.setText("안녕");
-        bt_chat.callOnClick();
+        //bt_chat.callOnClick();
     }
 
     private void chatAdapterSetting() {
         RecyclerView chating_list = findViewById(R.id.chating_list);
-        adapter = new RecyclerAdapter(){
+        adapter = new RecyclerAdapter<Chatting>(){
             @Override
             public void addItem(RecyclerItem item) {
                 super.addItem(item);
                 //((LinearLayoutManager) parentView.getLayoutManager()).scrollToPosition(this.getItemCount() - 1);
-                new Handler().postDelayed(new Runnable() {
+               /* new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        parentView.scrollToPosition(adapter.getItemSize() - 1);
+                        parentView.scrollToPosition(adapter.getItemCount() - 1);
                     }
-                },50);
+                },50);*/
             }
         };
         chating_list.setLayoutManager(new LinearLayoutManager(this));
-        chating_list.setAdapter(adapter);
-
-        adapter.addItem(new OtherChatting("안녕하세요 HANCHAT 임시UI입니다!"));
-        adapter.addItem(new UserChatting("내일 7시에 은행동에서 친구랑 만나!"));
-        adapter.addItem(new OtherChatting("이제 시작해볼까요?"));
-        adapter.putLastSpace(new EmptyData());
-
-        adapter.setItemViewBindAction(new RecyclerManager.ItemViewBindAction() {
+        adapter.setItemViewCreateAction(new RecyclerManager.ItemViewCreateAction() {
             @Override
-            public void ItemViewBinded(final RecyclerManager.ViewHolder holder, final RecyclerManager.RecyclerItem item) {
-
+            public void ItemViewCreated(final RecyclerManager.ViewHolder holder) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ((Chatting)item).setVisible(false);
+                        ((Chatting)holder.getItem()).setVisible(false);
                         adapter.notifyItemChanged(holder.getAdapterPosition());
                         //adapter.notifyItemMoved(0, adapter.getItemCount() - 1);
                     }
                 });
             }
         });
+        chating_list.setAdapter(adapter);
+
+       // adapter.addItem(new OtherChatting("안녕하세요 HANCHAT 임시UI입니다!"));
+        //adapter.addItem(new UserChatting("내일 7시에 은행동에서 친구랑 만나!"));
+        //adapter.addItem(new OtherChatting("이제 시작해볼까요?"));
+        //adapter.putLastSpace(new EmptyData());
+        //adapter.addItem(new EmptyData());
+
     }
 
 
