@@ -164,7 +164,7 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
                 @Override
                 public void HandlerMethod(Object obj) {
                     //Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
-                    chatAdapter.addItem(new OtherChatting((String) obj));
+                    chatAdapter.addItemwithNotify(new OtherChatting((String) obj));
                 }
             });
         }
@@ -191,7 +191,7 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
                 @Override
                 public void HandlerMethod(Object obj) {
                     //Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
-                    chatAdapter.addItem(new OtherChatting ((String) obj));
+                    chatAdapter.addItemwithNotify(new OtherChatting ((String) obj));
                     chatAdapter.notifyDataSetChanged();
                 }
             });

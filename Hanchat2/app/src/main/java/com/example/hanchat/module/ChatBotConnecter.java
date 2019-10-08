@@ -30,7 +30,7 @@ public class ChatBotConnecter implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         String des = et_chat.getText().toString();
-        chatAdapter.addItem(new UserChatting(des));
+        chatAdapter.addItemwithNotify(new UserChatting(des));
         //chatAdapter.add(1, des);    // 0은 챗봇, 1은 사용자
         et_chat.setText(null);
         //chatAdapter.notifyDataSetChanged(); // 데이터 변화 시 갱신해 줌
@@ -68,7 +68,7 @@ public class ChatBotConnecter implements View.OnClickListener {
                     //위의 함수에서 받은 내용을 토스트메시지로 출력
                     String answer = (String) obj;
                     Toast.makeText(Activity.getApplicationContext(), answer, Toast.LENGTH_LONG).show();
-                    chatAdapter.addItem(new OtherChatting(answer));
+                    chatAdapter.addItemwithNotify(new OtherChatting(answer));
                     //chatAdapter.add(0, answer);
                     //chatAdapter.notifyDataSetChanged(); // 데이터 변화 시 갱신해 줌
                     //view.append((String) obj);

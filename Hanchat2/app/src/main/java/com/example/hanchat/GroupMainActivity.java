@@ -118,7 +118,7 @@ public class GroupMainActivity extends NavActivity {
                         String.format("Content %d", i * 10));
             }
         }
-        adapter.addItem(list);
+        adapter.addItemwithNotify(list);
     }
 }
 

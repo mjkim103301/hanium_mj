@@ -3,7 +3,6 @@ package com.example.hanchat;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.os.Handler;
 import android.view.View;
 
 import com.example.hanchat.data.EmptyData;
@@ -69,8 +68,8 @@ public class MainActivity extends NavActivity
         RecyclerView chating_list = findViewById(R.id.chating_list);
         adapter = new RecyclerAdapter<Chatting>(){
             @Override
-            public void addItem(RecyclerItem item) {
-                super.addItem(item);
+            public void addItemwithNotify(RecyclerItem item) {
+                super.addItemwithNotify(item);
                 //((LinearLayoutManager) parentView.getLayoutManager()).scrollToPosition(this.getItemCount() - 1);
                /* new Handler().postDelayed(new Runnable() {
                     @Override
@@ -96,12 +95,11 @@ public class MainActivity extends NavActivity
         });
         chating_list.setAdapter(adapter);
 
-       // adapter.addItem(new OtherChatting("안녕하세요 HANCHAT 임시UI입니다!"));
-        //adapter.addItem(new UserChatting("내일 7시에 은행동에서 친구랑 만나!"));
-        //adapter.addItem(new OtherChatting("이제 시작해볼까요?"));
-        //adapter.putLastSpace(new EmptyData());
-        //adapter.addItem(new EmptyData());
-
+        adapter.addItem(new OtherChatting("안녕하세요 HANCHAT 임시UI입니다!"));
+        adapter.addItem(new UserChatting("내일 7시에 은행동에서 친구랑 만나!"));
+        adapter.addItem(new OtherChatting("이제 시작해볼까요?"));
+        adapter.addItem(new EmptyData());
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -140,8 +138,8 @@ public class MainActivity extends NavActivity
 class chatt<T extends RecyclerManager.RecyclerItem> extends RecyclerAdapter<T>{
 
     @Override
-    public void addItem(T item) {
-        super.addItem(item);
+    public void addItemwithNotify(T item) {
+        super.addItemwithNotify(item);
         ((LinearLayoutManager) parentView.getLayoutManager()).scrollToPosition(this.getItemCount() - 1);
     }
 }

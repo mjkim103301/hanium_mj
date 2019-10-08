@@ -37,7 +37,7 @@ public class GroupPostActivity extends AppCompatActivity {
         RecyclerView rv = findViewById(R.id.Rview_GroupPost);
         RecyclerAdapter adapter = new RecyclerAdapter();
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter.addItem(list);
+        adapter.addItemwithNotify(list);
         rv.setAdapter(adapter);
     }
 }

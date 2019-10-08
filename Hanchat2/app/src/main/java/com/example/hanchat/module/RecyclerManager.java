@@ -86,7 +86,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
 
     public RecyclerManager(ArrayList<T> list) {
         super();
-        addItem(list);
+        addItemwithNotify(list);
         inserted = list.size() - 1;
     }
 
@@ -119,22 +119,27 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.parentView = recyclerView;
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            boolean isworked = true;
-            @Override
-            public void onScrolled(@NonNull final RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if(isworked){
-                    final LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                    final int currentPosition = manager.findLastCompletelyVisibleItemPosition();
-                    if (currentPosition > getItemCount() - 3){
-                        isworked = false;
-                        isworked = lastPositionScrolled();
+        if(lastPositionFunc != null){
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                boolean isworking = false;
+                @Override
+                public void onScrolled(@NonNull final RecyclerView recyclerView, int dx, int dy) {
+                    if(!isworking){
+                        final LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                        final int currentPosition = manager.findLastCompletelyVisibleItemPosition();
+                        if (currentPosition > getItemCount() - 2){
+                            isworking = true;
+                            getthis().addItemwithNotify(new EmptyData());
+                            isworking = !lastPositionScrolled();
+                            if(isworking)
+                                recyclerView.removeOnScrollListener(this);
+                        }
                     }
-                }
+                    super.onScrolled(recyclerView, dx, dy);
 
-            }
-        });
+                }
+            });
+        }
     }
 
     @Override
@@ -171,7 +176,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
         if(parentView != null){
             parentView.post(new Runnable() {
                 public void run() {
-                    getthis().notifyItemInserted(position - 1);
+                    getthis().notifyItemInserted(position);
                 }
             });
         }
@@ -179,17 +184,23 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
             notifyDataSetChanged();
     }
 
-    public void addItem(ArrayList<T> list) {
+    public void addItem(ArrayList<T> list){
+        items.addAll(list);
+    }
+    public void addItem(RecyclerItem item){
+        items.add(item);
+    }
+
+    public void addItemwithNotify(ArrayList<T> list) {
         int insertposition = items.size();
         items.addAll(list);
         itemChanged(insertposition);
     }
 
-    public void addItem(RecyclerItem item) {
+    public void addItemwithNotify(RecyclerItem item) {
         int insertposition = items.size();
         items.add(item);
         itemChanged(insertposition);
-        //notifyDataSetChanged();
     }
 
     @LayoutRes
