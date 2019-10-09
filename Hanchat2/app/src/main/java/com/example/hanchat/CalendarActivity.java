@@ -26,7 +26,7 @@ public class CalendarActivity extends NavActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
-        calendarAPIManager = new CalendarAPIManager(CalendarActivity.this);
+        //calendarAPIManager = new CalendarAPIManager(CalendarActivity.this);
 
         intent = new Intent(CalendarActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

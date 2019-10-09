@@ -29,7 +29,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
 
     //아이템뷰에 추가 액션 한번만 붙이기
     public interface ItemViewCreateAction {
-        void ItemViewCreated(RecyclerManager.ViewHolder holder);
+        void ItemViewCreated(RecyclerManager.ViewHolder holder, int itemType);
     }
 
     //아이템뷰에 추가 액션 붙이기
@@ -59,7 +59,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
             if(!isSetted){
                 isSetted = true;
                 if(createAction != null)
-                    createAction.ItemViewCreated(this);
+                    createAction.ItemViewCreated(this, item.getViewType());
             }
         }
 

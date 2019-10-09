@@ -35,6 +35,7 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
@@ -62,6 +63,7 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
     private String TAG = "@@@@ ";
 
     private AppCompatActivity activity;
+    private Fragment fragment;
 
     // Google Calendar API 객체
     private com.google.api.services.calendar.Calendar mService = null;
@@ -86,8 +88,8 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
 
     private TextView mResultText;
 
-    public CalendarAPIManager(AppCompatActivity activity){
-        this.activity= activity;
+    public CalendarAPIManager(Fragment fragment){
+        this.fragment = fragment;
 
         mAddCalendarButton = activity.findViewById(R.id.button_main_add_calendar);
         mAddEventButton =  activity.findViewById(R.id.button_main_add_event);
