@@ -108,6 +108,8 @@ public class GroupMainFragment extends Fragment {
         });
 
         rv.setAdapter(adapter);
+
+        mViewModel.setRecyclerAdapter(adapter);
         addData();
         // TODO: Use the ViewModel
     }
@@ -115,30 +117,7 @@ public class GroupMainFragment extends Fragment {
 
 
     private void addData(){
-
-        ArrayList<GroupPost> list = new ArrayList<>();
-
-        for(int i = 0;i < 20; i++){
-            GroupPost gp = new GroupPost(getContext());
-            gp.set(String.format("Group %d", 20 - i), String.format("Writer %d", i),
-                    //String.format("Content %d", i * 10));
-                    "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh");
-            list.add(gp);
-            if(i % 3 == 0){
-                gp.set(String.format("Group %d", 20 - i), String.format("Writer %d", i),
-                        String.format("Content %d", i * 10));
-            }
-        }
-        adapter.addItemwithNotify(list);
+        mViewModel.addData();
+        adapter.notifyItemChanged();
     }
 }

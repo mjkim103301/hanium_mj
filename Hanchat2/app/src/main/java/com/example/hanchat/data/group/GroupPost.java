@@ -24,11 +24,8 @@ public class GroupPost implements RecyclerAdapter.RecyclerItem {
     String writerName;
     String content;
 
-    Context context;
-
-    public GroupPost(Context context) {
+    public GroupPost() {
         super();
-        this.context = context;
     }
 
     public RcyclerItemGrouppostBinding getBinding(){
