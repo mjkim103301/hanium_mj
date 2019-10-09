@@ -3,6 +3,7 @@ package com.example.hanchat;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.example.hanchat.data.EmptyData;
@@ -117,7 +118,6 @@ public class MainActivity extends NavActivity
     //버튼 세팅들은 여기에
     private void ButtonSetting(){
 
-
         // 우측 상단 버튼 (캘린더 화면으로 이동)
         bt_go_cal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +130,18 @@ public class MainActivity extends NavActivity
         // 채팅 전송
         bt_chat.setOnClickListener(new ChatBotConnecter(this, et_chat, adapter));
         imageManagement=new ImageManagement_mj(this, adapter);
+
+        //엔터 키입력
+        et_chat.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    bt_chat.callOnClick();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     // + 버튼 눌렀을때 실행됨(나 다른방법 써서 버튼 세팅 안할듯)

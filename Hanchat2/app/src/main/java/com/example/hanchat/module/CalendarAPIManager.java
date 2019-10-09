@@ -480,9 +480,6 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
         // 아무일도 하지 않음
     }
 
-//    public void selectedAccountName(String accountName){
-//        mCredential.setSelectedAccountName(accountName);
-//    }
 
     // 캘린더 이름에 대응하는 캘린더 ID를 리턴
     private String getCalendarID(String calendarTitle) {
