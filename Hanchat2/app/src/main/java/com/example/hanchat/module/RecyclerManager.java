@@ -75,8 +75,6 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
     private ItemViewBindAction itemViewBindFunc = null;
     private LastPositionAction lastPositionFunc = null;
     protected RecyclerView parentView = null;
-    int inserted = 0;
-    int lastSpace = 0;
 
 
     public RecyclerManager() {
@@ -87,7 +85,6 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
     public RecyclerManager(ArrayList<T> list) {
         super();
         addItemwithNotify(list);
-        inserted = list.size() - 1;
     }
 
 
@@ -182,6 +179,10 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
         }
         else
             notifyDataSetChanged();
+    }
+
+    public void setList(ArrayList<RecyclerItem> list){
+        items = list;
     }
 
     public void addItem(ArrayList<T> list){

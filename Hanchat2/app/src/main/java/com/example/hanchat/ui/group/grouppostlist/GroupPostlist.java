@@ -1,8 +1,7 @@
-package com.example.hanchat.ui.group;
+package com.example.hanchat.ui.group.grouppostlist;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,38 +18,26 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import com.example.hanchat.GroupMainActivity;
 import com.example.hanchat.GroupPostActivity;
 import com.example.hanchat.R;
 import com.example.hanchat.data.group.GroupPost;
 import com.example.hanchat.module.RecyclerAdapter;
 import com.example.hanchat.module.RecyclerManager;
 
-import java.util.ArrayList;
+public class GroupPostlist extends Fragment {
 
-public class GroupMainFragment extends Fragment {
-
-    private GroupMainViewModel mViewModel;
+    private GroupPostlistViewModel mViewModel;
     private RecyclerAdapter<GroupPost> adapter;
 
-    public static GroupMainFragment newInstance() {
-        return new GroupMainFragment();
+    public static GroupPostlist newInstance() {
+        return new GroupPostlist();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_group_main, container, false);
-
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(GroupMainViewModel.class);
-        RecyclerView rv = getView().findViewById(R.id.Rview_Groupmain);
+        RecyclerView rv = view.findViewById(R.id.Rview_Groupmain);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new RecyclerAdapter<>();
         adapter.setItemViewCreateAction(new RecyclerManager.ItemViewCreateAction() {
@@ -108,37 +95,18 @@ public class GroupMainFragment extends Fragment {
         });
 
         rv.setAdapter(adapter);
-        addData();
+        return inflater.inflate(R.layout.fragment_group_postlist, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = ViewModelProviders.of(this).get(GroupPostlistViewModel.class);
         // TODO: Use the ViewModel
     }
 
-
-
-    private void addData(){
-
-        ArrayList<GroupPost> list = new ArrayList<>();
-
-        for(int i = 0;i < 20; i++){
-            GroupPost gp = new GroupPost(getContext());
-            gp.set(String.format("Group %d", 20 - i), String.format("Writer %d", i),
-                    //String.format("Content %d", i * 10));
-                    "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh");
-            list.add(gp);
-            if(i % 3 == 0){
-                gp.set(String.format("Group %d", 20 - i), String.format("Writer %d", i),
-                        String.format("Content %d", i * 10));
-            }
-        }
-        adapter.addItemwithNotify(list);
+    public void addData(){
+        //mViewModel
     }
+
 }

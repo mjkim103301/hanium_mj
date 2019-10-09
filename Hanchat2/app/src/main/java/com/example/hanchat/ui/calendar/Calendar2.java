@@ -1,17 +1,7 @@
-package com.example.hanchat.ui.group;
+package com.example.hanchat.ui.calendar;
 
-import androidx.lifecycle.ViewModelProviders;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +9,15 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import com.example.hanchat.GroupMainActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.hanchat.GroupPostActivity;
+import com.example.hanchat.MainActivity;
 import com.example.hanchat.R;
 import com.example.hanchat.data.group.GroupPost;
 import com.example.hanchat.module.RecyclerAdapter;
@@ -28,29 +25,16 @@ import com.example.hanchat.module.RecyclerManager;
 
 import java.util.ArrayList;
 
-public class GroupMainFragment extends Fragment {
+public class Calendar2 extends Fragment {
+    View view;
 
-    private GroupMainViewModel mViewModel;
     private RecyclerAdapter<GroupPost> adapter;
-
-    public static GroupMainFragment newInstance() {
-        return new GroupMainFragment();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
-        View view = inflater.inflate(R.layout.fragment_group_main, container, false);
-
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(GroupMainViewModel.class);
-        RecyclerView rv = getView().findViewById(R.id.Rview_Groupmain);
+        RecyclerView rv = view.findViewById(R.id.Rview_Groupmain);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new RecyclerAdapter<>();
         adapter.setItemViewCreateAction(new RecyclerManager.ItemViewCreateAction() {
@@ -108,11 +92,15 @@ public class GroupMainFragment extends Fragment {
         });
 
         rv.setAdapter(adapter);
-        addData();
-        // TODO: Use the ViewModel
+        return view;
     }
 
-
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+//        mViewModel = ViewModelProviders.of(this).get(CalendarViewModel.class);
+        // TODO: Use the ViewModel
+    }
 
     private void addData(){
 

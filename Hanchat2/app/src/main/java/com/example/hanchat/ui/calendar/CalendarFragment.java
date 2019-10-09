@@ -39,15 +39,18 @@ public class CalendarFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_calendar, container, false);
 //        calendarAPIManager = new CalendarAPIManager(CalendarActivity.this);
 
-        intent = new Intent(getContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//
+//        intent = new Intent(getContext(), MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//
+//        // 우측 상단 버튼 (캘린더 화면으로 이동)
+//        bt_go_chat = view.findViewById(R.id.bt_go_chat);
+//
+//        /*NavSetting();
+//        IntentProfileSetting(CalendarActivity.this);*/
+//        ButtonSetting();
 
-        // 우측 상단 버튼 (캘린더 화면으로 이동)
-        bt_go_chat = view.findViewById(R.id.bt_go_chat);
 
-        /*NavSetting();
-        IntentProfileSetting(CalendarActivity.this);*/
-        ButtonSetting();
         return view;
     }
 
