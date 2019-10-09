@@ -17,9 +17,7 @@ public class Day implements RecyclerAdapter.RecyclerItem {
         this.day=day;
     }
 
-    public void setDay(int day){
-        this.day=day;
-    }
+
     public String getDay(){
         return String.valueOf(day);
     }
@@ -33,5 +31,6 @@ public class Day implements RecyclerAdapter.RecyclerItem {
     public void setRecyclerContent(View itemView) {
         RecyclerCalendarItemBinding binding= DataBindingUtil.bind(itemView);
         binding.setModelCalendar(this);
+
     }
 }

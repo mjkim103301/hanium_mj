@@ -6,16 +6,19 @@ import android.view.View;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.hanchat.NewCalendarActivity;
 import com.example.hanchat.databinding.RecyclerRecyclerCalendarBinding;
 import com.example.hanchat.module.RecyclerAdapter;
+import com.example.hanchat.module.RecyclerManager;
+import com.example.hanchat.module.ViewPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Month implements RecyclerAdapter.RecyclerItem{
+public class Month /*extends ViewPagerAdapter*/ implements ViewPagerAdapter.ViewPagerItem /*, RecyclerManager.RecyclerItem*/ {
 
     ArrayList<Day> calendarList=new ArrayList<>();
     Calendar now=Calendar.getInstance();//calendar  객체 얻어오기
@@ -27,6 +30,7 @@ public class Month implements RecyclerAdapter.RecyclerItem{
     int lastDay=now.getActualMaximum(Calendar.DATE);//해당 월의 마지막 일 반환
     Context context1;
     public Month(Context context){
+
         context1=context;
         setCalendarList();
 
@@ -42,11 +46,10 @@ public class Month implements RecyclerAdapter.RecyclerItem{
         return calendarList;
     }
 
-
-    @Override
-    public int getViewType() {
-        return RecyclerAdapter.MonthCalendar;
-    }
+//    @Override
+//    public int getViewType() {
+//        return RecyclerAdapter.MonthCalendar;
+//    }
 
     @Override
     public void setRecyclerContent(View itemView) {
