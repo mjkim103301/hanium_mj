@@ -3,11 +3,13 @@ package com.example.hanchat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,26 +32,20 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        calendarAPIManager = new CalendarAPIManager(ProfileActivity.this);
-
         et_id = findViewById(R.id.et_id);
         et_username = findViewById(R.id.et_username);
         signInButton = findViewById(R.id.sign_in_button);
 
-        //if(true){ //API 로그인 여부 확인 해서 true 이면 프로필받아옴 네비게이션에서도 값 바뀌어야함
-            String name = calendarAPIManager.getUserName();
-            String email = calendarAPIManager.getUserID();
-            et_username.setText(name);
-            et_id.setText(email);
-        //}
-
+        GetData();
+        ButtonSetting();
+    }
+    private void ButtonSetting() {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendarAPIManager.setmIDButton(1);
+                GetData();
             }
         });
-
         // 길게 클릭 시 아이디 복사
         et_id.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -60,6 +56,14 @@ public class ProfileActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+    private void GetData() {
+        calendarAPIManager.setmIDButton(1);
+
+        String name = calendarAPIManager.getUserName();
+        String email = calendarAPIManager.getUserID();
+        et_username.setText(name);
+        et_id.setText(email);
     }
 
     // 클립보드에 아이디 복사

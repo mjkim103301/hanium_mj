@@ -10,6 +10,7 @@ import com.example.hanchat.data.EmptyData;
 import com.example.hanchat.data.chatting.Chatting;
 import com.example.hanchat.data.chatting.OtherChatting;
 import com.example.hanchat.data.chatting.UserChatting;
+import com.example.hanchat.module.CalendarAPIManager;
 import com.example.hanchat.module.ChatBotConnecter;
 import com.example.hanchat.module.ImageManagement_mj;
 import com.example.hanchat.module.RecyclerAdapter;

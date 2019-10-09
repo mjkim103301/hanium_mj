@@ -97,11 +97,13 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
                 .setBackOff(new ExponentialBackOff());
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        activity.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    public String getUserName() {
+        return mCredential.getSelectedAccountName();
     }
 
+    public String getUserID() {
+        return mCredential.getSelectedAccountName();
+    }
 
     // 비동기적으로 Google Calendar API 호출
     private class MakeRequestTask extends AsyncTask<Void, Void, String> {
@@ -187,11 +189,8 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
         private String createCalendar() throws IOException {
 
             String ids = getCalendarID("Hanchat");
-
-            if (ids != null) {
-
+            if (ids != null)
                 return "이미 캘린더가 생성되어 있습니다. ";
-            }
 
             // 새로운 캘린더 생성
             com.google.api.services.calendar.model.Calendar calendar = new Calendar();
@@ -370,11 +369,13 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
         // GET_ACCOUNTS 권한을 가지고 있지 않다면
         else {
             // 사용자에게 GET_ACCOUNTS 권한을 요구하는 다이얼로그를 보여줌 (주소록 권한 요청함)
+            Log.d(TAG, "EasyPermissions.hasPermissions(activity, Manifest.permission.GET_ACCOUNTS)");
             EasyPermissions.requestPermissions(
                      activity,
                     activity.getString(R.string.permission_3),
                     REQUEST_PERMISSION_GET_ACCOUNTS,
                     Manifest.permission.GET_ACCOUNTS);
+
         }
     }
 
@@ -458,26 +459,24 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
     }
 
 
-//    // Android 6.0 (API 23) 이상에서 런타임 권한 요청시 결과를 리턴받음
-//    //requestPermissions 에서 전달된 요청코드, 요청 퍼미션, 퍼미션 처리 결과(PERMISSION_GRANTED/PERMISSION_DENIED)
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, activity);
-//    }
-
-
-    // EasyPermissions 라이브러리를 사용하여 요청한 권한을 사용자가 승인한 경우 호출된다.
     @Override
-    public void onPermissionsGranted(int requestCode, List<String> requestPermissionList) {
-        // 아무일도 하지 않음
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d(TAG,"onRequestPermissionsResult");
+        activity.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+// EasyPermissions 라이브러리를 사용하여 요청한 권한을 사용자가 승인한 경우 호출된다.
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        Log.d(TAG,"onPermissionsGranted");
+        if (requestCode == REQUEST_GOOGLE_PLAY_SERVICES) {
+            chooseAccount();
+        }
     }
 
     // EasyPermissions 라이브러리를 사용하여 요청한 권한을 사용자가 거부한 경우 호출된다.
     @Override
-    public void onPermissionsDenied(int requestCode, List<String> requestPermissionList) {
-        // 아무일도 하지 않음
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Log.d(TAG,"onPermissionsDenied");
     }
 
 
@@ -518,13 +517,6 @@ public class CalendarAPIManager implements EasyPermissions.PermissionCallbacks {
     public void setmIDButton(int m){
         mID = m;
         getResultsFromApi();
-    }
-    public String getUserName(){
-        return mCredential.getSelectedAccountName();
-    }
-
-    public String getUserID(){
-        return mCredential.getSelectedAccountName();
     }
 
 }
