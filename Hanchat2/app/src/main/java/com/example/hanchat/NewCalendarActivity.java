@@ -3,6 +3,7 @@ package com.example.hanchat;
 import android.os.Bundle;
 import android.widget.GridLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,6 +23,8 @@ public class NewCalendarActivity extends AppCompatActivity {
     ViewPager viewPager;
     ArrayList<Month> calendarList=new ArrayList<>();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -40,6 +43,7 @@ public class NewCalendarActivity extends AppCompatActivity {
         pagerAdapter.addItem(calendarList);
 
         viewPager.setAdapter(pagerAdapter);
+
 //      RecyclerView view=findViewById(R.id.viewPager_month);
 //      view.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
 //      view.setAdapter(adapter);
