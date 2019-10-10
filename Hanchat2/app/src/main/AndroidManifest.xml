@@ -26,6 +26,9 @@
         <activity android:name=".GroupMainActivity"/>
         <activity android:name=".NavActivity" />
         <activity android:name=".GroupPostActivity"/>
+        <activity android:name=".data.calendar.Month">
+
+        </activity>
         <activity android:name=".NewCalendarActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

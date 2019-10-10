@@ -1,28 +1,25 @@
 package com.example.hanchat;
 
 import android.os.Bundle;
-import android.widget.GridLayout;
+import android.widget.GridView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.hanchat.data.calendar.Month;
-import com.example.hanchat.module.RecyclerAdapter;
 import com.example.hanchat.module.ViewPagerAdapter;
+
 
 import java.util.ArrayList;
 
 public class NewCalendarActivity extends AppCompatActivity {
-    //RecyclerAdapter<Month> adapter;
-    ViewPagerAdapter<Month> pagerAdapter;
+
     ViewPager viewPager;
     ArrayList<Month> calendarList=new ArrayList<>();
+    ViewPagerAdapter pagerAdapter;
 
+    GridView gridView;
 
 
     @Override
@@ -30,23 +27,14 @@ public class NewCalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_calendar);
         //adapter=new RecyclerAdapter();
-
+        gridView=(GridView)findViewById(R.id.gridView);
         viewPager=(ViewPager) findViewById(R.id.viewPager_month);
-
-        pagerAdapter=new ViewPagerAdapter(this);
-
-
-        for (int i=0;i<50;i++){
-            calendarList.add(new Month(this));
-        }
-        //adapter.addItem(calendarList);
-        pagerAdapter.addItem(calendarList);
-
+        pagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),50);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener((ViewPager.OnPageChangeListener) gridView);
 
-//      RecyclerView view=findViewById(R.id.viewPager_month);
-//      view.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
-//      view.setAdapter(adapter);
+
+
 
 
 
