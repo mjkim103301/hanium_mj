@@ -18,10 +18,10 @@
         tools:layout="@layout/fragment_calendar" />
 
     <fragment
-        android:id="@+id/navigation_group_main"
+        android:id="@+id/navigation_group"
         android:name="com.example.hanchat.ui.group.GroupMainFragment"
         android:label="@string/title_group_main"
-        tools:layout="@layout/fragment_group_main" />
+        tools:layout="@layout/fragment_group" />
 
     <fragment
         android:id="@+id/navigation_more"

@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/Rview_Groupmain"
+        android:id="@+id/Rview_only_rcyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="vertical"

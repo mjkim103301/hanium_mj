@@ -18,7 +18,7 @@ import static com.example.hanchat.module.RecyclerAdapter.EMPTY;
 
 
 //T에 Recycleritem을 상속받는 데이터 클래스
-public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> extends RecyclerView.Adapter {
+public abstract class RecyclerManager extends RecyclerView.Adapter {
 
     //이 어댑터에 사용할 아이템에 상속받아야 할 인터페이스
     public interface RecyclerItem {
@@ -82,7 +82,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
         items = new ArrayList<>();
     }
 
-    public RecyclerManager(ArrayList<T> list) {
+    public RecyclerManager(ArrayList<RecyclerItem> list) {
         super();
         addItemwithNotify(list);
     }
@@ -116,6 +116,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.parentView = recyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         if(lastPositionFunc != null){
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 boolean isworking = false;
@@ -126,7 +127,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
                         final int currentPosition = manager.findLastCompletelyVisibleItemPosition();
                         if (currentPosition > getItemCount() - 2){
                             isworking = true;
-                            getthis().addItemwithNotify(new EmptyData());
+                            RecyclerManager.this.addItemwithNotify(new EmptyData());
                             isworking = !lastPositionScrolled();
                             if(isworking)
                                 recyclerView.removeOnScrollListener(this);
@@ -137,6 +138,12 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
                 }
             });
         }
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        this.parentView = null;
     }
 
     @Override
@@ -173,7 +180,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
         if(parentView != null){
             parentView.post(new Runnable() {
                 public void run() {
-                    getthis().notifyItemInserted(position);
+                    RecyclerManager.this.notifyItemInserted(position);
                 }
             });
         }
@@ -185,14 +192,14 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
         items = list;
     }
 
-    public void addItem(ArrayList<T> list){
+    public void addItem(ArrayList<RecyclerItem> list){
         items.addAll(list);
     }
     public void addItem(RecyclerItem item){
         items.add(item);
     }
 
-    public void addItemwithNotify(ArrayList<T> list) {
+    public void addItemwithNotify(ArrayList<RecyclerItem> list) {
         int insertposition = items.size();
         items.addAll(list);
         itemChanged(insertposition);
@@ -206,7 +213,7 @@ public abstract class RecyclerManager<T extends RecyclerManager.RecyclerItem> ex
 
     @LayoutRes
     protected abstract int getLayoutRes(int viewType);
-    RecyclerManager<T> getthis(){
-        return this;
+    public RecyclerView getParentView(){
+        return parentView;
     }
 }

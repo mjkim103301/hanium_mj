@@ -22,7 +22,7 @@ public class GroupPostActivity extends AppCompatActivity {
         ArrayList<RecyclerAdapter.RecyclerItem> list = new ArrayList<>();
 
         Intent intent = getIntent();
-        GroupPost post = new GroupPost(this);
+        GroupPost post = new GroupPost();
         post.set(intent.getExtras().getString("GroupName"),
                 intent.getExtras().getString("WriterName"),
                 intent.getExtras().getString("Content"));

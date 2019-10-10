@@ -23,8 +23,6 @@
         <activity android:name=".ProfileActivity"></activity>
         <activity android:name=".CalendarActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".GroupMainActivity">
-        </activity>
         <activity android:name=".NavActivity" />
         <activity android:name=".GroupPostActivity"/>
         <activity

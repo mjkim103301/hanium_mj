@@ -6,12 +6,5 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.calendar.CalendarFragment">
 
-    <fragment
-        android:id="@+id/group_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:navGraph="@navigation/group_nav_graph"
-        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

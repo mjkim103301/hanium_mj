@@ -1,45 +1,51 @@
 package com.example.hanchat.ui.group;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.lifecycle.ViewModel;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
 
 import com.example.hanchat.data.group.GroupPost;
-import com.example.hanchat.module.RecyclerAdapter;
-
-import java.util.ArrayList;
+import com.example.hanchat.ui.group.grouppost.GroupPostFragment;
+import com.example.hanchat.ui.group.grouppost.GroupPostFragmentArgs;
 
 public class GroupMainViewModel extends ViewModel {
     // TODO: Implement the ViewModel
 
-    private ArrayList<GroupPost> postLIst;
+    NavDestination dest = null;
+    GroupPost post = null;
+    Bundle bundle = null;
 
-    public void setRecyclerAdapter(RecyclerAdapter ra){
-        ra.setList(postLIst);
+    public void save(View view){
+         NavController nc = Navigation.findNavController(view);
+         dest = nc.getCurrentDestination();
     }
 
+    public void save(GroupPost post){
+        this.post = post;
+    }
 
-    int addData(){
-        int size = postLIst.size();
-        for(int i = 0;i < 20; i++){
-            GroupPost gp = new GroupPost();
-            gp.set(String.format("Group %d", 20 - i), String.format("Writer %d", i),
-                    //String.format("Content %d", i * 10));
-                    "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh" +
-                            "hehehhehehehehehehehehehehehehehehheehehehheehehhehehhehehehehehehehehehehehehehehheehehehheeheh");
-            postLIst.add(gp);
-            if(i % 3 == 0){
-                gp.set(String.format("Group %d", 20 - i), String.format("Writer %d", i),
-                        String.format("Content %d", i * 10));
-            }
+    public void save(Bundle bundle){
+        this.bundle = bundle;
+    }
+
+    public void clear(){
+        bundle = null;
+    }
+
+    public GroupPost Restore(View view){
+        if(post != null){
+            return post;
         }
-        return size;
+        return null;
+            //Navigation.findNavController(view).navigate(dest.getId());
     }
+
+    public Bundle Restore(){
+        return bundle;
+    }
+
 }

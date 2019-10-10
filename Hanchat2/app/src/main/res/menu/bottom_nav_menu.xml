@@ -12,7 +12,7 @@
         android:title="@string/title_calendar" />
 
     <item
-        android:id="@+id/navigation_group_main"
+        android:id="@+id/navigation_group"
         android:icon="@drawable/ic_launcher_foreground"
         android:title="@string/title_group_main" />
 

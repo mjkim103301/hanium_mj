@@ -1,13 +1,17 @@
 package com.example.hanchat.ui.group.grouppostlist;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
+import androidx.navigation.Navigator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,28 +22,33 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import com.example.hanchat.GroupPostActivity;
 import com.example.hanchat.R;
 import com.example.hanchat.data.group.GroupPost;
 import com.example.hanchat.module.RecyclerAdapter;
 import com.example.hanchat.module.RecyclerManager;
+import com.example.hanchat.ui.group.GroupMainFragment;
 
-public class GroupPostlist extends Fragment {
+public class GroupPostlistFragment extends Fragment {
 
     private GroupPostlistViewModel mViewModel;
-    private RecyclerAdapter<GroupPost> adapter;
 
-    public static GroupPostlist newInstance() {
-        return new GroupPostlist();
+    public static GroupPostlistFragment newInstance() {
+        return new GroupPostlistFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_group_main, container, false);
-        RecyclerView rv = view.findViewById(R.id.Rview_Groupmain);
+        return inflater.inflate(R.layout.fragment_only_rcyclerview, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = ViewModelProviders.of(getActivity()).get(GroupPostlistViewModel.class);
+        RecyclerView rv = getView().findViewById(R.id.Rview_only_rcyclerview);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new RecyclerAdapter<>();
+        RecyclerAdapter adapter = new RecyclerAdapter();
         adapter.setItemViewCreateAction(new RecyclerManager.ItemViewCreateAction() {
             @Override
             public void ItemViewCreated(final RecyclerManager.ViewHolder holder, int itemType) {
@@ -66,7 +75,7 @@ public class GroupPostlist extends Fragment {
                 }
             }
         });
-
+        //getParentFragment()
         adapter.setItemViewBindAction(new RecyclerManager.ItemViewBindAction() {
             @Override
             public void ItemViewBinded(RecyclerManager.ViewHolder holder, final RecyclerManager.RecyclerItem item) {
@@ -74,13 +83,12 @@ public class GroupPostlist extends Fragment {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(getContext(), GroupPostActivity.class);
                             GroupPost post = (GroupPost)item;
-                            intent.putExtra("GroupName", post.getGroupName());
-                            intent.putExtra("WriterName", post.getWriterName());
-                            intent.putExtra("Content", post.getContent());
-
-                            startActivity(intent);
+                            NavController navController = Navigation.findNavController(getView());
+                            GroupPostlistFragmentDirections.ActionSubnavGroupMainToSubnavGroupPost action =
+                                    GroupPostlistFragmentDirections.actionSubnavGroupMainToSubnavGroupPost(
+                                            post.getGroupName(), post.getWriterName(), post.getContent(), true);
+                            navController.navigate(action);
                         }
                     });
                 }
@@ -95,18 +103,20 @@ public class GroupPostlist extends Fragment {
         });
 
         rv.setAdapter(adapter);
-        return inflater.inflate(R.layout.fragment_group_postlist, container, false);
+        mViewModel.setRecyclerAdapter(adapter);
     }
+
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(GroupPostlistViewModel.class);
-        // TODO: Use the ViewModel
+    public void onDestroyView() {
+        super.onDestroyView();
+        mViewModel.saveState();
     }
 
-    public void addData(){
-        //mViewModel
+    private void addData(){
+        mViewModel.addData();
     }
+
+
 
 }
