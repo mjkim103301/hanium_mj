@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.databinding.DataBindingUtil;
 
 import com.example.hanchat.R;
+import com.example.hanchat.databinding.RecyclerRecyclerCalendarBinding;
 
 
 import java.util.ArrayList;
@@ -21,34 +23,46 @@ import java.util.GregorianCalendar;
 
 public class Month  extends AppCompatActivity  {
 
-    ArrayList<Day> calendarList=new ArrayList<>();//일 저장할 리스트
-    Calendar now=Calendar.getInstance();//calendar  객체 얻어오기
-    Calendar cal=new GregorianCalendar();//gregorianCalendar 생성
+    ArrayList<Day> calendarList;
+    Calendar now=Calendar.getInstance();//calendar  객체 얻어오기//오늘
+
     int year=now.get(Calendar.YEAR);//올해
     int month=now.get(Calendar.MONTH);//이번달
     int day=now.get(Calendar.DATE);//오늘
     int dayOfWeek=now.get(Calendar.DAY_OF_WEEK);//오늘이 이번주의 몇번째 날인지 알려줌
     int lastDay=now.getActualMaximum(Calendar.DATE);//해당 월의 마지막 일 반환
 
+    GregorianCalendar cal=new GregorianCalendar(year, month, 1, 0, 0);//gregorianCalendar 생성
+    int StartDay=cal.get(cal.DAY_OF_WEEK)-1;
+
 
 
     GridView gridView;//그리드 뷰
     GridAdapter gridAdapter;//그리드 어댑터
-
+   // RecyclerRecyclerCalendarBinding binding;//바인딩
 
     public ArrayList<Day> getCalendarList(){
         return calendarList;
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-       setContentView(R.layout.recycler_recycler_calendar);
-
+ /*   public  Month(){
+        RecyclerRecyclerCalendarBinding binding= DataBindingUtil.setContentView(this, R.layout.recycler_recycler_calendar);
+       binding.setModel(this);
         gridView=(GridView) findViewById(R.id.gridView);
         setCalendarList();//날짜를 세팅해준다.
         gridAdapter=new GridAdapter(getApplicationContext(), calendarList);
 
+
+        gridView.setAdapter(gridAdapter);
+    }*/
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+       setContentView(R.layout.recycler_recycler_calendar);
+
+        gridView=(GridView) findViewById(R.id.gridView);
+
+        setCalendarList();//날짜를 세팅해준다.
+        gridAdapter=new GridAdapter(getApplicationContext(), calendarList);
 
         gridView.setAdapter(gridAdapter);
 
@@ -56,8 +70,16 @@ public class Month  extends AppCompatActivity  {
 
     }
     public void setCalendarList(){//GregorianCalendar cal){
-        for(int i=1;i<=lastDay;i++){
+        calendarList=new ArrayList<>();//일 저장할 리스트
+        int sum=StartDay+lastDay;
+        for(int i=0;i<StartDay;i++){//1일 전 날짜
+            calendarList.add(new Day(0));
+        }
+        for(int i=1;i<=lastDay;i++){//실제 날짜
             calendarList.add(new Day(i));
+        }
+        for(int i=sum;i<42;i++){
+            calendarList.add(new Day(0));//마지막날 이후
         }
 
     }
