@@ -43,11 +43,6 @@ public class NewCalendarActivity extends AppCompatActivity {
         pagerAdapter.notifyDataSetChanged();
         //viewPager.addOnPageChangeListener((ViewPager.OnPageChangeListener) gridView);
 
-
-
-
-
-
     }
     public int setMonth(){
         return 0;

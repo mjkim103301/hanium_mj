@@ -20,7 +20,7 @@ public class CalendarFragment extends Fragment {
         gridView=(GridView) view.findViewById(R.id.gridView);
         month.setCalendarList();//날짜를 세팅해준다.
 
-        gridAdapter=new Month.GridAdapter(getArguments(), month.getCalendarList());
+        gridAdapter=new Month.GridAdapter(getContext(), month.getCalendarList());
 
         gridView.setAdapter(gridAdapter);
 

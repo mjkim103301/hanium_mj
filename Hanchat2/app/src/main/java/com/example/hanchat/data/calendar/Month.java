@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Month  extends AppCompatActivity  {
+public class Month   {
 
     ArrayList<Day> calendarList;
     Calendar now=Calendar.getInstance();//calendar  객체 얻어오기//오늘
@@ -37,38 +37,10 @@ public class Month  extends AppCompatActivity  {
 
 
 
-    GridView gridView;//그리드 뷰
-    GridAdapter gridAdapter;//그리드 어댑터
-   // RecyclerRecyclerCalendarBinding binding;//바인딩
-
     public ArrayList<Day> getCalendarList(){
         return calendarList;
     }
- /*   public  Month(){
-        RecyclerRecyclerCalendarBinding binding= DataBindingUtil.setContentView(this, R.layout.recycler_recycler_calendar);
-       binding.setModel(this);
-        gridView=(GridView) findViewById(R.id.gridView);
-        setCalendarList();//날짜를 세팅해준다.
-        gridAdapter=new GridAdapter(getApplicationContext(), calendarList);
 
-
-        gridView.setAdapter(gridAdapter);
-    }*/
-    @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-       setContentView(R.layout.recycler_recycler_calendar);
-
-        gridView=(GridView) findViewById(R.id.gridView);
-
-        setCalendarList();//날짜를 세팅해준다.
-        gridAdapter=new GridAdapter(getApplicationContext(), calendarList);
-
-        gridView.setAdapter(gridAdapter);
-
-
-
-    }
     public void setCalendarList(){//GregorianCalendar cal){
         calendarList=new ArrayList<>();//일 저장할 리스트
         int sum=StartDay+lastDay;
@@ -83,7 +55,7 @@ public class Month  extends AppCompatActivity  {
         }
 
     }
-    class GridAdapter extends BaseAdapter{
+    static class GridAdapter extends BaseAdapter{
 
         private final ArrayList<Day> list;
         private final LayoutInflater inflater;
