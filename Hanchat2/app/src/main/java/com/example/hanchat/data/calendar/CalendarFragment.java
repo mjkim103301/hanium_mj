@@ -8,19 +8,33 @@ import android.widget.GridView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.hanchat.NewCalendarActivity;
 import com.example.hanchat.R;
+import com.example.hanchat.module.GridAdapter;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class CalendarFragment extends Fragment {
     Month month=new Month();
     GridView gridView;//그리드 뷰
-    Month.GridAdapter gridAdapter;//그리드 어댑터
+    public GridAdapter gridAdapter;//그리드 어댑터
+
+    NewCalendarActivity newCalendarActivity;
+    int real_month;
+    public CalendarFragment(int i){
+        this.real_month=i;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.recycler_recycler_calendar, container, false);
-        gridView=(GridView) view.findViewById(R.id.gridView);
-        month.setCalendarList();//날짜를 세팅해준다.
 
-        gridAdapter=new Month.GridAdapter(getContext(), month.getCalendarList());
+        View view=inflater.inflate(R.layout.recycler_recycler_calendar, container, false);
+        newCalendarActivity=new NewCalendarActivity();
+        gridView=(GridView) view.findViewById(R.id.gridView);
+
+        month.setCalendarList(real_month);//날짜를 세팅해준다.
+
+        gridAdapter=new GridAdapter(getContext(), month.getCalendarList());
 
         gridView.setAdapter(gridAdapter);
 
@@ -28,5 +42,16 @@ public class CalendarFragment extends Fragment {
 
         return view;
     }
+    public int getYear(){
+        return month.cal.get(GregorianCalendar.YEAR);
+    }
+    public int getMonth(){
+        return month.cal.get(GregorianCalendar.MONTH);
+    }
+
+    public int getDay(){
+        return month.day;
+    }
+
 
 }

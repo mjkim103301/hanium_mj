@@ -5,9 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.hanchat.data.calendar.CalendarFragment;
-import com.example.hanchat.data.calendar.Month;
-
 import java.util.ArrayList;
 
 
@@ -17,7 +14,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public ViewPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
-        //this.numOfPage=numOfPage;
+
     }
 
 
@@ -25,7 +22,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-       // CalendarFragment fragment=new CalendarFragment();
+
         return fragments.get(position);
     }
 
@@ -38,4 +35,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public void addItem(Fragment fragment){
         fragments.add(fragment);
     }
+
+
 }
