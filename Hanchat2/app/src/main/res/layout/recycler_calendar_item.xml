@@ -16,9 +16,10 @@
          >
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dayItem"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:id="@+id/dayItem"
+                android:onClick="CalendarDay_onClick"
                 android:paddingLeft="10dp"
                 app:layout_constraintDimensionRatio="2:3"
                 app:layout_constraintStart_toStartOf="parent"
@@ -29,9 +30,10 @@
                     android:id="@+id/tv_day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{modelCalendar.day}"
-                    android:textSize="10sp"
                     android:paddingBottom="5dp"
+                    android:text="@{modelCalendar.day}"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,6 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="일정1"
+                    android:textColor="@color/colorBlack"
                     android:textSize="10sp"
                     app:layout_constraintTop_toBottomOf="@+id/tv_day" />
 
@@ -48,6 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="일정2"
+                    android:textColor="@color/colorBlack"
                     android:textSize="10sp"
                     app:layout_constraintTop_toBottomOf="@id/tv_work1" />
 
@@ -56,6 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="일정3"
+                    android:textColor="@color/colorBlack"
                     android:textSize="10sp"
                     app:layout_constraintTop_toBottomOf="@+id/tv_work2" />
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -70,7 +70,7 @@ CalendarFragment calendarFragment;
             }
         });
 
-        btn_today.performClick();//today 버튼 강제클릭 코드: 위치 바꾸지 마세요!
+        btn_today.performClick();//today 버튼 강제클릭 코드: 위치 바꾸지 마!!
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

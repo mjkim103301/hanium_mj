@@ -17,6 +17,7 @@ public class Month   {
 
 
     GregorianCalendar cal;
+    GregorianCalendar cal2;
 
 
 
@@ -31,14 +32,21 @@ public class Month   {
         int StartDay=cal.get(cal.DAY_OF_WEEK)-1;
         int lastDay=cal.getActualMaximum(Calendar.DATE);//해당 월의 마지막 일 반환
         int sum=StartDay+lastDay;
-        for(int i=0;i<StartDay;i++){//1일 전 날짜
-            calendarList.add(new Day(0));
+
+        cal2=new GregorianCalendar(year, month+real_month-1, 1, 0, 0);//gregorianCalendar 생성
+        int lastDay2=cal2.getActualMaximum(Calendar.DATE)+1;//전 달의 마지막 날 반환
+        int j=1;//마지막 날 이후에 사용될 변수
+
+        for(int i=StartDay;i>0;i--){//1일 전 날짜
+            calendarList.add(new Day(lastDay2-i));
+
         }
         for(int i=1;i<=lastDay;i++){//실제 날짜
             calendarList.add(new Day(i));
         }
         for(int i=sum;i<42;i++){
-            calendarList.add(new Day(0));//마지막날 이후
+            calendarList.add(new Day(j));//마지막날 이후
+            j++;
         }
 
     }

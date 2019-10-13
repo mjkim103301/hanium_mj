@@ -13,6 +13,7 @@
             android:layout_weight="3"
             android:id="@+id/tv_calendarBar"
             android:hint="2019년 00월"
+            android:textColor="@color/colorBlack"
             android:textSize="30sp"
             />
         <Button
@@ -20,7 +21,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="8.5"
             android:id="@+id/btn_today"
-            android:text="TODAY"
+            android:text="Today"
+            android:background="@color/ColorBasicWhite"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold"
             android:textSize="15sp"/>
 
     </LinearLayout>
@@ -44,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="월"
+            android:textColor="@color/colorBlack"
             android:textSize="11sp"
             android:layout_marginStart="8dp"
             />
@@ -52,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="화"
+            android:textColor="@color/colorBlack"
             android:textSize="11sp"
             android:layout_marginStart="8dp"
             />
@@ -60,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="수"
+            android:textColor="@color/colorBlack"
             android:textSize="11sp"
             android:layout_marginStart="8dp"
             />
@@ -68,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="목"
+            android:textColor="@color/colorBlack"
             android:textSize="11sp"
             android:layout_marginStart="8dp"/>
         <TextView
@@ -75,6 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="금"
+            android:textColor="@color/colorBlack"
             android:textSize="11sp"
             android:layout_marginStart="8dp"/>
         <TextView

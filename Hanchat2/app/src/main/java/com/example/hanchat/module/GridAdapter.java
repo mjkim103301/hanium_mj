@@ -68,10 +68,18 @@ public class GridAdapter extends BaseAdapter {
         }
         holder.tv_day.setText(getItem(i));
         list.get(i).h(holder);
+
+        if(i%7==0){
+            holder.tv_day.setTextColor(view.getResources().getColor(R.color.colorRed));
+        }
+        else if(i%7==6){
+            holder.tv_day.setTextColor(view.getResources().getColor(R.color.colorBlue));
+        }
+
         if(String.valueOf(today)==getItem(i)&&month_position==0){
-            holder.tv_day.setTextColor(view.getResources().getColor(R.color.colorPrimary));
+            holder.tv_day.setTextColor(view.getResources().getColor(R.color.colorGreen));
             holder.tv_day.setTypeface(null, Typeface.BOLD);
-           // holder.tv_day.setTextSize(12);
+            // holder.tv_day.setTextSize(12);
         }
 
         return view;
