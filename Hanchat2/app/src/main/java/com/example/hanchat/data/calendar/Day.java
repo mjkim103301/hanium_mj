@@ -1,37 +1,23 @@
 package com.example.hanchat.data.calendar;
 
-import android.view.View;
+import com.example.hanchat.module.GridAdapter;
 
-import androidx.databinding.DataBindingUtil;
-
-import java.util.Calendar;
-
-import com.example.hanchat.databinding.RecyclerCalendarItemBinding;
-import com.example.hanchat.module.RecyclerAdapter;
-
-public class Day implements RecyclerAdapter.RecyclerItem {
-
-
+public class Day  {
+    GridAdapter.ViewHolder holder;
     int day=0;
     public Day(int day){
-        this.day=day;
-    }
-
-    public void setDay(int day){
         this.day=day;
     }
     public String getDay(){
         return String.valueOf(day);
     }
 
-    @Override
-    public int getViewType() {
-        return RecyclerAdapter.DayCalendar;
+    public void h(GridAdapter.ViewHolder v){
+        this.holder =v;
     }
 
-    @Override
-    public void setRecyclerContent(View itemView) {
-        RecyclerCalendarItemBinding binding= DataBindingUtil.bind(itemView);
-        binding.setModelCalendar(this);
+    public GridAdapter.ViewHolder getHolder(){
+        return holder;
     }
+
 }

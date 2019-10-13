@@ -13,6 +13,7 @@
             android:layout_weight="3"
             android:id="@+id/tv_calendarBar"
             android:hint="2019년 00월"
+            android:textColor="@color/colorBlack"
             android:textSize="30sp"
             />
         <Button
@@ -20,19 +21,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="8.5"
             android:id="@+id/btn_today"
-            android:text="오늘"
+            android:text="Today"
+            android:background="@color/ColorBasicWhite"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold"
             android:textSize="15sp"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="8.5"
-            android:id="@+id/btn_search"
-            android:text="검색"
-            android:textSize="15sp"/>
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+
         >
         <TextView
             android:layout_width="match_parent"
@@ -40,6 +40,7 @@
             android:layout_weight="1"
             android:text="일"
             android:layout_marginStart="8dp"
+            android:textColor="@color/colorRed"
             android:textSize="11sp"
             />
         <TextView
@@ -47,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="월"
+            android:textColor="@color/colorBlack"
             android:textSize="11sp"
             android:layout_marginStart="8dp"
             />
@@ -55,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="화"
+            android:textColor="@color/colorBlack"
             android:textSize="11sp"
             android:layout_marginStart="8dp"
             />
@@ -63,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="수"
+            android:textColor="@color/colorBlack"
             android:textSize="11sp"
             android:layout_marginStart="8dp"
             />
@@ -71,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="목"
+            android:textColor="@color/colorBlack"
             android:textSize="11sp"
             android:layout_marginStart="8dp"/>
         <TextView
@@ -78,6 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="금"
+            android:textColor="@color/colorBlack"
             android:textSize="11sp"
             android:layout_marginStart="8dp"/>
         <TextView
@@ -85,6 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="토"
+            android:textColor="@color/colorBlue"
             android:textSize="11sp"
             android:layout_marginStart="8dp"/>
 
@@ -92,10 +99,12 @@
     </LinearLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_Month"/>
+        android:id="@+id/viewPager_month">
+
+    </androidx.viewpager.widget.ViewPager>
 
 
 </LinearLayout>
