@@ -23,7 +23,6 @@
         <activity android:name=".CalendarActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".NavActivity" />
-        </activity>
 
         <activity android:name=".NewCalendarActivity">
             <intent-filter>
