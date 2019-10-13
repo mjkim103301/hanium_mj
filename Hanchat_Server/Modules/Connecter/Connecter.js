@@ -1,13 +1,15 @@
 const dialogflow = require('./Dialogflow_Connecter.js');
 const gcpvision = require('./GCPVision_Connecter.js');
-const database = require('./Database_Connecter.js');
 const keytoconfig = require('./KeytoConfig.js');
 
 const path = require('path');
 const Dialogflow_ProjectId = 'newagent-fxhlqn';
 const Dialogflow_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-Dialogflow.json');
 const TextDetector_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-GCPVision.json');
-const Database_ConfigPath = path.join(__dirname, '..', 'Data/JSON/DB-Test.json');
+
+const Query = require('./Query.js');
+const Database_ConfigPath = path.join(__dirname, '..', 'Data/JSON/PostgreSQL_testDB_key.json');
+
 
 
 class Connecter {
@@ -16,7 +18,7 @@ class Connecter {
 
     this.Dialogflowapi = new dialogflow(Dialogflow_ProjectId, keytoconfig(Dialogflow_keyfilePath));
     this.Visionapi = new gcpvision(keytoconfig(TextDetector_keyfilePath));
-    this.Database = new database(Database_ConfigPath);
+    this.Query = new Query(Database_ConfigPath);
 
   }
 
@@ -30,8 +32,8 @@ class Connecter {
     return result;
   }
 
-   query(query, callback){
-    this.Database.query(query, callback);
+  getQuery(){
+    return this.Query;
   }
 
   async test2(){

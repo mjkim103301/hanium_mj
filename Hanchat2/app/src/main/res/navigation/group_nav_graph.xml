@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/group_nav_graph"
+    app:startDestination="@id/subnav_group_main">
+
+    <fragment
+        android:id="@+id/subnav_group_main"
+        android:name="com.example.hanchat.ui.group.grouppostlist.GroupPostlistFragment"
+        android:label="@string/title_group_main"
+        tools:layout="@layout/fragment_only_rcyclerview">
+        <action
+            android:id="@+id/action_subnav_group_main_to_subnav_group_post"
+            app:destination="@id/subnav_group_post">
+
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/subnav_group_post"
+        android:name="com.example.hanchat.ui.group.grouppost.GroupPostFragment"
+        tools:layout="@layout/fragment_only_rcyclerview">
+
+        <argument
+            android:name="groupName"
+            app:argType="string"/>
+        <argument
+            android:name="writerName"
+            app:argType="string"/>
+        <argument
+            android:name="content"
+            app:argType="string"/>
+        <argument
+            android:name="isNewPost"
+            app:argType="boolean" />
+    </fragment>
+
+
+</navigation>

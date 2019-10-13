@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity"
     >
 
 
@@ -42,7 +41,7 @@
                 tools:layout_editor_absoluteY="298dp" />
 
             <EditText
-                android:id="@+id/editText_username"
+                android:id="@+id/et_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -73,7 +72,7 @@
                 tools:layout_editor_absoluteY="341dp" />
 
             <EditText
-                android:id="@+id/editText_id"
+                android:id="@+id/et_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -89,11 +88,11 @@
         android:layout_height="wrap_content">
 
         <!--<Button-->
-            <!--android:id="@+id/google_connection_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:text="구글 연결" />-->
+        <!--android:id="@+id/google_connection_button"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:text="구글 연결" />-->
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
