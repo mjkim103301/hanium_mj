@@ -29,7 +29,7 @@ public class NavActivity extends AppCompatActivity
     }
 
     public void IntentProfileSetting(AppCompatActivity activity){
-        intent_profile = new Intent(activity.getApplicationContext(), ProfileActivity.class);
+        //intent_profile = new Intent(activity.getApplicationContext(), ProfileActivity.class);
     }
 
     // 네비게이션 서랍 세팅들은 여기에

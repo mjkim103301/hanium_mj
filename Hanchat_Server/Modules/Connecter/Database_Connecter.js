@@ -1,11 +1,12 @@
-const sql = require('mysql');
+//const sql = require('mysql');
 const fs = require('fs');
+const {Client} = require('pg');
 
 
 class Database {
   constructor(ConfigPath){
-    const Config = JSON.parse(fs.readFileSync(ConfigPath));
-    this.connection = sql.createConnection(Config);
+    //const Config = JSON.parse(fs.readFileSync(ConfigPath));
+    //this.connection = sql.createConnection(Config);
 
     //this.connection.connect();
     //console.log('Database Connected');
@@ -23,13 +24,27 @@ class Database {
     });
     */
     //connection.end();
+
+    this.client = new Client(JSON.parse(fs.readFileSync(ConfigPath)));
+
+    this.client.connect();
+
+
+    setInterval(()=>{
+      this.client.query('select now()', (err, res)=>{
+        console.log(err, res);
+      });
+    }, 1200000);
   }
 
-  async query(query, callback){
-    return this.connection.query(query, callback);
+  async query(sql, values){
+    let res;
+    this.client.connect();
+    res = await this.client.query(sql, values);
+    this.client.end();
+
+    return res;
   }
 }
-
-
 
 module.exports = Database;
