@@ -99,8 +99,8 @@ CalendarFragment calendarFragment;
             }
         });
 
-        binding= DataBindingUtil.setContentView(this, R.layout.recycler_calendar_item);
-        binding.setModelCalendar(this);
+     //   binding= DataBindingUtil.setContentView(this, R.layout.recycler_calendar_item);
+      //  binding.setModelCalendar(this);
 
 //        public void CalendarDay_onClick(View view) {//더블클릭하면 스케줄 입력창 띄우기
 //

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="modelCalendar"
-            type="com.example.hanchat.NewCalendarActivity" />
+            type="com.example.hanchat.data.calendar.Day" />
     </data>
 
 
@@ -19,7 +19,7 @@
                 android:id="@+id/dayItem"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:onClick="@{modelCalendar.CalendarDay_onClick}"
+              
                 android:clickable="true"
                 android:paddingLeft="10dp"
                 app:layout_constraintDimensionRatio="2:3"
