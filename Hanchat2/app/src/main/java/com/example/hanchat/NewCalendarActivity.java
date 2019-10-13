@@ -2,6 +2,7 @@ package com.example.hanchat;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -9,12 +10,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.hanchat.data.calendar.CalendarFragment;
 import com.example.hanchat.data.calendar.Day;
 import com.example.hanchat.data.calendar.Month;
+import com.example.hanchat.databinding.RecyclerCalendarItemBinding;
 import com.example.hanchat.module.GridAdapter;
 import com.example.hanchat.module.ViewPagerAdapter;
 
@@ -31,8 +35,11 @@ public class NewCalendarActivity extends AppCompatActivity {
     TextView tv_calendarBar;
     GridView gridView;
     Button btn_today;
+    RecyclerCalendarItemBinding binding;
 
 CalendarFragment calendarFragment;
+
+
 
 
     @Override
@@ -65,7 +72,7 @@ CalendarFragment calendarFragment;
             public void onClick(View view) {
                 viewPager.setCurrentItem(25);
                 int today= ((CalendarFragment)pagerAdapter.getItem(25)).getDay();
-             // (((CalendarFragment)pagerAdapter.getItem(25)).gridAdapter.getToday(today).getHolder()).dayItem.setBackgroundResource(R.drawable.border);//getToday에서 NullPointException 발생
+              //  (((CalendarFragment)pagerAdapter.getItem(25)).gridAdapter.getToday(today).getHolder()).dayItem.setBackgroundResource(R.drawable.border);//getToday에서 NullPointException 발생
 
             }
         });
@@ -91,6 +98,14 @@ CalendarFragment calendarFragment;
 
             }
         });
+
+        binding= DataBindingUtil.setContentView(this, R.layout.recycler_calendar_item);
+        binding.setModelCalendar(this);
+
+//        public void CalendarDay_onClick(View view) {//더블클릭하면 스케줄 입력창 띄우기
+//
+//
+//        }
 
 
 
