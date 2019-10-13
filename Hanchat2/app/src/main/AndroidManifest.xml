@@ -24,9 +24,6 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".NavActivity" />
 
-        <activity android:name=".NewCalendarActivity">
-
-        </activity>
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
