@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <data>
+        <variable
+            name="modelCalendar"
+            type="com.example.hanchat.NewCalendarActivity" />
+    </data>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+         >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dayItem"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:onClick="@{modelCalendar.CalendarDay_onClick}"
+                android:clickable="true"
+                android:paddingLeft="10dp"
+                app:layout_constraintDimensionRatio="2:3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <TextView
+                    android:id="@+id/tv_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:text="@{modelCalendar.day}"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_work1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="일정1"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10sp"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_day" />
+
+                <TextView
+                    android:id="@+id/tv_work2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="일정2"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10sp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_work1" />
+
+                <TextView
+                    android:id="@+id/tv_work3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="일정3"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10sp"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_work2" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

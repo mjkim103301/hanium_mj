@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="model"
+            type="com.example.hanchat.data.calendar.Month" />
+    </data>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/gridView"
+    android:numColumns="7">
+
+
+</GridView>
+</layout>
