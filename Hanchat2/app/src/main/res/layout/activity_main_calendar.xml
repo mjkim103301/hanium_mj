@@ -36,6 +36,7 @@
             android:layout_weight="1"
             android:text="일"
             android:layout_marginStart="8dp"
+            android:textColor="@color/colorRed"
             android:textSize="11sp"
             />
         <TextView
@@ -81,6 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="토"
+            android:textColor="@color/colorBlue"
             android:textSize="11sp"
             android:layout_marginStart="8dp"/>
 

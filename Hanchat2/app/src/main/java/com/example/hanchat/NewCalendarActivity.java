@@ -15,6 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.hanchat.data.calendar.CalendarFragment;
 import com.example.hanchat.data.calendar.Day;
 import com.example.hanchat.data.calendar.Month;
+import com.example.hanchat.module.GridAdapter;
 import com.example.hanchat.module.ViewPagerAdapter;
 
 
@@ -26,6 +27,7 @@ public class NewCalendarActivity extends AppCompatActivity {
     ViewPager viewPager;
     //ArrayList<Month> calendarList=new ArrayList<>();
     ViewPagerAdapter pagerAdapter;
+
     TextView tv_calendarBar;
     GridView gridView;
     Button btn_today;
@@ -43,6 +45,7 @@ CalendarFragment calendarFragment;
         gridView=(GridView)findViewById(R.id.gridView);
         viewPager=(ViewPager) findViewById(R.id.viewPager_month);
         pagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
+
         viewPager.setAdapter(pagerAdapter);
         btn_today=(Button)findViewById(R.id.btn_today);
         for(int i=-25; i<25; i++){
@@ -51,8 +54,23 @@ CalendarFragment calendarFragment;
            pagerAdapter.addItem(fragment);
 
         }
-        pagerAdapter.notifyDataSetChanged();
 
+        pagerAdapter.notifyDataSetChanged();
+        int year=((CalendarFragment)pagerAdapter.getItem(25)).month.year;
+        int month=((CalendarFragment)pagerAdapter.getItem(25)).month.month;
+        tv_calendarBar.setText(year+"년 "+(month+1)+"월");
+
+        btn_today.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                viewPager.setCurrentItem(25);
+                int today= ((CalendarFragment)pagerAdapter.getItem(25)).getDay();
+             // (((CalendarFragment)pagerAdapter.getItem(25)).gridAdapter.getToday(today).getHolder()).dayItem.setBackgroundResource(R.drawable.border);//getToday에서 NullPointException 발생
+
+            }
+        });
+
+        btn_today.performClick();//today 버튼 강제클릭 코드: 위치 바꾸지 마세요!
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -74,14 +92,7 @@ CalendarFragment calendarFragment;
             }
         });
 
-        btn_today.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                viewPager.setCurrentItem(25);
-               int today= ((CalendarFragment)pagerAdapter.getItem(25)).getDay();
-                (((CalendarFragment)pagerAdapter.getItem(25)).gridAdapter.getToday(today).getHolder()).dayItem.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            }
-        });
+
 
     }
 

@@ -10,11 +10,11 @@ public class Month   {
     ArrayList<Day> calendarList;
     Calendar now=Calendar.getInstance();//calendar  객체 얻어오기//오늘
 
-    int year=now.get(Calendar.YEAR);//올해
-    int month=now.get(Calendar.MONTH);//이번달
+    public int year=now.get(Calendar.YEAR);//올해
+    public int month=now.get(Calendar.MONTH);//이번달
     int day=now.get(Calendar.DATE);//오늘
     int dayOfWeek=now.get(Calendar.DAY_OF_WEEK);//오늘이 이번주의 몇번째 날인지 알려줌
-    int lastDay=now.getActualMaximum(Calendar.DATE);//해당 월의 마지막 일 반환
+
 
     GregorianCalendar cal;
 
@@ -29,6 +29,7 @@ public class Month   {
         calendarList=new ArrayList<>();//일 저장할 리스트
         cal=new GregorianCalendar(year, month+real_month, 1, 0, 0);//gregorianCalendar 생성
         int StartDay=cal.get(cal.DAY_OF_WEEK)-1;
+        int lastDay=cal.getActualMaximum(Calendar.DATE);//해당 월의 마지막 일 반환
         int sum=StartDay+lastDay;
         for(int i=0;i<StartDay;i++){//1일 전 날짜
             calendarList.add(new Day(0));

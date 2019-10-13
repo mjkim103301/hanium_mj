@@ -1,6 +1,7 @@
 package com.example.hanchat.module;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +18,17 @@ import java.util.ArrayList;
 
 public class GridAdapter extends BaseAdapter {
 
-    private final ArrayList<Day> list;
+   private final ArrayList<Day> list;
     private final LayoutInflater inflater;
     ViewHolder holder = null;
+    int today=0;
+    int month_position=0;
 
-    public GridAdapter(Context context, ArrayList<Day> dayList) {
+    public GridAdapter(Context context, ArrayList<Day> dayList, int today, int month_position) {
         this.list = dayList;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.today=today;
+        this.month_position=month_position;
     }
     public Day getToday(int i){
         return list.get(i);
@@ -63,6 +68,11 @@ public class GridAdapter extends BaseAdapter {
         }
         holder.tv_day.setText(getItem(i));
         list.get(i).h(holder);
+        if(String.valueOf(today)==getItem(i)&&month_position==0){
+            holder.tv_day.setTextColor(view.getResources().getColor(R.color.colorPrimary));
+            holder.tv_day.setTypeface(null, Typeface.BOLD);
+           // holder.tv_day.setTextSize(12);
+        }
 
         return view;
     }
@@ -71,7 +81,7 @@ public class GridAdapter extends BaseAdapter {
 
     public class ViewHolder {
         public ConstraintLayout dayItem;
-        TextView tv_day;
+        public TextView tv_day;
 
 
 

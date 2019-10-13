@@ -13,7 +13,7 @@ public class Day  {
     }
 
     public void h(GridAdapter.ViewHolder v){
-        holder =v;
+        this.holder =v;
     }
 
     public GridAdapter.ViewHolder getHolder(){
