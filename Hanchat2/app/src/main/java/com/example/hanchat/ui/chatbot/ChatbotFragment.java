@@ -12,11 +12,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.example.hanchat.CalendarActivity;
 import com.example.hanchat.MainActivity;
@@ -39,18 +42,22 @@ public class ChatbotFragment extends Fragment {
     }
 
     ImageManagement_mj imageManagement;
+    RecyclerAdapter<Chatting> adapter;
+    Intent intent;
 
-    View view;
     Button bt_go_cal;
     EditText et_chat;
     Button bt_chat;
     Button bt_image;
+    LinearLayout linearLayout;
 
-    RecyclerAdapter<Chatting> adapter;
-
-    Intent intent;
+    View v_notice;
+    Button bt_slide;
+    boolean isDown;
 
     String TAG="@@@@ ";
+
+    View view;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -62,10 +69,20 @@ public class ChatbotFragment extends Fragment {
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
         //버튼 연결
-        bt_go_cal =  (Button) view.findViewById(R.id.bt_go_cal);
-        et_chat = view.findViewById(R.id.et_chat);
-        bt_chat = view.findViewById(R.id.bt_chat);
-        bt_image = view.findViewById(R.id.bt_image);
+        bt_go_cal =  (Button) getView().findViewById(R.id.bt_go_cal);
+        et_chat = getView().findViewById(R.id.et_chat);
+        bt_chat = getView().findViewById(R.id.bt_chat);
+        bt_image = getView().findViewById(R.id.bt_image);
+        bt_slide = getView().findViewById(R.id.bt_slide);
+
+        linearLayout = getView().findViewById(R.id.linearLayout);
+
+        //공지
+        v_notice = getView().findViewById(R.id.v_notice);
+
+        v_notice.setVisibility(View.GONE);
+        bt_slide.setText("Down");
+        isDown = false;
 
         /*NavSetting();
         IntentProfileSetting(context);*/
@@ -129,18 +146,22 @@ public class ChatbotFragment extends Fragment {
 
     //버튼 세팅들은 여기에
     private void ButtonSetting(){
-        // 우측 상단 버튼 (캘린더 화면으로 이동)
-//        bt_go_cal.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////
-////                startActivity(intent);
-////            }
-////        });
 
         // 채팅 전송
         bt_chat.setOnClickListener(new ChatBotConnecter(this, et_chat, adapter));
         imageManagement=new ImageManagement_mj(this, adapter);
+
+        //엔터 키입력
+        et_chat.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    bt_chat.callOnClick();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     // + 버튼 눌렀을때 실행됨(나 다른방법 써서 버튼 세팅 안할듯)
@@ -156,4 +177,42 @@ public class ChatbotFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         imageManagement.onActivityResult(requestCode, resultCode, data);
     }
+
+
+    //공지사항 슬라이드 애니메이션
+    public void slideUp(View view){
+        v_notice.setVisibility(View.GONE);
+        TranslateAnimation animate = new TranslateAnimation(
+                0,            // xStart
+                0,              // xEnd
+                0 ,         // yStart
+                -view.getHeight());             // yEnd
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+    }
+
+    public void slideDown(View view){
+        view.setVisibility(View.VISIBLE);
+        TranslateAnimation animate = new TranslateAnimation(
+                0,            // xStart
+                0,              // xEnd
+                -view.getHeight(),         // yStart
+                0);             // yEnd
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+    }
+
+    public void onSlideViewButtonClick(View view) {
+        if (isDown) {
+            slideUp(v_notice);
+            bt_slide.setText("Down");
+        } else {
+            slideDown(v_notice);
+            bt_slide.setText("Up");
+        }
+        isDown = !isDown;
+    }
 }
+
