@@ -30,7 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+//        setContentView(R.layout.activity_profile);
 
         et_id = findViewById(R.id.et_id);
         et_username = findViewById(R.id.et_username);

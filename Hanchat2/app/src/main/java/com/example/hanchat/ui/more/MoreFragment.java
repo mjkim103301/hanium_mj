@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hanchat.R;
+import com.example.hanchat.module.CalendarAPIManager;
+import com.google.android.gms.common.SignInButton;
+
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class MoreFragment extends Fragment {
 
@@ -26,43 +31,68 @@ public class MoreFragment extends Fragment {
     public static MoreFragment newInstance() {
         return new MoreFragment();
     }
-
-    View view;
-    EditText editText_id;
+    CalendarAPIManager calendarAPIManager;
+    EditText et_id;
+    EditText et_username;
+    SignInButton signInButton;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        view = inflater.inflate(R.layout.fragment_more, container, false);
+        et_id = getView().findViewById(R.id.et_id);
+        et_username = getView().findViewById(R.id.et_username);
+        signInButton = getView().findViewById(R.id.sign_in_button);
 
+        GetData();
+        ButtonSetting();
+    }
+    private void ButtonSetting() {
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GetData();
+            }
+        });
         // 길게 클릭 시 아이디 복사
-        editText_id = view.findViewById(R.id.editText_id);
-        editText_id.setOnLongClickListener(new View.OnLongClickListener() {
+        et_id.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                String user_id = editText_id.getText().toString();
+                String user_id = et_id.getText().toString();
                 setOnClipBoard(user_id);
                 Toast.makeText(getContext(), "Long click to copy ID", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
-        return view;
     }
+    private void GetData() {
+        calendarAPIManager.setmIDButton(1);
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(MoreViewModel.class);
-        // TODO: Use the ViewModel
+        String name = calendarAPIManager.getUserName();
+        String email = calendarAPIManager.getUserID();
+        et_username.setText(name);
+        et_id.setText(email);
     }
-
-
 
     // 클립보드에 아이디 복사
     public void setOnClipBoard(String user_id) {
-        ClipboardManager clipboardManager = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboardManager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText("Clip Data", user_id);
         clipboardManager.setPrimaryClip(clipData);
     }
+
+    /* CalendarAPIManager 사용하는 액티비티에서 이 코드 써야함 */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        calendarAPIManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+    /* CalendarAPIManager 사용하는 액티비티에서 이 코드 써야함 끝 */
+
 }
