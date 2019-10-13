@@ -10,16 +10,13 @@ import androidx.annotation.NonNull;
 import com.example.hanchat.module.CalendarAPIManager;
 import com.google.android.material.navigation.NavigationView;
 
-import pub.devrel.easypermissions.EasyPermissions;
-
 
 /*완료*/
 public class CalendarActivity extends NavActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    CalendarAPIManager calendarAPIManager;
+    static CalendarAPIManager calendarAPIManager;
     Button bt_go_chat;
     Intent intent;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +57,6 @@ public class CalendarActivity extends NavActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
     /* CalendarAPIManager 사용하는 액티비티에서 이 코드 써야함 끝 */
 }

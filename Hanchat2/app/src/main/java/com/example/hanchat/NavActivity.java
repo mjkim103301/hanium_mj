@@ -21,6 +21,7 @@ public class NavActivity extends AppCompatActivity
     NavigationView navigationView;
     View headerView;
     Intent intent_profile;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class NavActivity extends AppCompatActivity
     // 네비게이션 서랍 세팅들은 여기에
     protected void NavSetting() {
         // 앱 상단 툴바
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // 좌측 상단 토글 (네비게이션 서랍)

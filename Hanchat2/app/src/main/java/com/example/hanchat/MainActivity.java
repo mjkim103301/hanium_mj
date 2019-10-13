@@ -2,7 +2,6 @@ package com.example.hanchat;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -28,10 +27,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         BottomNavigationView navView = findViewById(R.id.bottom_nav);
 //        NavController navController = Navigation.findNavController(this, R.id.nav_main_fragment);
 //        NavigationUI.setupWithNavController(navView, navController);
+
 
         if(savedInstanceState == null){
             replaceFragment(frag_chat);
@@ -70,7 +69,5 @@ public class MainActivity extends AppCompatActivity {
     private void replaceFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.main_framelayout, fragment).commit();
     }
-
-
 }
 
