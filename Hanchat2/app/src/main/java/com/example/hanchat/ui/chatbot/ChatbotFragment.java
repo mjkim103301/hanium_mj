@@ -64,33 +64,33 @@ public class ChatbotFragment extends Fragment {
 
         view =inflater.inflate(R.layout.fragment_chatbot, container, false);
 
-        // 화면 전환
-        intent = new Intent(getContext(), CalendarActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-        //버튼 연결
-        bt_go_cal =  (Button) getView().findViewById(R.id.bt_go_cal);
-        et_chat = getView().findViewById(R.id.et_chat);
-        bt_chat = getView().findViewById(R.id.bt_chat);
-        bt_image = getView().findViewById(R.id.bt_image);
-        bt_slide = getView().findViewById(R.id.bt_slide);
-
-        linearLayout = getView().findViewById(R.id.linearLayout);
-
-        //공지
-        v_notice = getView().findViewById(R.id.v_notice);
-
-        v_notice.setVisibility(View.GONE);
-        bt_slide.setText("Down");
-        isDown = false;
+//        // 화면 전환
+//        intent = new Intent(getContext(), CalendarActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//
+//        //버튼 연결
+//        //bt_go_cal =  (Button) getView().findViewById(R.id.bt_go_cal);
+//        et_chat = getView().findViewById(R.id.et_chat);
+//        bt_chat = getView().findViewById(R.id.bt_chat);
+//        bt_image = getView().findViewById(R.id.bt_image);
+//        bt_slide = getView().findViewById(R.id.bt_slide);
+//
+//        linearLayout = getView().findViewById(R.id.linearLayout);
+//
+//        //공지
+//        v_notice = getView().findViewById(R.id.v_notice);
+//
+//        v_notice.setVisibility(View.GONE);
+//        bt_slide.setText("Down");
+//        isDown = false;
 
         /*NavSetting();
         IntentProfileSetting(context);*/
-        chatAdapterSetting();
-        ButtonSetting();
-
-        //서버 연결 테스트
-        et_chat.setText("안녕");
+//        chatAdapterSetting();
+//        ButtonSetting();
+//
+//        //서버 연결 테스트
+//        et_chat.setText("안녕");
 //        bt_chat.callOnClick();
         return view;
     }
