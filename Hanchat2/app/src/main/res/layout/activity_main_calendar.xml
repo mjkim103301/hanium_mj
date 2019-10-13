@@ -24,6 +24,7 @@
             android:text="Today"
             android:background="@color/ColorBasicWhite"
             android:textColor="@color/colorGreen"
+            style="?android:attr/borderlessButtonStyle"
             android:textStyle="bold"
             android:textSize="15sp"/>
 
