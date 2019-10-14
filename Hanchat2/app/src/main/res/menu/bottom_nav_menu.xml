@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_chat"
+        android:icon="@drawable/ic_launcher_chat"
+        android:title="@string/title_chat" />
+
+    <item
+        android:id="@+id/navigation_calendar"
+        android:icon="@drawable/ic_launcher_calendar"
+        android:title="@string/title_calendar" />
+
+    <item
+        android:id="@+id/navigation_group"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="@string/title_group_main" />
+
+    <item
+        android:id="@+id/navigation_more"
+        android:icon="@drawable/hanrang"
+        android:title="@string/title_more" />
+</menu>

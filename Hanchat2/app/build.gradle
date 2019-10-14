@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+//navigation safeargs
+apply plugin: "androidx.navigation.safeargs"
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.1"
@@ -21,7 +24,7 @@ android {
         }
     }
 
-    dataBinding{
+    dataBinding {
         enabled = true
     }
 }
@@ -54,6 +57,9 @@ dependencies {
     //lifecycle
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 
-    //newCalendar
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    //navigation
+    def nav_version = "2.1.0"
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+    //classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
 }

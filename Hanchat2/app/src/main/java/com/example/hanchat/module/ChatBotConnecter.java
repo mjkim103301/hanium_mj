@@ -5,6 +5,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.hanchat.R;
 import com.example.hanchat.data.chatting.OtherChatting;
@@ -16,21 +17,22 @@ import java.util.Map;
 /*완료*/
 public class ChatBotConnecter implements View.OnClickListener {
     HTTPConnecter connecter;
-    AppCompatActivity Activity;
+    //AppCompatActivity Activity;
+    Fragment fragment;
     EditText et_chat;
     RecyclerAdapter chatAdapter;
 
-    public ChatBotConnecter(AppCompatActivity Activity, EditText et, RecyclerAdapter chatAdapter) {
-        this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, Activity);
+    public ChatBotConnecter(Fragment fragment, EditText et, RecyclerAdapter chatAdapter) {
+        this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, fragment.getContext());
         this.et_chat = et;
-        this.Activity = Activity;
+        this.fragment = fragment;
         this.chatAdapter = chatAdapter;
     }
 
     @Override
     public void onClick(View v) {
         String des = et_chat.getText().toString();
-        chatAdapter.addItem(new UserChatting(des));
+        chatAdapter.addItemwithNotify(new UserChatting(des));
         //chatAdapter.add(1, des);    // 0은 챗봇, 1은 사용자
         et_chat.setText(null);
         //chatAdapter.notifyDataSetChanged(); // 데이터 변화 시 갱신해 줌
@@ -67,8 +69,8 @@ public class ChatBotConnecter implements View.OnClickListener {
                 public void HandlerMethod(Object obj) {
                     //위의 함수에서 받은 내용을 토스트메시지로 출력
                     String answer = (String) obj;
-                    Toast.makeText(Activity.getApplicationContext(), answer, Toast.LENGTH_LONG).show();
-                    chatAdapter.addItem(new OtherChatting(answer));
+                    Toast.makeText(fragment.getContext(), answer, Toast.LENGTH_LONG).show();
+                    chatAdapter.addItemwithNotify(new OtherChatting(answer));
                     //chatAdapter.add(0, answer);
                     //chatAdapter.notifyDataSetChanged(); // 데이터 변화 시 갱신해 줌
                     //view.append((String) obj);

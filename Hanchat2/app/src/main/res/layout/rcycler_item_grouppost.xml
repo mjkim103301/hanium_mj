@@ -1,77 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="model"
             type="com.example.hanchat.data.group.GroupPost" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/parentlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:background="@drawable/edge">
+    android:background="@drawable/border_bottom">
 
-    <ImageView
-        android:id="@+id/Content_GroupPost_GroupImage"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="GroupImage"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/WriteGroupLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/hanrang" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/Content_GroupPost_GroupName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:text="@{model.groupName}"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/Content_GroupPost_GroupImage"
-        app:layout_constraintStart_toEndOf="@+id/Content_GroupPost_GroupImage"
-        app:layout_constraintTop_toTopOf="@+id/Content_GroupPost_GroupImage" />
+        <ImageView
+            android:id="@+id/GroupImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="GroupImage"
+            app:layout_constraintTop_toTopOf="@id/WriteGroupLayout"
+            app:layout_constraintStart_toStartOf="@id/WriteGroupLayout"
+            app:layout_constraintEnd_toStartOf="@id/GroupName"
+            app:srcCompat="@drawable/hanrang" />
 
-    <TextView
-        android:id="@+id/Content_GroupPost_WriterName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@{model.writerName}"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/Content_GroupPost_GroupImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Content_GroupPost_GroupImage" />
+        <TextView
+            android:id="@+id/GroupName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{model.groupName}"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/GroupImage"
+            app:layout_constraintStart_toEndOf="@id/GroupImage"
+            app:layout_constraintEnd_toStartOf="@id/dotimage"/>
 
-    <TextView
-        android:id="@+id/Content_GroupPost_Content"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/dotimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" ' "
+            app:layout_constraintBottom_toBottomOf="@id/GroupName"
+            app:layout_constraintStart_toEndOf="@id/GroupName"
+            app:layout_constraintEnd_toStartOf="@id/WriterName"/>
+
+        <TextView
+            android:id="@+id/WriterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{model.writerName}"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/GroupName"
+            app:layout_constraintStart_toEndOf="@id/dotimage"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1시간 전"
+            android:textSize="11sp"
+            app:layout_constraintTop_toBottomOf="@+id/GroupName"
+            app:layout_constraintStart_toStartOf="@id/GroupName"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ContentLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:text="@{model.content}"
-        app:layout_constraintBottom_toTopOf="@id/CommentLayout"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/WriteGroupLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Content_GroupPost_GroupImage" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/CommentLayout">
+
+        <TextView
+            android:id="@+id/Content_GroupPost_Content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{model.content}" />
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/Content_More"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="   ..더 보기"
+        app:layout_constraintTop_toBottomOf="@id/ContentLayout"
+        app:layout_constraintStart_toStartOf="@id/ContentLayout"
+        android:visibility="gone"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/CommentLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Content_GroupPost_Content">
+        app:layout_constraintTop_toBottomOf="@id/ContentLayout">
 
         <ImageView
             android:id="@+id/Content_GroupPost_Comment_Image"

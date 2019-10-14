@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_info"
+    app:startDestination="@+id/navigation_chat">
+
+    <fragment
+        android:id="@+id/navigation_chat"
+        android:name="com.example.hanchat.ui.chatbot.ChatbotFragment"
+        android:label="@string/title_chat"
+        tools:layout="@layout/fragment_chatbot"/>
+
+    <fragment
+        android:id="@+id/navigation_calendar"
+        android:name="com.example.hanchat.ui.calendar.CalendarFragment"
+        android:label="@string/title_calendar"
+        tools:layout="@layout/fragment_calendar" />
+
+    <fragment
+        android:id="@+id/navigation_group"
+        android:name="com.example.hanchat.ui.group.GroupMainFragment"
+        android:label="@string/title_group_main"
+        tools:layout="@layout/fragment_group" />
+
+    <fragment
+        android:id="@+id/navigation_more"
+        android:name="com.example.hanchat.ui.more.MoreFragment"
+        android:label="@string/title_more"
+        tools:layout="@layout/fragment_more"/>
+</navigation>

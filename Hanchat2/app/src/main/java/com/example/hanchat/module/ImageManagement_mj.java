@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.util.Base64;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.hanchat.R;
 import com.example.hanchat.data.chatting.OtherChatting;
@@ -35,13 +36,14 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
     static int PICK_IMAGE_REQUEST = 1;
 
     static final String TAG = "MainActivity";
-    AppCompatActivity MainActivity;
+    //AppCompatActivity MainActivity;
+    Fragment fragment;
     HTTPConnecter connecter;
     RecyclerAdapter chatAdapter;
 
-    public ImageManagement_mj(AppCompatActivity Activity, RecyclerAdapter chatAdapter){
-        MainActivity = Activity;
-        this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, MainActivity);
+    public ImageManagement_mj(Fragment fragment, RecyclerAdapter chatAdapter){
+        this.fragment = fragment;
+        this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, fragment.getContext());
         this.chatAdapter = chatAdapter;
         //Activity.onActivityResult += this.onActivityResult;
     }
@@ -63,10 +65,10 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
 
         };
 
-        TedPermission.with(MainActivity)
+        TedPermission.with(fragment.getContext())
                 .setPermissionListener(permissionListener)
-                .setRationaleMessage(MainActivity.getResources().getString(R.string.permission_2))
-                .setDeniedMessage(MainActivity.getResources().getString(R.string.permission_1))
+                .setRationaleMessage(fragment.getString(R.string.permission_2))
+                .setDeniedMessage(fragment.getString(R.string.permission_1))
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
 
@@ -77,8 +79,8 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT); //ACTION_PIC과 차이점?
         intent.setType("image/*"); //이미지만 보이게
         //Intent 시작 - 갤러리앱을 열어서 원하는 이미지를 선택할 수 있다.
-        MainActivity.startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-        Toast.makeText(MainActivity, "원하는 이미지 선택", Toast.LENGTH_LONG).show();
+        fragment.startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        Toast.makeText(fragment.getContext(), "원하는 이미지 선택", Toast.LENGTH_LONG).show();
 
     }
 
@@ -87,13 +89,13 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
 
         try {
             //이미지를 하나 골랐을때
-            if (requestCode == PICK_IMAGE_REQUEST && resultCode == MainActivity.RESULT_OK && null != data) {
+            if (requestCode == PICK_IMAGE_REQUEST && resultCode == fragment.getActivity().RESULT_OK && null != data) {
                 //data에서 절대경로로 이미지를 가져옴
 
                 uri = data.getData();
 
 
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(MainActivity.getContentResolver(),uri);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(fragment.getContext().getContentResolver(),uri);
                 //이미지가 한계이상(?) 크면 불러 오지 못하므로 사이즈를 줄여 준다.
 
 
@@ -105,11 +107,11 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
                 //base64(image, Bitmap.CompressFormat.JPEG, 100);
 
             } else {
-                Toast.makeText(MainActivity, "취소 되었습니다.", Toast.LENGTH_LONG).show();
+                Toast.makeText(fragment.getContext(), "취소 되었습니다.", Toast.LENGTH_LONG).show();
             }
 
         } catch (Exception e) {
-            Toast.makeText(MainActivity, "Oops! 로딩에 오류가 있습니다.", Toast.LENGTH_LONG).show();
+            Toast.makeText(fragment.getContext(), "Oops! 로딩에 오류가 있습니다.", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         //String real_path=getRealImagePath(uri);
@@ -122,7 +124,7 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
     {
         String[] proj = { MediaStore.Images.Media.DATA };
 
-        Cursor cursor = MainActivity.getContentResolver().query(uri, proj, null, null, null);
+        Cursor cursor = fragment.getContext().getContentResolver().query(uri, proj, null, null, null);
         int index=cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
         String path=cursor.getString(index);
@@ -164,7 +166,7 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
                 @Override
                 public void HandlerMethod(Object obj) {
                     //Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
-                    chatAdapter.addItem(new OtherChatting((String) obj));
+                    chatAdapter.addItemwithNotify(new OtherChatting((String) obj));
                 }
             });
         }
@@ -191,7 +193,7 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
                 @Override
                 public void HandlerMethod(Object obj) {
                     //Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
-                    chatAdapter.addItem(new OtherChatting ((String) obj));
+                    chatAdapter.addItemwithNotify(new OtherChatting ((String) obj));
                     chatAdapter.notifyDataSetChanged();
                 }
             });
