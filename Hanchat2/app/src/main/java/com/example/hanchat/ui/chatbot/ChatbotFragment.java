@@ -69,16 +69,16 @@ public class ChatbotFragment extends Fragment {
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
         //버튼 연결
-        bt_go_cal =  (Button) getView().findViewById(R.id.bt_go_cal);
-        et_chat = getView().findViewById(R.id.et_chat);
-        bt_chat = getView().findViewById(R.id.bt_chat);
-        bt_image = getView().findViewById(R.id.bt_image);
-        bt_slide = getView().findViewById(R.id.bt_slide);
+        bt_go_cal =  (Button) view.findViewById(R.id.bt_go_cal);
+        et_chat = view.findViewById(R.id.et_chat);
+        bt_chat = view.findViewById(R.id.bt_chat);
+        bt_image = view.findViewById(R.id.bt_image);
+        bt_slide = view.findViewById(R.id.bt_slide);
 
-        linearLayout = getView().findViewById(R.id.linearLayout);
+        linearLayout = view.findViewById(R.id.linearLayout);
 
         //공지
-        v_notice = getView().findViewById(R.id.v_notice);
+        v_notice = view.findViewById(R.id.v_notice);
 
         v_notice.setVisibility(View.GONE);
         bt_slide.setText("Down");

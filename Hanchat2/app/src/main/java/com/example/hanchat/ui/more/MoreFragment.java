@@ -1,22 +1,19 @@
 package com.example.hanchat.ui.more;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.hanchat.R;
 import com.example.hanchat.module.CalendarAPIManager;
@@ -37,16 +34,19 @@ public class MoreFragment extends Fragment {
     SignInButton signInButton;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        et_id = getView().findViewById(R.id.et_id);
-        et_username = getView().findViewById(R.id.et_username);
-        signInButton = getView().findViewById(R.id.sign_in_button);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_more, container, false);
+        et_id = view.findViewById(R.id.et_id);
+        et_username = view.findViewById(R.id.et_username);
+        signInButton = view.findViewById(R.id.sign_in_button);
 
         GetData();
         ButtonSetting();
+        return view;
     }
+
+
     private void ButtonSetting() {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
