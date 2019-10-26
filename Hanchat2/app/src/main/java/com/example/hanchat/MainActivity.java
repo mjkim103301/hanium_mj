@@ -1,5 +1,6 @@
 package com.example.hanchat;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -8,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.hanchat.module.account.LoginProcess;
 import com.example.hanchat.ui.calendar.CalendarFragment;
 import com.example.hanchat.ui.chatbot.ChatbotFragment;
 import com.example.hanchat.ui.group.GroupMainFragment;
@@ -21,14 +23,20 @@ public class MainActivity extends AppCompatActivity {
     Fragment frag_calendar = CalendarFragment.newInstance();
     Fragment frag_group = GroupMainFragment.newInstance();
     Fragment frag_more = MoreFragment.newInstance();
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appInitialize();
 
         setContentView(R.layout.activity_main);
 
         BottomNavigationView navView = findViewById(R.id.bottom_nav);
+        SharedPreferences pref = getSharedPreferences("setting", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putString("id", "id");
+        editor.commit();
 //        NavController navController = Navigation.findNavController(this, R.id.nav_main_fragment);
 //        NavigationUI.setupWithNavController(navView, navController);
 
@@ -71,5 +79,21 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_framelayout, fragment).commit();
     }
 
+
+    private void appInitialize(){
+        SharedPreferences pref = getSharedPreferences("appSetting", MODE_PRIVATE);
+        //SharedPreferences.Editor editor = pref.edit();
+        if(!pref.contains("id"))
+            appFirstSetting();
+
+    }
+
+    private void appFirstSetting(){
+
+    }
+
+    private void fetchFromServer(){
+
+    }
 }
 

@@ -1,4 +1,4 @@
-this.db =  DB = require(./Database_Connecter);
+const DB = require('./Database_Connecter');
 let sql;
 let values;
 let fetchtime;

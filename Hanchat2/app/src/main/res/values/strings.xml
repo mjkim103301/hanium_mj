@@ -6,9 +6,13 @@
     <string name="permission_3">구글 계정에 연결하기 위해 GET_ACCOUNTS 권한이 필요합니다.</string>
     <string name="internet_1">인터넷 연결을 확인하세요.</string>
 
+    <!--connection-->
     <string name="test_string">teststr</string>
     <string name="server_ip">13.125.224.21</string>
     <string name="server_port">55252</string>
+
+    <!--SharedPreferences : 간단한 값 저장-->
+    <string name="pref_id">hanchat_pref</string>
 
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_calendar">CalendarActivity</string>

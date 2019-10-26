@@ -56,7 +56,13 @@ module.exports = function(Functions){
     const body = req.body;
     console.log('login : ');
     console.log(body);
+
+
     res.json(body);
+  });
+
+  apptest.post('/createuser', (req, res) =>{
+
   });
 
 
