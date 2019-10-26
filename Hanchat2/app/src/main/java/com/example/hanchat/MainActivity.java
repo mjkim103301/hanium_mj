@@ -21,10 +21,11 @@ public class MainActivity extends AppCompatActivity {
     Fragment frag_calendar = CalendarFragment.newInstance();
     Fragment frag_group = GroupMainFragment.newInstance();
     Fragment frag_more = MoreFragment.newInstance();
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         BottomNavigationView navView = findViewById(R.id.bottom_nav);
@@ -69,5 +70,6 @@ public class MainActivity extends AppCompatActivity {
     private void replaceFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.main_framelayout, fragment).commit();
     }
+
 }
 
