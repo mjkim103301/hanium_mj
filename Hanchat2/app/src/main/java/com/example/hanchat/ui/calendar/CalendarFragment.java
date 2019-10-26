@@ -1,7 +1,9 @@
 package com.example.hanchat.ui.calendar;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,13 +12,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.hanchat.MainActivity;
 import com.example.hanchat.R;
 import com.example.hanchat.data.calendar.MonthFragment;
 import com.example.hanchat.databinding.RecyclerCalendarItemBinding;
@@ -24,6 +29,8 @@ import com.example.hanchat.module.CalendarAPIManager;
 import com.example.hanchat.module.ViewPagerAdapter;
 
 import pub.devrel.easypermissions.EasyPermissions;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 public class CalendarFragment extends Fragment {
 
@@ -46,13 +53,17 @@ public class CalendarFragment extends Fragment {
     Button btn_today;
     RecyclerCalendarItemBinding binding;
 
+
+    ConstraintLayout dayItem;
+
     MonthFragment calendarFragment;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_main_calendar, container, false);
 //        calendarAPIManager = new CalendarAPIManager(CalendarActivity.this);
+
 
 //
 //        intent = new Intent(getContext(), MainActivity.class);
@@ -72,6 +83,8 @@ public class CalendarFragment extends Fragment {
 
         viewPager.setAdapter(pagerAdapter);
         btn_today=(Button)view.findViewById(R.id.btn_today);
+        dayItem=(ConstraintLayout)view.findViewById(R.id.dayItem);
+
         for(int i=-25; i<25; i++){
 
             MonthFragment fragment=new MonthFragment(i);
@@ -95,6 +108,7 @@ public class CalendarFragment extends Fragment {
         });
 
         btn_today.performClick();//today 버튼 강제클릭 코드: 위치 바꾸지 마!!
+
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -124,6 +138,15 @@ public class CalendarFragment extends Fragment {
 //
 //        }
 
+/*        dayItem.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view2) {
+                Toast.makeText(getContext(),"버튼눌림", Toast.LENGTH_SHORT).show();
+                view = inflater.inflate(R.layout.activity_schedule,null);
+                ((MainActivity)getActivity()).replaceFragment(ScheculeFragment.newInstance());
+            }
+        });*/
+
 
 
         return view;
@@ -147,6 +170,7 @@ public class CalendarFragment extends Fragment {
 //        });
 
     }
+
 
     /* CalendarAPIManager 사용하는 액티비티에서 이 코드 써야함 */
     @Override
