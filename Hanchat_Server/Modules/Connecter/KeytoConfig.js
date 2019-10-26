@@ -3,8 +3,8 @@ const fs = require('fs');
 module.exports = function (KeyFile){
   const keyfile = JSON.parse(fs.readFileSync(KeyFile));
 
-  let privateKey = keyfile['private_key'];
-  let clientEmail = keyfile['client_email'];
+  let privateKey = keyfile.private_key;
+  let clientEmail = keyfile.client_email;
 
   let config = {
     credentials: {
@@ -14,4 +14,4 @@ module.exports = function (KeyFile){
   };
 
   return config;
-}
+};

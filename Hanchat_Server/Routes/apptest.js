@@ -11,7 +11,7 @@ function senderrormsg(res, received){
       Msg = received.substring(0, 22) + "...";
     }
   }
-  res.end(`Error!   your msg : ${Msg} `);
+  res.send(`Error!   your msg : ${Msg} `);
 }
 
 
@@ -27,7 +27,7 @@ module.exports = function(Functions){
   apptest.post('/chatbot', (req, res) =>{
     console.log('chatbot : ');
     Functions.Dialogflow(req, res, (req, res, result)=>{
-      res.send(result.fulfillmentText);
+      res.send(result);
 
     }, (req, res, err)=>{
       senderrormsg(res, text);
@@ -40,7 +40,7 @@ module.exports = function(Functions){
       console.log('image : \n');
       Functions.Visionapi(req, res, (req, res, r)=>{
         if(r == null){
-          res.end('글을 인식하지 못했습니다.');
+          res.send('글을 인식하지 못했습니다.');
         }
         else{
           res.send(r[0].description);

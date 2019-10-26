@@ -5,12 +5,6 @@ const {Client} = require('pg');
 
 class Database {
   constructor(ConfigPath){
-    //const Config = JSON.parse(fs.readFileSync(ConfigPath));
-    //this.connection = sql.createConnection(Config);
-
-    //this.connection.connect();
-    //console.log('Database Connected');
-
 /*
     this.connection.query('Select * from tester', (err, rows, fields)=>{
       console.log('rows : ', rows);
@@ -27,9 +21,10 @@ class Database {
 
     this.client = new Client(JSON.parse(fs.readFileSync(ConfigPath)));
 
+    console.log(JSON.parse(fs.readFileSync(ConfigPath)));
     this.client.connect();
 
-
+    console.log('Database connected');
     setInterval(()=>{
       this.client.query('select now()', (err, res)=>{
         console.log(err, res);

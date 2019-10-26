@@ -3,14 +3,14 @@ const gcpvision = require('./GCPVision_Connecter.js');
 const keytoconfig = require('./KeytoConfig.js');
 
 const path = require('path');
-const Dialogflow_ProjectId = 'newagent-fxhlqn';
+const Query = require('./Database_Connecter.js');
+const Dialogflow_ProjectId = 'hanchat-klyaoq';
 const Dialogflow_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-Dialogflow.json');
 const TextDetector_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-GCPVision.json');
 
-const Query = require('./Query.js');
-const Database_ConfigPath = path.join(__dirname, '..', 'Data/JSON/PostgreSQL_testDB_key.json');
+const Database_ConfigPath = path.join(__dirname, '..', 'Data/JSON/PostgreSQL_ServerDB_key.json');
 
-
+//const DB = path.join()
 
 class Connecter {
   constructor() {
@@ -23,12 +23,12 @@ class Connecter {
   }
 
   async sendtoVision(encodedimage){
-    const [result] = await this.Visionapi.sendtoVision(encodedimage);
+    const result = await this.Visionapi.sendtoVision(encodedimage);
     return result;
   }
 
   async sendtoDialogflow(text, sessionId){
-    const [result] = await this.Dialogflowapi.sendtoDialogflow(text, sessionId);
+    const result = await this.Dialogflowapi.sendtoDialogflow(text, sessionId);
     return result;
   }
 

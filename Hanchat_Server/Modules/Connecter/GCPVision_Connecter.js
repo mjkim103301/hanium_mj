@@ -19,18 +19,18 @@ class Vision{
     return result;
 
   }
-
-  sendtoVision(encodingtext){
-    const request = {
-      image: {
-        content: encodingtext
-      },
-    };
-
-
-    return this.client.textDetection(request);
-
-  }
+  //
+  // sendtoVision(encodingtext){
+  //   const request = {
+  //     image: {
+  //       content: encodingtext
+  //     },
+  //   };
+  //
+  //
+  //   return this.client.textDetection(request);
+  //
+  // }
 }
 
 //답장

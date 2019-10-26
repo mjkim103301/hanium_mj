@@ -2,28 +2,28 @@ const dialogflow = require('dialogflow');
 
 class Dialogflow {
   constructor (projectId, config){
-    this.projectId = projectId;
+  this.projectId = projectId;
 
     this.sessionClient = new dialogflow.SessionsClient(config);
     console.log('Set Dialogflowapi...');
   }
 
-  sendtoDialogflow (text, sessionId){
-    console.log(text);
-    const sessionPath = this.sessionClient.sessionPath(this.projectId, sessionId);
-
-    const request = {
-      session: sessionPath,
-      queryInput: {
-        text: {
-          text: text,
-          languageCode: 'ko-KR'
-        }
-      }
-    };
-    console.log(2);
-    return this.sessionClient.detectIntent(request);
-  }
+  // sendtoDialogflow (text, sessionId){
+  //   console.log(text);
+  //   const sessionPath = this.sessionClient.sessionPath(this.projectId, sessionId);
+  //
+  //   const request = {
+  //     session: sessionPath,
+  //     queryInput: {
+  //       text: {
+  //         text: text,
+  //         languageCode: 'ko-KR'
+  //       }
+  //     }
+  //   };
+  //   console.log(2);
+  //   return this.sessionClient.detectIntent(request);
+  // }
 
   async sendtoDialogflow(text, sessionId){
     const sessionPath = this.sessionClient.sessionPath(this.projectId, sessionId);
@@ -37,8 +37,8 @@ class Dialogflow {
         }
       }
     };
-
-    return await this.sessionClient.detectIntent(request);
+    const [result] = await this.sessionClient.detectIntent(request);
+    return result;
   }
 }
 

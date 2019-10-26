@@ -25,7 +25,7 @@ module.exports = function(Functions){
   .post((req, res) =>{
     console.log('chatbot : ');
     Functions.Dialogflow(req, res, (req, res, r)=>{
-      res.send(getchatbothtml(r.fulfillmentText));
+      res.send(getchatbothtml(r.answer));
     }, (req, res, err)=>{
       res.send(getchatbothtml(err));
     });

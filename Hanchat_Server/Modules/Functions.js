@@ -50,9 +50,16 @@ class Functions{
     }
 
     Connecter.sendtoDialogflow(text, 'test').then((r)=>{
-      let result = r.queryResult;
-      console.log(result);
+      let answer = r.queryResult;
+      console.log('answer : ', answer);
+      console.log('parameters : ', answer.parameters.fields);
+      let result = {
+        intent : answer.intent.displayName,
+        answer : answer.fulfillmentText,
+        params : answer.parameters.fields
+      };
       resultcallback(req, res, result);
+      console.log(JSON.stringify(result));
     })
     .catch((err)=>{
       console.log(err);
