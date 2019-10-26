@@ -2,7 +2,6 @@ package com.example.hanchat.ui.chatbot;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -21,10 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.example.hanchat.CalendarActivity;
-import com.example.hanchat.MainActivity;
 import com.example.hanchat.R;
-import com.example.hanchat.data.EmptyData;
 import com.example.hanchat.data.chatting.Chatting;
 import com.example.hanchat.data.chatting.OtherChatting;
 import com.example.hanchat.data.chatting.UserChatting;
@@ -65,11 +61,11 @@ public class ChatbotFragment extends Fragment {
         view =inflater.inflate(R.layout.fragment_chatbot, container, false);
 
         // 화면 전환
-        intent = new Intent(getContext(), CalendarActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//        intent = new Intent(getContext(), CalendarActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
         //버튼 연결
-        bt_go_cal =  (Button) view.findViewById(R.id.bt_go_cal);
+//        bt_go_cal =  (Button) view.findViewById(R.id.bt_go_cal);
         et_chat = view.findViewById(R.id.et_chat);
         bt_chat = view.findViewById(R.id.bt_chat);
         bt_image = view.findViewById(R.id.bt_image);

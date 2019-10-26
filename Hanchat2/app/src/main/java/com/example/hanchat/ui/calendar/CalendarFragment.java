@@ -14,8 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.hanchat.CalendarActivity;
-import com.example.hanchat.MainActivity;
 import com.example.hanchat.R;
 import com.example.hanchat.module.CalendarAPIManager;
 

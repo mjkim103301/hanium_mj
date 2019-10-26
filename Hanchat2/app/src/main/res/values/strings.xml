@@ -7,7 +7,7 @@
     <string name="internet_1">인터넷 연결을 확인하세요.</string>
 
     <string name="test_string">teststr</string>
-    <string name="server_ip">18.219.204.210</string>
+    <string name="server_ip">13.125.224.21</string>
     <string name="server_port">55252</string>
 
     <string name="title_activity_main">MainActivity</string>

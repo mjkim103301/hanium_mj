@@ -9,8 +9,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    android:orientation="vertical"
-    tools:context=".CalendarActivity">
+    android:orientation="vertical">
 
     <ProgressBar
         android:id="@+id/progressBar"
