@@ -45,10 +45,6 @@ class Database {
 
     return res;
   }
-
-  async query(sql){
-    return await this.client.query(sql);
-  }
 }
 
 module.exports = Database;
