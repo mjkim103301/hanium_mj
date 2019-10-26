@@ -17,9 +17,8 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.example.hanchat.CalendarActivity;
-import com.example.hanchat.MainActivity;
 import com.example.hanchat.R;
+import com.example.hanchat.data.calendar.MonthFragment;
 import com.example.hanchat.databinding.RecyclerCalendarItemBinding;
 import com.example.hanchat.module.CalendarAPIManager;
 import com.example.hanchat.module.ViewPagerAdapter;
@@ -47,7 +46,7 @@ public class CalendarFragment extends Fragment {
     Button btn_today;
     RecyclerCalendarItemBinding binding;
 
-    com.example.hanchat.data.calendar.CalendarFragment calendarFragment;
+    MonthFragment calendarFragment;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -75,22 +74,22 @@ public class CalendarFragment extends Fragment {
         btn_today=(Button)view.findViewById(R.id.btn_today);
         for(int i=-25; i<25; i++){
 
-            com.example.hanchat.data.calendar.CalendarFragment fragment=new com.example.hanchat.data.calendar.CalendarFragment(i);
+            MonthFragment fragment=new MonthFragment(i);
             pagerAdapter.addItem(fragment);
 
         }
 
         pagerAdapter.notifyDataSetChanged();
-        int year=((com.example.hanchat.data.calendar.CalendarFragment)pagerAdapter.getItem(25)).month.year;
-        int month=((com.example.hanchat.data.calendar.CalendarFragment)pagerAdapter.getItem(25)).month.month;
+        int year=((MonthFragment)pagerAdapter.getItem(25)).month.year;
+        int month=((MonthFragment)pagerAdapter.getItem(25)).month.month;
         tv_calendarBar.setText(year+"년 "+(month+1)+"월");
 
         btn_today.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
                 viewPager.setCurrentItem(25);
-                int today= ((com.example.hanchat.data.calendar.CalendarFragment)pagerAdapter.getItem(25)).getDay();
-                //  (((CalendarFragment)pagerAdapter.getItem(25)).gridAdapter.getToday(today).getHolder()).dayItem.setBackgroundResource(R.drawable.border);//getToday에서 NullPointException 발생
+                int today= ((MonthFragment)pagerAdapter.getItem(25)).getDay();
+                //  (((MonthFragment)pagerAdapter.getItem(25)).gridAdapter.getToday(today).getHolder()).dayItem.setBackgroundResource(R.drawable.border);//getToday에서 NullPointException 발생
 
             }
         });
@@ -105,8 +104,8 @@ public class CalendarFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                int year=((com.example.hanchat.data.calendar.CalendarFragment)pagerAdapter.getItem(position)).getYear();
-                int month=((com.example.hanchat.data.calendar.CalendarFragment)pagerAdapter.getItem(position)).getMonth()+1;
+                int year=((MonthFragment)pagerAdapter.getItem(position)).getYear();
+                int month=((MonthFragment)pagerAdapter.getItem(position)).getMonth()+1;
                 tv_calendarBar.setText(year+"년 "+month+"월");
 
             }
