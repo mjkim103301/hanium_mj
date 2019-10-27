@@ -1,3 +1,25 @@
+function returnResults(res, result){
+  res.send(JSON.stringify(result));
+}
+
+function returnFailure(res, reason){
+  res.send(JSON.stringify({ result : false, reason : reason }));
+}
+
+function getLoginToken(req, response, user_pid){
+  let new_logintoken = Functions.getRandomString(14);
+  Functions.getQuery().updateUserLoginToken(user_pid, new_logintoken).then(res=>{
+    let result = {
+      result : true,
+      logintoken : new_logintoken
+    };
+    returnResults(response, result);
+    console.log(result);
+  }).catch(err=>{
+    console.log(err);
+    returnFailure(response, 'cannot get logintoken');
+  });
+}
 
 
 
@@ -10,6 +32,8 @@ module.exports = function(Functions){
     next();
   });
 
+
+  //로그인
   account.post('/login', (req, response) =>{
     //로그인 확인 후 로그인 토큰 반환
     const body = req.body;
@@ -19,72 +43,61 @@ module.exports = function(Functions){
     if(body.pid == null){
       let id = body.id;
       let password = body.password;
-
+      Functions.getQuery().authUserForSignin(id, password).then(res =>{
+        if(res.isvaild){
+          getLoginToken(req, response, res.user_pid);
+        }
+        else{
+          returnFailure(response, 'id not found');
+        }
+      }).catch(err=>{
+        console.log(err);
+        returnFailure(response, 'error');
+      });
     }
     else{
       let pid = body.pid;
-      Functions.getQuery().selectUserFromPid(pid).then(res =>{
-        console.log(res);
-        if(res.rows == null){
-          response.send(JSON.stringify({result : false}));
-          return;
+      Functions.getQuery().authUserForPid(pid).then(res =>{
+        if(res){
+          getLoginToken(req, response, pid);
         }
-
-        let new_logintoken = Functions.getRandomString(14);
-        Functions.getQuery().getUserLoginToken(pid, new_logintoken).then(res=>{
-          let result = {
-            result : true,
-            logintoken : new_logintoken
-          };
-          response.send(JSON.stringify(result));
-          console.log(result);
-        }).catch(err=>{
-          console.log(err);
-          response.send(JSON.stringify({result:false}));
-        });
+        else{
+          returnFailure(response, 'pid not found');
+        }
 
       }).catch(err=>{
         console.log(err);
-        let result = {
-          result : false
-        };
-        response.send(JSON.stringify(result));
+        returnFailure(response, 'error');
       });
     }
 
   });
 
-  account.post('/createuser', (req, response) =>{
     //새로운 유저를 만들고 pid 반환
+  account.post('/createuser', (req, response) =>{
     console.log('createuser : ');
     const body = req.body;
-    Functions.getQuery().createUser().then(queryResult=>{
-      let pid = queryResult.rows[0].user_pid;
+    Functions.getQuery().createUser().then(res=>{
       let result = {
         result : true,
-        pid : pid
+        pid : res
       };
       console.log(result);
-      response.send(JSON.stringify(result));
+      returnResults(response, result);
     }).catch(err =>{
-      let result = {
-        result : false
-      };
-      response.send(JSON.stringify(result));
+      returnFailure(response, 'user create failed');
       console.log(err);
     });
   });
 
-  account.post('/getsalts', (req, res) =>{
+  //salts 얻기
+  account.post('/getsalts', (req, response) =>{
     const id = req.body.id;
-    Functions.getQuery().selectUserLogin(id).then(res => {
+    Functions.getQuery().getSalts(id).then(res => {
       console.log(res);
-      let result = {
-        result : true,
-        //
-      };
+      returnResults(response, res);
     }).catch(err =>{
-
+      returnFailure(response, 'cannot get salts');
     });
   });
 

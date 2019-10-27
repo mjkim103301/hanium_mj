@@ -1,4 +1,4 @@
-package com.example.hanchat.module;
+package com.example.hanchat.module.adapter;
 
 import androidx.annotation.LayoutRes;
 

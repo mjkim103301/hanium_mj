@@ -8,6 +8,19 @@ class Query{
     this.db = new DB(DBConfig);
   }
 
+//유닛 로그
+  UnitLog(action, unit_pid, affected_unit_pid, target_id){
+    sql = 'INSERT INTO UnitLog(log_time, action_id, unit_pid, affected_unit_pid, target_id)';
+    sql = sql + 'VALUES(now(), $1, $2, $3, $4)';
+    values = [action, unit_pid, affected_unit_pid, target_id];
+
+    this.db.query(sql, values).then(res=>{
+      console.log('log : ', res);
+    }).catch(err=>{
+      console.log('log error : ', err);
+    });
+  }
+
   createFetchTime(){
     //empty 데이터 베이스에서 만들어줄까봐 따로 코딩안했는데 필요하면 할것
   }
@@ -81,33 +94,91 @@ class Query{
   //     })
   // }
 
+//수정 시작
+  //로그인토큰이 유효한지 검사
+  async authLoginToken(user_pid, logintoken){
+    sql = `SELECT logintoken = $1 as isvalid FROM usertable WHERE user_pid = $2`;
+    value = [logintoken, user_pid];
+    let result = await this.db.query(sql, value);
 
-  async selectUserFromPid(user_pid){
-    sql = `SELECT * FROM usertable WHERE user_pid = ${user_pid}`;
-    return this.db.query(sql);
+    return result.rows[0].isvalid;
+  }
+  //pid로 유저가 있는지 검사
+  async authUserForPid(user_pid){
+    sql = `SELECT user_pid = ${user_pid} as isvalid FROM usertable WHERE user_pid = ${user_pid}`;
+    let result = await this.db.query(sql);
+
+    return result.rows[0].isvalid;
+  }
+  //id, 비번 으로 유저가 있는지 검사 - user_pid 반환
+  async authUserForSignin(id, password){
+    sql = `SELECT user_pid, password = $1 as isvalid FROM userlogin WHERE id = $2`;
+    value = [password, id];
+    let result = await this.db.query(sql, value);
+
+    let answer = {
+      isvalid : result.rows[0].isvalid,
+      user_pid : result.rows[0].user_pid
+    };
+    return answer;
   }
 
+  //유저 만들기 - user_pid 반환
   async createUser(){
     sql = "INSERT INTO usertable VALUES(default) RETURNING user_pid";
+    let result = await this.db.query(sql);
+    let pid = result.rows[0].user_pid;
+    this.UnitLog('CUS', pid, pid, null);
 
-    return this.db.query(sql);
-    //createUnit(name, picture, explanation, 'SELECT user_pid');
+    return result.rows[0].user_pid;
   }
-  async getUserLoginToken(user_pid, new_logintoken){
+  //로그인 토큰 갱신
+  async updateUserLoginToken(user_pid, new_logintoken){
     sql = `UPDATE usertable SET logintoken = '${new_logintoken}' WHERE user_pid=${user_pid}`;
-
-    return this.db.query(sql);
+    let result = await this.db.query(sql);
+    return new_logintoken;
   }
-
-  async createUserLogin(user_pid){
-
-  }
-
-  async selectUserLogin(id){
+  //id로 salts 얻기
+  async getSalts(id){
     sql = `SELECT * FROM userlogin WHERE id = ${id}`;
-    return this.db.query(sql);
+    let result = await this.db.query(sql);
+    if(result.rows == null){
+      return { result : false };
+    }
+    let r = result.rows[0];
+    let ans = {
+      result : true,
+      salt1 : r.salt1,
+      salt2 : r.salt2,
+      salt3 : r.salt3,
+      salt4 : r.salt4,
+      salt5 : r.salt5
+    };
+    return ans;
   }
 
+
+  updateUnit(pid, name, picture, explanation){
+    sql = "UPDATE unit SET ";
+    if(name != null) sql += `name = ${name} `;
+    if(picture != null) sql += `picture = ${picture} `;
+    if(explanation != null) sql += `explanation = ${explanation} `;
+    sql += "WHERE pid=$1";
+    values = [pid];
+    return this.db.query(sql, values);
+  }
+
+  async updateUser(user_pid, name, picture, explanation){
+    let result = await this.updateUnit(user_pid, name, picture, explanation);
+    this.UnitLog('UUS', user_pid, user_pid, null);
+    return result;
+  }
+  async updateGroup(user_pid, group_pid, name, picture, explanation){
+    let result = await this.updateUnit(group_pid, name, picture, explanation);
+    this.UnitLog('UGR', user_pid, group_pid, null);
+    return result;
+  }
+//끝
 
   deleteUser(user_pid){
   sql = "DELETE FROM usertable WHERE user_pid=?";

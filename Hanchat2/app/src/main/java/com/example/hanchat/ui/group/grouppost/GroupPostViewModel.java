@@ -1,10 +1,8 @@
 package com.example.hanchat.ui.group.grouppost;
 
-import androidx.lifecycle.ViewModel;
-
 import com.example.hanchat.data.group.GroupPost;
 import com.example.hanchat.data.group.PostComment;
-import com.example.hanchat.module.RecyclerAdapter;
+import com.example.hanchat.module.adapter.RecyclerAdapter;
 import com.example.hanchat.ui.module.RestoreRecyclerViewModel;
 
 public class GroupPostViewModel extends RestoreRecyclerViewModel {

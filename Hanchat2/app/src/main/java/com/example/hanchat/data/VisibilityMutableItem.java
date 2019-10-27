@@ -5,7 +5,7 @@ import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hanchat.module.RecyclerManager;
+import com.example.hanchat.module.adapter.RecyclerManager;
 
 public abstract class VisibilityMutableItem implements RecyclerManager.RecyclerItem {
     boolean isvisible = true;

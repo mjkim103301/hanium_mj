@@ -1,4 +1,4 @@
-package com.example.hanchat.module;
+package com.example.hanchat.module.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import com.example.hanchat.data.EmptyData;
 
 import java.util.ArrayList;
 
-import static com.example.hanchat.module.RecyclerAdapter.EMPTY;
+import static com.example.hanchat.module.adapter.RecyclerAdapter.EMPTY;
 
 
 //T에 Recycleritem을 상속받는 데이터 클래스

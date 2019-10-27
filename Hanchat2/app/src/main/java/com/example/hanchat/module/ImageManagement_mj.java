@@ -18,11 +18,11 @@ import android.provider.MediaStore;
 import android.net.Uri;
 import android.util.Base64;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.hanchat.R;
 import com.example.hanchat.data.chatting.OtherChatting;
+import com.example.hanchat.module.adapter.RecyclerAdapter;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 

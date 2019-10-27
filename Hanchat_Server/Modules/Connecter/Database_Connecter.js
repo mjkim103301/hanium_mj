@@ -35,10 +35,7 @@ class Database {
 
   async query(sql, values){
     let res;
-    //this.client.connect();
     res = await this.client.query(sql, values);
-    //this.client.end();
-
     return res;
   }
 }
