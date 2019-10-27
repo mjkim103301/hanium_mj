@@ -20,14 +20,15 @@ class Database {
     //connection.end();
 
     this.client = new Client(JSON.parse(fs.readFileSync(ConfigPath)));
-
-    console.log(JSON.parse(fs.readFileSync(ConfigPath)));
     this.client.connect();
+    this.client.query('select now()', (err, res) =>{
+      console.log(err, res.rows);
+    });
 
     console.log('Database connected');
     setInterval(()=>{
       this.client.query('select now()', (err, res)=>{
-        console.log(err, res);
+        console.log(err, res.rows);
       });
     }, 1200000);
   }

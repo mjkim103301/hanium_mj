@@ -21,12 +21,14 @@ public class ChatBotConnecter implements View.OnClickListener {
     Fragment fragment;
     EditText et_chat;
     RecyclerAdapter chatAdapter;
+    AccountManager account;
 
     public ChatBotConnecter(Fragment fragment, EditText et, RecyclerAdapter chatAdapter) {
         this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, fragment.getContext());
         this.et_chat = et;
         this.fragment = fragment;
         this.chatAdapter = chatAdapter;
+        account = AccountManager.getInstance(fragment.getContext());
     }
 
     @Override
@@ -43,6 +45,7 @@ public class ChatBotConnecter implements View.OnClickListener {
             Map<String, String> data = new HashMap<>();
 
             //텍스트 처리는 text, 이미지 처리는 image
+            data.put("logintoken", account.getLoginToken());
             data.put("text", des);
 
 

@@ -54,6 +54,7 @@ class Functions{
       console.log('answer : ', answer);
       console.log('parameters : ', answer.parameters.fields);
       let result = {
+        result : true,
         intent : answer.intent.displayName,
         answer : answer.fulfillmentText,
         params : answer.parameters.fields
@@ -63,7 +64,11 @@ class Functions{
     })
     .catch((err)=>{
       console.log(err);
-      errorcallback(req, res, err);
+      let result = {
+        result : false,
+        error : err
+      };
+      errorcallback(req, res, result);
     });
   }
 
@@ -106,6 +111,22 @@ class Functions{
       errorcallback(req, res, err);
     });
 
+  }
+
+
+  getQuery(){
+    return Connecter.getQuery();
+  }
+
+
+  getRandomString(length){
+    var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+    var randomstring = '';
+    for (var i=0; i<length; i++) {
+      var rnum = Math.floor(Math.random() * chars.length);
+      randomstring += chars.substring(rnum,rnum+1);
+    }
+    return randomstring;
   }
 
 }

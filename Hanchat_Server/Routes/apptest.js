@@ -24,13 +24,15 @@ module.exports = function(Functions){
     next();
   });
 
+  apptest.use('/account', require('./Routes/AppRoute/Account.js')(Functions));
+
   apptest.post('/chatbot', (req, res) =>{
     console.log('chatbot : ');
     Functions.Dialogflow(req, res, (req, res, result)=>{
-      res.send(result);
+      res.send(JSON.stringify(result));
 
     }, (req, res, err)=>{
-      senderrormsg(res, text);
+      res.send(JSON.stringify(err));
     });
 
 
@@ -51,19 +53,6 @@ module.exports = function(Functions){
       });
   });
 
-
-  apptest.post('/login', (req, res) =>{
-    const body = req.body;
-    console.log('login : ');
-    console.log(body);
-
-
-    res.json(body);
-  });
-
-  apptest.post('/createuser', (req, res) =>{
-
-  });
 
 
   apptest.post('/test', Functions.upload.single('userimage'), function(req, res){

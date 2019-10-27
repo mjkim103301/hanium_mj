@@ -9,12 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.hanchat.module.account.LoginProcess;
+import com.example.hanchat.module.AccountManager;
 import com.example.hanchat.ui.calendar.CalendarFragment;
 import com.example.hanchat.ui.chatbot.ChatbotFragment;
 import com.example.hanchat.ui.group.GroupMainFragment;
 import com.example.hanchat.ui.more.MoreFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.json.JSONObject;
 
 /*완료*/
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     Fragment frag_calendar = CalendarFragment.newInstance();
     Fragment frag_group = GroupMainFragment.newInstance();
     Fragment frag_more = MoreFragment.newInstance();
+
+    private String myPid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,16 +83,33 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_framelayout, fragment).commit();
     }
 
-
     private void appInitialize(){
-        SharedPreferences pref = getSharedPreferences("appSetting", MODE_PRIVATE);
-        //SharedPreferences.Editor editor = pref.edit();
-        if(!pref.contains("id"))
-            appFirstSetting();
+        AccountManager am = AccountManager.getInstance(this);
+        am.autoLogin(this, new AccountManager.Callback() {
+            @Override
+            public void setAccount(JSONObject json, int Resultno) {
+                switch(Resultno){
+                    case AccountManager.ACCOUNT_CREATE_SUCCESS:
+                    case AccountManager.ACCOUNT_CREATE_FAILED:
+                        appFirstSetting(json);
+                    case AccountManager.LOGIN_SUCCESS:
+                        try {
+                            myPid = (String) json.getString("pid");
+                            fetchFromServer();
+                        }
+                        catch (Exception e){
+
+                        }
+                        break;
+
+                }
+            }
+        });
 
     }
 
-    private void appFirstSetting(){
+    private void appFirstSetting(JSONObject json){
+        //DB 세팅
 
     }
 

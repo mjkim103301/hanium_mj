@@ -3,37 +3,42 @@ package com.example.hanchat.module;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.hanchat.module.account.CreateAccountProcess;
 import com.example.hanchat.module.account.LoginProcess;
+import com.example.hanchat.module.account.SignUpProcess;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.MessageDigest;
-
 
 public class AccountManager {
-    public interface AccountSetting {
-        void setAccount(JSONObject json);
+    public interface Callback {
+        void setAccount(JSONObject json, int Resultno);
     }
+
+    public final static int LOGIN_SUCCESS = 1;
+    public final static int LOGIN_FAILED = -1;
+    public final static int ACCOUNT_CREATE_SUCCESS = 2;
+    public final static int ACCOUNT_CREATE_FAILED = -2;
+    public final static int ACCOUNT_SIGNUP_SUCCESS = 3;
+    public final static int ACCOUNT_SIGNUP_FAILED = -3;
+
 
     private static AccountManager instance = null;
     final private String prefId = "AccountPref";
+    SharedPreferences pref = null;
     private String pid = "0";
+    private String loginToken = "";
 
     public String getPid(){
         return pid;
     }
+    public String getLoginToken() {
+        return loginToken;
+    }
 
     private AccountManager(Context context){
-        SharedPreferences pref = context.getSharedPreferences(prefId, Context.MODE_PRIVATE);
-        if(!pref.contains("id")){
-
-            return;
-        }
-        String id = pref.getString("id", null);
-        String pwd = pref.getString("password", null);
-
-        login(id, pwd, context);
+        pref = context.getSharedPreferences(prefId, Context.MODE_PRIVATE);
     }
 
     public static AccountManager getInstance(Context context){
@@ -42,44 +47,98 @@ public class AccountManager {
         return instance;
     }
 
-    private void login(String id, String encryptedPassword, Context context){
-        LoginProcess.login(id, encryptedPassword, context, new AccountSetting(){
+    public void autoLogin(Context context, Callback callback){
+        if(!pref.contains("id")){
+            createUser(context, callback);
+            return;
+        }
+        String id = pref.getString("id", null);
+        String pwd = pref.getString("password", null);
+
+        login(id, pwd, context, callback);
+    }
+    private void login(String id, String password, Context context, final Callback callback){
+        LoginProcess.login(id, password, context, new Callback(){
             @Override
-            public void setAccount(JSONObject json) {
-                try {
-                    pid = (String)json.get("pid");
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            public void setAccount(JSONObject json, int Resultno) {
+                if(Resultno == AccountManager.LOGIN_SUCCESS) {
+                    try {
+                        loginToken = (String)json.getString("logintoken");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
+                callback.setAccount(json, Resultno);
+            }
+        });
+    }
+    private void login(long pid, Context context, final Callback callback){
+        LoginProcess.login(pid, context, new Callback() {
+            @Override
+            public void setAccount(JSONObject json, int Resultno) {
+                if(Resultno == AccountManager.LOGIN_SUCCESS){
+                    try{
+                        loginToken = (String)json.getString("logintoken");
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+                callback.setAccount(json, Resultno);
             }
         });
     }
 
-    public void newLogin(String id, String password, Context context){
-        String encryptedpassword = "";
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            encryptedpassword = bytesToHex(digest.digest(password.getBytes()));
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        login(id, encryptedpassword, context);
+    public void newLogin(final String id, final String password, final Context context, final Callback callback){
+        login(id, password, context, new Callback() {
+            @Override
+            public void setAccount(JSONObject json, int Resultno) {
+                if(Resultno == LOGIN_SUCCESS){
+                    pref.edit().putString("id", id).putString("password", password).apply();
+                }
+                callback.setAccount(json, Resultno);
+            }
+        });
 
-        SharedPreferences.Editor editor = context.getSharedPreferences(prefId, Context.MODE_PRIVATE).edit();
-
-        editor.putString("id", id);
-        editor.putString("password", encryptedpassword);
-        editor.commit();
 
     }
 
-    public static String bytesToHex(byte[] bytes) {
-            StringBuilder builder = new StringBuilder();
-            for (byte b: bytes) {
-                builder.append(String.format("%02x", b));
+    public void createUser(final Context context, final Callback callback){
+        CreateAccountProcess.CreateAccount(context, new Callback() {
+            @Override
+            public void setAccount(JSONObject json, int Resultno) {
+                if(Resultno == ACCOUNT_CREATE_SUCCESS){
+                    try{
+                        long pid = json.getLong("pid");
+                        pref.edit().putLong("pid", pid).apply();
+                        login(pid, context, callback);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                callback.setAccount(json, Resultno);
             }
-            return builder.toString();
-        }
+        });
+
+    }
+
+    public void signUp(final String id, final String password, final Context context, final Callback callback){
+        SignUpProcess.signUp(id, password, context, new Callback() {
+            @Override
+            public void setAccount(JSONObject json, int Resultno) {
+                if(Resultno == ACCOUNT_SIGNUP_SUCCESS){
+                    pref.edit().putString("id", id).putString("password", password).apply();
+                    login(id, password, context, callback);
+                }
+
+                callback.setAccount(json, Resultno);
+            }
+        });
+    }
+    public void checkPassword(String password){
+
+    }
 
 }

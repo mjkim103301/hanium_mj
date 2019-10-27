@@ -20,6 +20,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
@@ -90,10 +91,10 @@ public class HTTPConnecter {
     //Post 형식으로 전달할때
     //Pathname : 주소에서 /로 시작해서 ? 전까지의 부분 (ex : "/chatbot_data"), Map과 통신 이후에 수행할 콜백을 받음
     //콜백은 위의 인터페이스 활용
-    public void Post(String Pathname, Map<String, String> data, Callback callback){
+    public void Post(String Pathname, Map<String, ?> data, Callback callback) throws Exception{
         PostSender th_Sender = new PostSender();
         th_Sender.SetConnection(Host + Pathname);
-        th_Sender.SetMessage(data);
+        th_Sender.SetMessage(mapTOJsonObject(data));
         th_Sender.SetCallback(callback);
         th_Sender.start();
     }
@@ -122,29 +123,37 @@ public class HTTPConnecter {
         th_Sender.start();
     }
 
-    public void sendImage(String Pathname, Map<String, String> data, String filepath, Callback callback){
+    public void sendImage(String Pathname, Map<String, ?> data, String filepath, Callback callback) throws Exception{
         ImageSender th_Sender = new ImageSender();
         th_Sender.SetConnection(Host + Pathname);
-        th_Sender.SetMessage(data, filepath);
+        th_Sender.SetMessage(mapTOJsonObject(data), filepath);
         th_Sender.SetCallback(callback);
         th_Sender.start();
     }
 
-    public void sendImage(String Pathname, Map<String, String> data, Bitmap bitmap, Callback callback){
+    public void sendImage(String Pathname, Map<String, ?> data, Bitmap bitmap, Callback callback) throws Exception{
         ImageSender th_Sender = new ImageSender();
         th_Sender.SetConnection(Host + Pathname);
-        th_Sender.SetMessage(data, bitmap);
+        th_Sender.SetMessage(mapTOJsonObject(data), bitmap);
         th_Sender.SetCallback(callback);
         th_Sender.start();
     }
 
+    private JSONObject mapTOJsonObject(Map<String, ?> data) throws Exception{
+        JSONObject json = new JSONObject();
+        for( Map.Entry<String, ?> entry : data.entrySet() ) {
+            String key = entry.getKey();
+            json.put(key, entry.getValue());
+        }
+        return json;
+    }
 
     private class Sender extends Thread {
         private int timeout = 10000;
         private String _url = "";
         private final String reqtype;
         String contenttype;
-        Map<String, String> map = null;
+        JSONObject json = null;
         private Callback cb = null;
 
 
@@ -164,8 +173,8 @@ public class HTTPConnecter {
         void SetCallback(Callback callback){
             cb = callback;
         }
-        void SetMessage(Map<String, String> msg){
-            map = msg;
+        void SetMessage(JSONObject json){
+            this.json = json;
         }
 
 
@@ -256,16 +265,9 @@ public class HTTPConnecter {
         }
 
         protected void sendMessage(HttpURLConnection conn) throws Exception{
-            if(map == null) throw new Exception("data is null");
+            if(json == null) return;
 
-            JSONObject jsonObject = new JSONObject();
-            for( Map.Entry<String, String> entry : map.entrySet() ) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                jsonObject.put(key, value);
-            }
-
-            String jsonstr = jsonObject.toString();
+            String jsonstr = json.toString();
 
             byte[] outputBytes = jsonstr.getBytes(StandardCharsets.UTF_8);
             OutputStream os = conn.getOutputStream();
@@ -319,13 +321,13 @@ public class HTTPConnecter {
         }
 
 
-        void SetMessage(Map<String, String> map, String filepath) {
-            super.SetMessage(map);
+        void SetMessage(JSONObject json, String filepath) {
+            super.SetMessage(json);
             this.filepath = filepath;
         }
 
-        void SetMessage(Map<String, String> map, Bitmap bitmap) {
-            super.SetMessage(map);
+        void SetMessage(JSONObject json, Bitmap bitmap) {
+            super.SetMessage(json);
             this.bitmap = bitmap;
         }
 
@@ -338,11 +340,12 @@ public class HTTPConnecter {
 
 
             //일반 데이터 전송
-            if (map != null){
+            if (json != null){
                 StringBuilder builder = new StringBuilder();
-                for( Map.Entry<String, String> entry : map.entrySet() ) {
-                    String key = entry.getKey();
-                    String value = entry.getValue();
+                Iterator<String> keys = json.keys();
+                while(keys.hasNext()){
+                    String key = keys.next();
+                    String value = json.getString(key);
 
                     //이 3개가 한묶음 - { 키 : 문자열 }한가지를 보낼때
                     builder.append(msgbegin)
