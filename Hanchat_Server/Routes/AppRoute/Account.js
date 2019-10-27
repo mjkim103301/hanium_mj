@@ -5,12 +5,12 @@ module.exports = function(Functions){
   const express = require('express');
   const account = express.Router();
 
-  apptest.use((req, res, next)=>{
+  account.use((req, res, next)=>{
     process.stdout.write('account/');
     next();
   });
 
-  apptest.post('/login', (req, res) =>{
+  account.post('/login', (req, response) =>{
     //로그인 확인 후 로그인 토큰 반환
     const body = req.body;
     console.log('login : ');
@@ -26,18 +26,21 @@ module.exports = function(Functions){
       Functions.getQuery().selectUserFromPid(pid).then(res =>{
         console.log(res);
         if(res.rows == null){
-          res.send(JSON.stringify({result : false}));
+          response.send(JSON.stringify({result : false}));
           return;
         }
 
-        Functions.getQuery().getUserLoginToken(pid).then(res=>{
+        let new_logintoken = Functions.getRandomString(14);
+        Functions.getQuery().getUserLoginToken(pid, new_logintoken).then(res=>{
           let result = {
             result : true,
-            logintoken : res
+            logintoken : new_logintoken
           };
-          res.send(JSON.stringify(result));
+          response.send(JSON.stringify(result));
+          console.log(result);
         }).catch(err=>{
-          res.send(JSON.stringify({result:false}));
+          console.log(err);
+          response.send(JSON.stringify({result:false}));
         });
 
       }).catch(err=>{
@@ -45,34 +48,34 @@ module.exports = function(Functions){
         let result = {
           result : false
         };
-        res.send(JSON.stringify(result));
+        response.send(JSON.stringify(result));
       });
     }
 
-    res.json(body);
   });
 
-  apptest.Post('/createuser', (req, res) =>{
+  account.post('/createuser', (req, response) =>{
     //새로운 유저를 만들고 pid 반환
+    console.log('createuser : ');
     const body = req.body;
-    Functions.getQuery().createUser().then(res=>{
-      console.log(res.rows);
-      let pid = res.rows.user_pid;
+    Functions.getQuery().createUser().then(queryResult=>{
+      let pid = queryResult.rows[0].user_pid;
       let result = {
         result : true,
         pid : pid
       };
-      res.send(JSON.stringify(result));
+      console.log(result);
+      response.send(JSON.stringify(result));
     }).catch(err =>{
       let result = {
         result : false
       };
-      res.send(JSON.stringify(result));
+      response.send(JSON.stringify(result));
       console.log(err);
     });
   });
 
-  apptest.Post('/getsalts', (req, res) =>{
+  account.post('/getsalts', (req, res) =>{
     const id = req.body.id;
     Functions.getQuery().selectUserLogin(id).then(res => {
       console.log(res);
@@ -82,8 +85,8 @@ module.exports = function(Functions){
       };
     }).catch(err =>{
 
-    })
+    });
   });
 
   return account;
-}
+};

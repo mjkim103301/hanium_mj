@@ -3,6 +3,7 @@ package com.example.hanchat;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -26,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     Fragment frag_group = GroupMainFragment.newInstance();
     Fragment frag_more = MoreFragment.newInstance();
 
-    private String myPid;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +35,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         BottomNavigationView navView = findViewById(R.id.bottom_nav);
-        SharedPreferences pref = getSharedPreferences("setting", MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-
-        editor.putString("id", "id");
-        editor.commit();
 //        NavController navController = Navigation.findNavController(this, R.id.nav_main_fragment);
 //        NavigationUI.setupWithNavController(navView, navController);
 
@@ -94,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
                         appFirstSetting(json);
                     case AccountManager.LOGIN_SUCCESS:
                         try {
-                            myPid = (String) json.getString("pid");
                             fetchFromServer();
                         }
                         catch (Exception e){
@@ -110,11 +103,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void appFirstSetting(JSONObject json){
         //DB 세팅
-
+        try {
+            Toast.makeText(this, json.getString("pid"), Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void fetchFromServer(){
-
+        Toast.makeText(this, "fetch : " + AccountManager.getInstance(this).getLoginToken(), Toast.LENGTH_SHORT).show();
     }
 }
 

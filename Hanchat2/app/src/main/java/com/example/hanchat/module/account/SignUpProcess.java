@@ -60,7 +60,7 @@ public class SignUpProcess {
                     });
         }
         catch (Exception e){
-
+            e.printStackTrace();
         }
     }
 }

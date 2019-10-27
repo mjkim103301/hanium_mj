@@ -14,7 +14,7 @@ public class CreateAccountProcess {
         HTTPConnecter httpConnecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, context);
 
         try {
-            httpConnecter.Post("/createuser", null, new HTTPConnecter.Callback() {
+            httpConnecter.Post("/apptest/account/createuser", null, new HTTPConnecter.Callback() {
                 @Override
                 public Object DataReceived(String ReceiveString) {
                     JSONObject json = null;
@@ -24,7 +24,7 @@ public class CreateAccountProcess {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    return null;
+                    return json;
                 }
 
                 @Override
@@ -48,7 +48,7 @@ public class CreateAccountProcess {
 
         }
         catch (Exception e){
-
+            e.printStackTrace();
         }
     }
 }

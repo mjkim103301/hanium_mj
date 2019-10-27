@@ -93,13 +93,10 @@ class Query{
     return this.db.query(sql);
     //createUnit(name, picture, explanation, 'SELECT user_pid');
   }
-  async getUserLoginToken(user_pid){
-    var new_logintoken = Functions.getRandomString(14);
-    sql = `UPDATE usertable SET logintoken=${new_logintoken} WHERE user_pid=${user_pid}`;
+  async getUserLoginToken(user_pid, new_logintoken){
+    sql = `UPDATE usertable SET logintoken = '${new_logintoken}' WHERE user_pid=${user_pid}`;
 
-    result = await this.db.query(sql);
-
-    return new_logintoken;
+    return this.db.query(sql);
   }
 
   async createUserLogin(user_pid){
