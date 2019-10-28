@@ -151,8 +151,17 @@ class Query{
     });
       updateUnit(user_pid, name, picture, explanation);
     }
-  selectUser(){
+  selectUser(user_pid){
+    sql = "SELECT * FROM usertable WHERE user_pid=?";
+    values = [user_pid];
 
+    this.db.query(sql, values)
+    .then(res =>{
+    console.log(res);
+    })
+    .catch(err =>{
+    console.log(err);
+  });
   }
 
 
