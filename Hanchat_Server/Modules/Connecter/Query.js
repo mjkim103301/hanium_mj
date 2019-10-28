@@ -5,13 +5,18 @@ let fetchtime;
 
 
 // ####서치
+// 1. 장소 키워드 할만한 데이터가 DB에 없어요 설계 추가해주세요!
+// 2. groupsize가 뭐하는 필드에요?
+// 3. 필드에 따라 update함수 분할 가능한데 필요한거 뭐뭐인지?
+// 4. useringroup에 managerpid는 뭐에요?
+
 class Query{
   constructor(DBConfig){
     this.db = new DB(DBConfig);
   }
 
    createSchedule(unit_pid, title, category, starttime, endtime, memo, repeattype){
-// INSERT INTO schedule(unit_pid, title, category, starttime, endtime, memo, repeattype) values (1002,'스케쥴2','c','2019-10-26 10:00:00','2019-10-26 12:00:00','메모 시험음 메모',null);
+     // INSERT INTO schedule(unit_pid, title, category, starttime, endtime, memo, repeattype) values (1002,'스케쥴2','c','2019-10-26 10:00:00','2019-10-26 12:00:00','메모 시험음 메모',null);
     sql = "INSERT INTO schedule(unit_pid, title, category, starttime, endtime, memo, repeattype) VALUES(?,?,?,?,?,?,?)";
     values = [unit_pid, title, category, starttime, endtime, memo, repeattype];
 
@@ -21,7 +26,7 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
   }
    deleteSchedule(id, unit_pid){
     sql = "DELETE FROM schedule WHERE (id=? AND unit_pid=?)";
@@ -33,8 +38,9 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
   }
+  // ####  title, category, starttime, endtime, memo, repeattype 분할가능
    updateSchedule (id, unit_pid, title, category, starttime, endtime, memo, repeattype){
   sql = "UPDATE schedule SET title=?, category=?, starttime=?, endtime=?, memo=?, repeattype=? WHERE (id=? AND unit_pid=?)";
   values = [title, category, starttime, endtime, memo, repeattype, id, unit_pid];
@@ -45,12 +51,12 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
   }
 
   selectSchedule(unit_pid){
       //SELECT * FROM schedule where unit_pid= 1002;
-    sql = "SELECT * FROM schedule where unit_pid= unit_pid=?";
+    sql = "SELECT * FROM schedule where unit_pid=?";
     value = [unit_pid];
 
 
@@ -60,12 +66,12 @@ class Query{
       })
       .catch(err =>{
       console.log(err);
-      })
+    });
   }
   selectScheduleByTime(unit_pid, starttime, endtime){
-    //
-    sql = "SELECT * FROM schedule WHERE (unit_pid = ? AND endtime BETWEEN to_timestamp('2019-10-26 01:00:00' , 'YYYY-MM-DD HH24:MI:SS') AND to_timestamp('2019-10-26 07:43:00', 'YYYY-MM-DD HH24:MI:SS'))";
-    value = [unit_pid, starttime, endtime];
+  // WHERE (unit_pid = ? AND endtime BETWEEN to_timestamp('2019-10-26 01:00:00' , 'YYYY-MM-DD HH24:MI:SS') AND to_timestamp('2019-10-26 07:43:00', 'YYYY-MM-DD HH24:MI:SS'))
+    sql = "SELECT * FROM schedule WHERE unit_pid = ?";
+    value = [unit_pid];
 
 
     this.db.query(sql, values)
@@ -74,7 +80,7 @@ class Query{
       })
       .catch(err =>{
       console.log(err);
-      })
+    });
   }
   selectScheduleByKeyword(unit_pid, keyword){
     // SELECT * FROM schedule where (unit_pid= 1002 and (memo ~'^.*시험.*$' or title ~ '^.*시험.*$'));
@@ -89,7 +95,7 @@ class Query{
       })
       .catch(err =>{
       console.log(err);
-      })
+    });
   }
 
 
@@ -98,8 +104,8 @@ class Query{
   createUser(name, picture, explanation){
     //INSERT INTO usertable(fetchtime) VALUES(now());
     //UPDATE unit SET name='이름', picture='tmp', explanation ='설명' WHERE pid=1001;
-     sql = "INSERT INTO usertable(fetchtime) VALUES(?)";
-     values = ['now()'];
+     sql = "INSERT INTO usertable(fetchtime) VALUES(now())";
+     values = [];
 
     this.db.query(sql, values)
     .then(res =>{
@@ -107,11 +113,11 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
 
     updateUnit(user_pid, name, picture, explanation);
   }
-   deleteUser(user_pid){
+  deleteUser(user_pid){
      //DELETE FROM usertable WHERE user_pid=1001;
      //DELETE FROM unit WHERE pid=1001;
     sql = "DELETE FROM usertable WHERE user_pid=?";
@@ -123,13 +129,18 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
+
     deleteUnit(user_pid);
   }
+
+  // ####  name, picture, explanation 분할가능
+  // unit과 join 처리 가능한지 확인
+
   updateUser(user_pid, name, picture, explanation){
 
-      sql = "UPDATE usertable SET fetchtime=? WHERE user_pid=?"
-      values = ['now()', user_pid];
+      sql = "UPDATE usertable SET fetchtime=now() WHERE user_pid=?"
+      values = [user_pid];
 
       this.db.query(sql, values)
       .then(res =>{
@@ -137,22 +148,11 @@ class Query{
       })
       .catch(err =>{
       console.log(err);
-      })
+    });
       updateUnit(user_pid, name, picture, explanation);
     }
   selectUser(){
-    sql = "SELECT user_pid FROM USER WHERE
-    //조건
-    ";
-    value = [starttime, starttime, endtime];
 
-    this.db.query(sql, values)
-      .then(res =>{
-      console.log(res);
-      })
-      .catch(err =>{
-      console.log(err);
-      })
   }
 
 
@@ -172,7 +172,7 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
     updateUnit(group_pid, name, picture, explanation);
     //호스트의 권한 생성
     createUserGroup(group_pid, user_pid, 'H', groupcolor);
@@ -190,9 +190,11 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
     deleteUnit(group_pid);
   }
+  // #### groupsize, grouphost, ispublic, name, picture, explanation 분할가능
+  // unit과 join 처리 가능한지 확인
    updateGroup(group_pid, groupsize, grouphost, ispublic, name, picture, explanation) {
      sql = "UPDATE grouptable SET groupsize=?, grouphost=?, ispublic =? WHERE group_pid=?"
      values = [groupsize, grouphost, ispublic, group_pid];
@@ -203,7 +205,7 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
 
     updateUnit(group_pid, name, picture, explanation);
   }
@@ -224,7 +226,7 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
   }
   deleteUnit(pid){
    sql = "DELETE FROM unit WHERE pid=?";
@@ -236,7 +238,7 @@ class Query{
    })
    .catch(err =>{
    console.log(err);
-   })
+ });
  }
 
 
@@ -253,9 +255,11 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
   }
    deleteUserGroup(group_pid, user_pid) {
+
+     //DELETE FROM useringroup WHERE (group_pid =1003 AND user_pid =1004);
     sql = "DELETE FROM useringroup WHERE (group_pid =? AND user_pid =?)";
     values = [group_pid, user_pid];
 
@@ -265,9 +269,13 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
   }
+
+  // #### grade, groupcolor 분할가능
    updateUserGroup(group_pid, user_pid, grade, groupcolor) {
+
+     //UPDATE useringroup SET grade ='M', groupcolor ='Black' WHERE (group_pid =1003 AND user_pid =1004);
     sql = "UPDATE useringroup SET grade =?, groupcolor =? WHERE (group_pid =? AND user_pid =?)"
     values = [grade, groupcolor, group_pid, user_pid];
 
@@ -277,17 +285,55 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
   }
-  selectUserGroup(){
+  selectGroupMember(group_pid){
+    //SELECT * FROM useringroup WHERE group_pid =1003;
+        sql = "SELECT * FROM useringroup WHERE group_pid =?"
+        values = [group_pid];
 
+        db.query(sql, values)
+        .then(res =>{
+        console.log(res);
+        })
+        .catch(err =>{
+        console.log(err);
+        });
+  }
+  selectGroupforUser(user_pid){
+    //SELECT * FROM useringroup WHERE user_pid =1002;
+        sql = "SELECT * FROM useringroup WHERE user_pid =?"
+        values = [user_pid];
+
+        db.query(sql, values)
+        .then(res =>{
+        console.log(res);
+        })
+        .catch(err =>{
+        console.log(err);
+        });
+  }
+  selectHostGroup(group_pid){
+    //SELECT * FROM useringroup WHERE (group_pid =1003 AND grade ='H');
+        sql = "SELECT * FROM useringroup WHERE (group_pid =? AND grade ='H')"
+        values = [group_pid];
+
+        db.query(sql, values)
+        .then(res =>{
+        console.log(res);
+        })
+        .catch(err =>{
+        console.log(err);
+        });
   }
 
 
 
-   createGrouppost(group_pid, write_user_pid, linked_schedule_id, writetime, modifytime, contents) {
-    sql = "INSERT INTO grouppost(group_pid, write_user_pid, linked_schedule_id, writetime, modifytime, contents) VALUES(?,?,?,?,?,?)";
-    values = [group_pid, write_user_pid, linked_schedule_id, writetime, modifytime, contents ];
+   createGrouppost(group_pid, write_user_pid, linkedschedule_id, contents) {
+
+     //INSERT INTO grouppost(group_pid, write_user_pid, linkedschedule_id, writetime, modifytime, contents) VALUES(1003, 1002, 12, now(), now(), 'content');
+    sql = "INSERT INTO grouppost(group_pid, write_user_pid, linkedschedule_id, writetime, modifytime, contents) VALUES(?,?,?,now(), now(),?)";
+    values = [group_pid, write_user_pid, linkedschedule_id, contents ];
 
     this.db.query(sql, values)
     .then(res =>{
@@ -295,7 +341,7 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
   }
    deleteGrouppost(group_pid, id) {
      sql = "DELETE FROM grouppost WHERE (group_pid =? AND id =?)";
@@ -307,11 +353,13 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
   }
-   updateGrouppost(group_pid, id, write_user_pid, linked_schedule_id, writetime, modifytime, contents) {
-     sql = "UPDATE grouppost SET write_user_pid =?, linked_schedule_id =? ,writetime=?, modifytime=?, contents=? WHERE (group_pid =? AND id =?)"
-     values = [write_user_pid, linked_schedule_id, writetime, modifytime, contents, group_pid, id];
+  // #### linkedschedule_id, contents 분할가능
+   updateGrouppost(group_pid, id, linkedschedule_id, contents) {
+     //UPDATE grouppost SET linkedschedule_id =12, modifytime=now(), contents='contnt' WHERE (group_pid =1003 AND id =2);
+     sql = "UPDATE grouppost SET linkedschedule_id =?, modifytime=now(), contents=? WHERE (group_pid =? AND id =?)"
+     values = [linkedschedule_id, contents, group_pid, id];
 
     this.db.query(sql, values)
     .then(res =>{
@@ -319,18 +367,30 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-})
+});
   }
-  selectGrouppost(){
+  selectGrouppost(group_pid){
 
+    //SELECT * FROM grouppost WHERE group_pid =1003;
+    sql = "SELECT * FROM grouppost WHERE group_pid =?"
+    values = [group_pid];
+
+    db.query(sql, values)
+    .then(res =>{
+    console.log(res);
+    })
+    .catch(err =>{
+    console.log(err);
+    });
   }
 
 
 
 
-   createPostcomment(group_pid, post_id, write_user_pid, writetime, modifytime, contents) {
-     sql = "INSERT INTO postcomment(group_pid, post_id, write_user_pid, writetime, modifytime, contents) VALUES(?,?,?,?,?,?)";
-     values = [group_pid, post_id, write_user_pid, writetime, modifytime, contents];
+   createPostcomment(group_pid, post_id, write_user_pid, contents) {
+     // INSERT INTO postcomment(group_pid, post_id, write_user_pid, writetime, modifytime, contents) VALUES(1003,2,1004,now(),now(),'댓글');
+     sql = "INSERT INTO postcomment(group_pid, post_id, write_user_pid, writetime, modifytime, contents) VALUES(?,?,?,now(),now(),?)";
+     values = [group_pid, post_id, write_user_pid, contents];
 
     this.db.query(sql, values)
     .then(res =>{
@@ -338,9 +398,11 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-})
+});
   }
    deletePostcomment(group_pid, post_id, id) {
+
+     //DELETE FROM postcomment WHERE (group_pid =1003 AND post_id=2 AND id =3);
      sql = "DELETE FROM postcomment WHERE (group_pid =? AND post_id=? AND id =?)";
      values = [group_pid, post_id, id];
 
@@ -350,11 +412,12 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
   }
-   updatePostcomment(group_pid, post_id, id, write_user_pid, writetime, modifytime, contents) {
-     sql = "UPDATE postcomment SET write_user_pid =?, writetime=?, modifytime=?, contents=? WHERE (group_pid =? AND post_id=? AND id =?)"
-     values = [write_user_pid, writetime, modifytime, contents, group_pid, post_id, id];
+
+   updatePostcomment(group_pid, post_id, id, contents) {
+     sql = "UPDATE postcomment SET modifytime=now(), contents=? WHERE (group_pid =? AND post_id=? AND id =?)"
+     values = [contents, group_pid, post_id, id];
 
     db.query(sql, values)
     .then(res =>{
@@ -362,9 +425,21 @@ class Query{
     })
     .catch(err =>{
     console.log(err);
-    })
+  });
   }
-  selectPostcomment(){
+  selectPostcomment(group_pid, post_id){
+
+    ////SELECT * FROM postcomment WHERE (group_pid =1003 AND post_id=2);
+    sql = "SELECT * FROM postcomment WHERE (group_pid =? AND post_id=?)"
+    values = [group_pid, post_id];
+
+    db.query(sql, values)
+    .then(res =>{
+    console.log(res);
+    })
+    .catch(err =>{
+    console.log(err);
+    });
 
   }
 
@@ -381,7 +456,7 @@ class Query{
    })
    .catch(err =>{
    console.log(err);
-   })
+  });
  }
 }
 
