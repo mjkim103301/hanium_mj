@@ -14,18 +14,6 @@ class Query{
   constructor(DBConfig){
     this.db = new DB(DBConfig);
   }
-  //유닛 로그
-    UnitLog(action, unit_pid, affected_unit_pid, target_id){
-      sql = 'INSERT INTO UnitLog(log_time, action_id, unit_pid, affected_unit_pid, target_id)';
-      sql = sql + 'VALUES(now(), $1, $2, $3, $4)';
-      values = [action, unit_pid, affected_unit_pid, target_id];
-
-      this.db.query(sql, values).then(res=>{
-        console.log('log : ', res);
-      }).catch(err=>{
-        console.log('log error : ', err);
-      });
-    }
 
   //유닛 로그
   UnitLog(action, unit_pid, affected_unit_pid, target_id){
@@ -33,11 +21,7 @@ class Query{
     sql = sql + 'VALUES(now(), $1, $2, $3, $4)';
     values = [action, unit_pid, affected_unit_pid, target_id];
 
-    this.db.query(sql, values).then(res=>{
-      console.log('log : ', res);
-    }).catch(err=>{
-      console.log('log error : ', err);
-    });
+    return this.db.query(sql, values);
   }
 
   createSchedule(title, category, starttime, endtime, memo, repeattype){
@@ -114,6 +98,19 @@ class Query{
     return result.rows[0].isvalid;
   }
 
+  //그룹과의 관계 반환
+  async authUserinGroup(group_pid, user_pid){
+    sql = `SELECT grade FROM useringroup WHERE (group_pid = $1 and user_pid = $2)`;
+    value = [group_pid, user_pid];
+    let result = await this.db.query(sql, value);
+    let ans = {
+      grade : 'N'
+    };
+    if(result.rows != null)
+      ans.grade = result.rows[0].grade;
+    return ans;
+  }
+
   selectScheduleByKeyword(unit_pid, keyword){
     // SELECT * FROM schedule where (unit_pid= 1002 and (memo ~'^.*시험.*$' or title ~ '^.*시험.*$'));
     let reg = '^.*'+keyword+'.*$';
@@ -129,18 +126,7 @@ class Query{
       console.log(err);
     });
   }
-  //그룹과의 관계 반환
-  async authUserinGroup(group_pid, user_pid){
-    sql = `SELECT grade FROM useringroup WHERE (group_pid = $1 and user_pid = $2)`;
-    value = [group_pid, user_pid];
-    let result = await this.db.query(sql, value);
-    let ans = {
-      grade : 'N'
-    };
-    if(result.rows != null)
-      ans.grade = result.rows[0].grade;
-    return ans;
-  }
+
 
   //유저 만들기 (로깅) - user_pid 반환
   async createUser(){
@@ -149,7 +135,7 @@ class Query{
       sql = "INSERT INTO usertable VALUES(default) RETURNING user_pid";
       let result = await this.db.query(sql);
       let pid = result.rows[0].user_pid;
-      this.UnitLog('CUS', pid, pid, null);
+      await this.UnitLog('CUS', pid, pid, null);
       await this.db.query('COMMIT');
       return result.rows[0].user_pid;
     } catch(e){
@@ -216,7 +202,7 @@ class Query{
     try{
       await this.db.query('BEGIN');
       let result = await this.updateUnitProfile(user_pid, name, picture, explanation);
-      this.UnitLog('UUS', user_pid, user_pid, null);
+      await this.UnitLog('UUS', user_pid, user_pid, null);
       await this.db.query('COMMIT');
       return result;
     } catch(e){
@@ -230,7 +216,7 @@ class Query{
     try{
       await this.db.query('BEGIN');
       let result = await this.updateUnitProfile(group_pid, name, picture, explanation);
-      this.UnitLog('UGR', user_pid, group_pid, null);
+      await this.UnitLog('UGR', user_pid, group_pid, null);
       await this.db.query('COMMIT');
       return result;
     } catch(e){

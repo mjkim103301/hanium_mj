@@ -12,7 +12,9 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,12 +53,21 @@ public class GroupPostlistFragment extends Fragment {
                 if(itemType == RecyclerAdapter.GROUPPOST){
                     TextView tv_content = ((GroupPost)holder.getItem()).getBinding().ContentGroupPostContent;
                     tv_content.setMaxLines(8);
-                    tv_content.setEllipsize(TextUtils.TruncateAt.END);
-                    tv_content.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                    tv_content.addTextChangedListener(new TextWatcher() {
                         @Override
-                        public boolean onPreDraw() {
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
                             TextView tv = ((GroupPost)holder.getItem()).getBinding().ContentGroupPostContent;
-                            if(tv.getLayout() == null) return false;
+                            if(tv.getLayout() == null) return;
                             int ellipseCount = tv.getLayout().getEllipsisCount(tv.getLineCount() - 1);
                             if(ellipseCount > 0){
                                 ((GroupPost)holder.getItem()).getBinding().ContentMore.setVisibility(View.VISIBLE);
@@ -64,10 +75,26 @@ public class GroupPostlistFragment extends Fragment {
                             else{
                                 ((GroupPost)holder.getItem()).getBinding().ContentMore.setVisibility(View.GONE);
                             }
-                            //tv_content.getViewTreeObserver().removeOnPreDrawListener(this);
-                            return true;
                         }
                     });
+                    tv_content.setEllipsize(TextUtils.TruncateAt.END);
+
+//                    tv_content.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+//                        @Override
+//                        public boolean onPreDraw() {
+//                            TextView tv = ((GroupPost)holder.getItem()).getBinding().ContentGroupPostContent;
+//                            if(tv.getLayout() == null) return false;
+//                            int ellipseCount = tv.getLayout().getEllipsisCount(tv.getLineCount() - 1);
+//                            if(ellipseCount > 0){
+//                                ((GroupPost)holder.getItem()).getBinding().ContentMore.setVisibility(View.VISIBLE);
+//                            }
+//                            else{
+//                                ((GroupPost)holder.getItem()).getBinding().ContentMore.setVisibility(View.GONE);
+//                            }
+//                            //tv_content.getViewTreeObserver().removeOnPreDrawListener(this);
+//                            return true;
+//                        }
+//                    });
                 }
             }
         });

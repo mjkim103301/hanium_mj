@@ -15,23 +15,23 @@
         app:layout_constraintTop_toBottomOf="@id/main_framelayout"
         app:menu="@menu/bottom_nav_menu"/>
 
-    <FrameLayout
-        android:id="@+id/main_framelayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-<!--    <fragment-->
-<!--        android:id="@+id/nav_main_fragment"-->
-<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--    <FrameLayout-->
+<!--        android:id="@+id/main_framelayout"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
 <!--        app:layout_constraintBottom_toTopOf="@id/bottom_nav"-->
-<!--        app:defaultNavHost="true"-->
-<!--        app:navGraph="@navigation/main_nav_graph"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
 <!--        />-->
+
+    <fragment
+        android:id="@+id/main_framelayout"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/main_nav_graph"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
