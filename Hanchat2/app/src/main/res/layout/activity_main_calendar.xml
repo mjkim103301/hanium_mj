@@ -4,35 +4,47 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/calendarbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="5dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:id="@+id/tv_calendarBar"
             android:hint="2019년 00월"
             android:textColor="@color/colorBlack"
             android:textSize="30sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_today"
             />
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
             android:layout_weight="8.5"
             android:id="@+id/btn_today"
             android:text="Today"
+            app:layout_constraintDimensionRatio="2:1"
             android:background="@drawable/button_background"
             android:textColor="@color/colorGreen"
             android:textStyle="bold"
-            android:layout_margin="5dp"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@id/tv_calendarBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
 
-    </LinearLayout>
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <LinearLayout
         android:id="@+id/weekday_layout"
         android:layout_width="match_parent"
