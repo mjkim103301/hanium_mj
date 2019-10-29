@@ -41,7 +41,6 @@ class Functions{
 
   Dialogflow(req, res, resultcallback, errorcallback){
     const body = req.body;
-    console.log(body);
 
     const text = body.text;
     if(text == "" || text == undefined){
@@ -51,16 +50,14 @@ class Functions{
 
     Connecter.sendtoDialogflow(text, 'test').then((r)=>{
       let answer = r.queryResult;
-      console.log('answer : ', answer);
-      console.log('parameters : ', answer.parameters.fields);
       let result = {
         result : true,
         intent : answer.intent.displayName,
         answer : answer.fulfillmentText,
         params : answer.parameters.fields
       };
+      console.log('result : ', result);
       resultcallback(req, res, result);
-      console.log(JSON.stringify(result));
     })
     .catch((err)=>{
       console.log(err);

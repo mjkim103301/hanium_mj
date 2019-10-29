@@ -6,27 +6,33 @@ function returnFailure(res, reason){
   res.send(JSON.stringify({ result : false, reason : reason }));
 }
 
-function getLoginToken(req, response, user_pid){
-  let new_logintoken = Functions.getRandomString(14);
-  Functions.getQuery().updateUserLoginToken(user_pid, new_logintoken).then(res=>{
-    let result = {
-      result : true,
-      pid : user_pid,
-      logintoken : new_logintoken
-    };
-    returnResults(response, result);
-    console.log(result);
-  }).catch(err=>{
-    console.log(err);
-    returnFailure(response, 'cannot get logintoken');
-  });
+class Function_Account{
+  constructor(Functions){
+    this.Functions = Functions;
+  }
+
+  getLoginToken(req, response, user_pid){
+    let new_logintoken = this.Functions.getRandomString(14);
+    this.Functions.getQuery().updateUserLoginToken(user_pid, new_logintoken).then(res=>{
+      let result = {
+        result : true,
+        pid : user_pid,
+        logintoken : new_logintoken
+      };
+      returnResults(response, result);
+      console.log(result);
+    }).catch(err=>{
+      console.log(err);
+      returnFailure(response, 'cannot get logintoken');
+    });
+  }
+
 }
-
-
 
 module.exports = function(Functions){
   const express = require('express');
   const account = express.Router();
+  const Account_Function = new Function_Account(Functions);
 
   account.use((req, res, next)=>{
     process.stdout.write('account/');
@@ -46,7 +52,7 @@ module.exports = function(Functions){
       let password = body.password;
       Functions.getQuery().authUserForSignin(id, password).then(res =>{
         if(res.isvaild){
-          getLoginToken(req, response, res.user_pid);
+          Account_Function.getLoginToken(req, response, res.user_pid);
         }
         else{
           returnFailure(response, 'id not found');
@@ -60,7 +66,7 @@ module.exports = function(Functions){
       let pid = body.pid;
       Functions.getQuery().authUserForPid(pid).then(res =>{
         if(res){
-          getLoginToken(req, response, pid);
+          Account_Function.getLoginToken(req, response, pid);
         }
         else{
           returnFailure(response, 'pid not found');
@@ -83,7 +89,7 @@ module.exports = function(Functions){
         result : true,
         pid : res
       };
-      console.log(result);
+      console.log('result : ', result);
       returnResults(response, result);
     }).catch(err =>{
       returnFailure(response, 'user create failed');

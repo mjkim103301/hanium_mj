@@ -5,32 +5,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:showIn="@layout/app_bar_main"
     tools:context=".MainActivity">
-    <LinearLayout
-        android:id="@+id/top"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/colorAccent"
-        android:orientation="vertical"/>
-
-    <LinearLayout
-        android:id="@+id/v_notice"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_below="@+id/top"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical">
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/bt_slide"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/v_notice"
-        android:onClick="onSlideViewButtonClick"
-        android:text="Button" />
 
     <LinearLayout
         android:id="@+id/linearLayout"

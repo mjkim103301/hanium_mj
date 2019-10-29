@@ -48,8 +48,6 @@ public class ChatbotFragment extends Fragment {
     Button bt_image;
     LinearLayout linearLayout;
 
-    View v_notice;
-    Button bt_slide;
     boolean isDown;
 
     String TAG="@@@@ ";
@@ -61,24 +59,13 @@ public class ChatbotFragment extends Fragment {
 
         view =inflater.inflate(R.layout.fragment_chatbot, container, false);
 
-        // 화면 전환
-//        intent = new Intent(getContext(), CalendarActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-        //버튼 연결
-//        bt_go_cal =  (Button) view.findViewById(R.id.bt_go_cal);
         et_chat = view.findViewById(R.id.et_chat);
         bt_chat = view.findViewById(R.id.bt_chat);
         bt_image = view.findViewById(R.id.bt_image);
-        bt_slide = view.findViewById(R.id.bt_slide);
 
         linearLayout = view.findViewById(R.id.linearLayout);
 
         //공지
-        v_notice = view.findViewById(R.id.v_notice);
-
-        v_notice.setVisibility(View.GONE);
-        bt_slide.setText("Down");
         isDown = false;
 
         /*NavSetting();
@@ -176,19 +163,6 @@ public class ChatbotFragment extends Fragment {
     }
 
 
-    //공지사항 슬라이드 애니메이션
-    public void slideUp(View view){
-        v_notice.setVisibility(View.GONE);
-        TranslateAnimation animate = new TranslateAnimation(
-                0,            // xStart
-                0,              // xEnd
-                0 ,         // yStart
-                -view.getHeight());             // yEnd
-        animate.setDuration(500);
-        animate.setFillAfter(true);
-        view.startAnimation(animate);
-    }
-
     public void slideDown(View view){
         view.setVisibility(View.VISIBLE);
         TranslateAnimation animate = new TranslateAnimation(
@@ -199,17 +173,6 @@ public class ChatbotFragment extends Fragment {
         animate.setDuration(500);
         animate.setFillAfter(true);
         view.startAnimation(animate);
-    }
-
-    public void onSlideViewButtonClick(View view) {
-        if (isDown) {
-            slideUp(v_notice);
-            bt_slide.setText("Down");
-        } else {
-            slideDown(v_notice);
-            bt_slide.setText("Up");
-        }
-        isDown = !isDown;
     }
 }
 
