@@ -87,8 +87,8 @@ public class CalendarFragment extends Fragment {
 
         viewPager.setAdapter(pagerAdapter);
         btn_today=(Button)view.findViewById(R.id.btn_today);
-//        dayItem=(ConstraintLayout)view.findViewById(R.id.dayItem);
-//
+        dayItem=(ConstraintLayout)view.findViewById(R.id.dayItem);
+
 //        dayItem.setOnClickListener(new View.OnClickListener(){
 //            @Override
 //            public void onClick(View view2) {
