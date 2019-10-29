@@ -127,7 +127,7 @@ public abstract class RecyclerManager extends RecyclerView.Adapter {
                         final int currentPosition = manager.findLastCompletelyVisibleItemPosition();
                         if (currentPosition > getItemCount() - 2){
                             isworking = true;
-                            RecyclerManager.this.addItemwithNotify(new EmptyData());
+                            //RecyclerManager.this.addItemwithNotify(new EmptyData());
                             isworking = !lastPositionScrolled();
                             if(isworking)
                                 recyclerView.removeOnScrollListener(this);
