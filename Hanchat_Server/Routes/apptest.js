@@ -52,7 +52,7 @@ module.exports = function(Functions){
           //res.send(r[0].description);
           let result = {
             result : true,
-            text : r[0].description
+            description : r[0].description
           };
           console.log('result : ', result);
           res.send(result);
