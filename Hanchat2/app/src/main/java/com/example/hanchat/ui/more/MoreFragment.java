@@ -41,7 +41,7 @@ public class MoreFragment extends Fragment {
         et_username = view.findViewById(R.id.et_username);
         signInButton = view.findViewById(R.id.sign_in_button);
 
-        GetData();
+        //GetData();
         ButtonSetting();
         return view;
     }

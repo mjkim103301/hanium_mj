@@ -8,7 +8,7 @@ class Query{
     this.db = new DB(DBConfig);
   }
 
-//유닛 로그
+  //유닛 로그
   UnitLog(action, unit_pid, affected_unit_pid, target_id){
     sql = 'INSERT INTO UnitLog(log_time, action_id, unit_pid, affected_unit_pid, target_id)';
     sql = sql + 'VALUES(now(), $1, $2, $3, $4)';
@@ -103,6 +103,7 @@ class Query{
 
     return result.rows[0].isvalid;
   }
+
   //pid로 유저가 있는지 검사
   async authUserForPid(user_pid){
     sql = `SELECT user_pid = ${user_pid} as isvalid FROM usertable WHERE user_pid = ${user_pid}`;
@@ -122,15 +123,33 @@ class Query{
     };
     return answer;
   }
+  //그룹과의 관계 반환
+  async authUserinGroup(group_pid, user_pid){
+    sql = `SELECT grade FROM useringroup WHERE (group_pid = $1 and user_pid = $2)`;
+    value = [group_pid, user_pid];
+    let result = await this.db.query(sql, value);
+    let ans = {
+      grade : 'N'
+    };
+    if(result.rows != null)
+      ans.grade = result.rows[0].grade;
+    return ans;
+  }
 
-  //유저 만들기 - user_pid 반환
+  //유저 만들기 (로깅) - user_pid 반환
   async createUser(){
-    sql = "INSERT INTO usertable VALUES(default) RETURNING user_pid";
-    let result = await this.db.query(sql);
-    let pid = result.rows[0].user_pid;
-    this.UnitLog('CUS', pid, pid, null);
-
-    return result.rows[0].user_pid;
+    try{
+      await this.db.query('BEGIN');
+      sql = "INSERT INTO usertable VALUES(default) RETURNING user_pid";
+      let result = await this.db.query(sql);
+      let pid = result.rows[0].user_pid;
+      this.UnitLog('CUS', pid, pid, null);
+      await this.db.query('COMMIT');
+      return result.rows[0].user_pid;
+    } catch(e){
+      await this.db.query('ROLLBACK');
+      throw e;
+    }
   }
   //로그인 토큰 갱신
   async updateUserLoginToken(user_pid, new_logintoken){
@@ -143,7 +162,7 @@ class Query{
     sql = `SELECT * FROM userlogin WHERE id = ${id}`;
     let result = await this.db.query(sql);
     if(result.rows == null){
-      return { result : false };
+      return { result : false, reason : 'id not found' };
     }
     let r = result.rows[0];
     let ans = {
@@ -157,8 +176,26 @@ class Query{
     return ans;
   }
 
+  //그룹 만들기 (로깅) -  group_pid 반환
+  async createGroup(host_pid, ispublic){
+    try{
+      await this.db.query('BEGIN');
+      sql = `INSERT INTO grouptable(group_pid, groupsize, grouphost, ispublic)`;
+      sql += `VALUES(default, default, $1, $2) RETURNING group_pid`;
+      value = [host_pid, ispublic];
+      let result = await this.db.query(sql, value);
+      await this.db.query('COMMIT');
+      return result.rows[0].group_pid;
 
-  updateUnit(pid, name, picture, explanation){
+    } catch(e){
+      await this.db.query('ROLLBACK');
+      throw e;
+    }
+  }
+
+
+  //유닛 업데이트
+  updateUnitProfile(pid, name, picture, explanation){
     sql = "UPDATE unit SET ";
     if(name != null) sql += `name = ${name} `;
     if(picture != null) sql += `picture = ${picture} `;
@@ -168,15 +205,43 @@ class Query{
     return this.db.query(sql, values);
   }
 
-  async updateUser(user_pid, name, picture, explanation){
-    let result = await this.updateUnit(user_pid, name, picture, explanation);
-    this.UnitLog('UUS', user_pid, user_pid, null);
-    return result;
+  //유저 프로필 업데이트 (로깅)
+  async updateUserProfile(user_pid, name, picture, explanation){
+    try{
+      await this.db.query('BEGIN');
+      let result = await this.updateUnitProfile(user_pid, name, picture, explanation);
+      this.UnitLog('UUS', user_pid, user_pid, null);
+      await this.db.query('COMMIT');
+      return result;
+    } catch(e){
+      await this.db.query('ROLLBACK');
+      throw e;
+    }
+
   }
-  async updateGroup(user_pid, group_pid, name, picture, explanation){
-    let result = await this.updateUnit(group_pid, name, picture, explanation);
-    this.UnitLog('UGR', user_pid, group_pid, null);
-    return result;
+  //그룹 프로필 업데이트 (로깅)
+  async updateGroupProfile(user_pid, group_pid, name, picture, explanation){
+    try{
+      await this.db.query('BEGIN');
+      let result = await this.updateUnitProfile(group_pid, name, picture, explanation);
+      this.UnitLog('UGR', user_pid, group_pid, null);
+      await this.db.query('COMMIT');
+      return result;
+    } catch(e){
+      await this.db.query('ROLLBACK');
+      throw e;
+    }
+  }
+  //그룹 호스트 변경
+  async updateGrouphost(group_pid, old_host_pid, new_host_pid){
+    //sql = `UPDATE grouptable SET grouphost`;
+  }
+  //그룹 공개범위 변경
+  async updateGroupPublic(group_pid, ispublic){
+    sql = `UPDATE grouptable SET ispublic = $1 WHERE group_pid = $2`;
+    values = [ispublic, group_pid];
+
+    return this.db.query(sql, values);
   }
 //끝
 
@@ -192,35 +257,6 @@ class Query{
     console.log(err);
   });
   deleteUnit(user_pid);
-  }
-  updateUser(user_pid, name, picture, explanation){
-  fetchtime = createFetchTime();
-  sql = "UPDATE usertable SET fetchtime=? WHERE user_pid=?"
-  values = [fetchtime, user_pid];
-
-  this.db.query(sql, values)
-  .then(res =>{
-  console.log(res);
-  })
-  .catch(err =>{
-  console.log(err);
-  })
-  updateUnit(user_pid, name, picture, explanation);
-  }
-
-
-  createGroup(groupsize, grouphost, ispublic, name, picture, explanation){
-   sql = "INSERT INTO grouptable(groupsize, grouphost, ispublic) VALUES(?,?,?)";
-   values = [groupsize, grouphost, ispublic];
-
-  this.db.query(sql, values)
-  .then(res =>{
-  console.log(res);
-  })
-  .catch(err =>{
-  console.log(err);
-  })
-  createUnit(name, picture, explanation, 'SELECT group_pid');
   }
   deleteGroup(group_pid){
    sql = "DELETE FROM grouptable WHERE group_pid=?";

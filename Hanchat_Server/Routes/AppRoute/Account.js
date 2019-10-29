@@ -11,6 +11,7 @@ function getLoginToken(req, response, user_pid){
   Functions.getQuery().updateUserLoginToken(user_pid, new_logintoken).then(res=>{
     let result = {
       result : true,
+      pid : user_pid,
       logintoken : new_logintoken
     };
     returnResults(response, result);
@@ -33,7 +34,7 @@ module.exports = function(Functions){
   });
 
 
-  //로그인
+  //로그인 - pid, logintoken 반환
   account.post('/login', (req, response) =>{
     //로그인 확인 후 로그인 토큰 반환
     const body = req.body;
@@ -73,7 +74,7 @@ module.exports = function(Functions){
 
   });
 
-    //새로운 유저를 만들고 pid 반환
+  //새로운 유저를 만들고 pid 반환
   account.post('/createuser', (req, response) =>{
     console.log('createuser : ');
     const body = req.body;
@@ -90,7 +91,7 @@ module.exports = function(Functions){
     });
   });
 
-  //salts 얻기
+  //salts 얻기 - salts 반환
   account.post('/getsalts', (req, response) =>{
     const id = req.body.id;
     Functions.getQuery().getSalts(id).then(res => {
