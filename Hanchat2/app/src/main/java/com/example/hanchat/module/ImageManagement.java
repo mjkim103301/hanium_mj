@@ -26,9 +26,11 @@ import com.example.hanchat.module.adapter.RecyclerAdapter;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import org.json.JSONObject;
+
 /*완료*/
 //깃허브 테스트
-public class ImageManagement_mj{//} extends AppCompatActivity {
+public class ImageManagement {//} extends AppCompatActivity {
 
     Bitmap image; //사용되는 이미지
     public Uri uri;
@@ -41,7 +43,7 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
     HTTPConnecter connecter;
     RecyclerAdapter chatAdapter;
 
-    public ImageManagement_mj(Fragment fragment, RecyclerAdapter chatAdapter){
+    public ImageManagement(Fragment fragment, RecyclerAdapter chatAdapter){
         this.fragment = fragment;
         this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, fragment.getContext());
         this.chatAdapter = chatAdapter;
@@ -136,65 +138,36 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
         return path;
 
     }
-    String encodedImage;
-    public void base64(Bitmap scaled, Bitmap.CompressFormat compressFormat, int quality)
-    {
-        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
-        image.compress(compressFormat, quality, byteArrayOS);
-        encodedImage=Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
-
-    }
-
-    //이미지 서버처리
-    String des="";
-    //     //Send버튼 클릭시 이미지를 서버로 보냄.
-    public void SendImage(String path){
-        //connecter=new HTTPConnecter("18.219.204.210", 55252);
-        des=encodedImage;
-        try{
-            Map<String, Object> data=new HashMap<>();
-
-            data.put("image", des);
-
-
-            connecter.sendImage("/apptest/image", null, path, new HTTPConnecter.Callback() {
-                @Override
-                public Object DataReceived(String ReceiveString) {
-                    return ReceiveString;
-                }
-
-                @Override
-                public void HandlerMethod(Object obj) {
-                    //Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
-                    chatAdapter.addItemwithNotify(new OtherChatting((String) obj));
-                }
-            });
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
     public void SendImage(Bitmap bitmap){
-
-
         try{
-            Map<String, String> data=new HashMap<>();
-
-            //data.put("image", des);
-
-
             connecter.sendImage("/apptest/image", null, bitmap, new HTTPConnecter.Callback() {
                 @Override
                 public Object DataReceived(String ReceiveString) {
-                    return ReceiveString;
+                    try{
+                        JSONObject json = new JSONObject(ReceiveString);
+                        return json;
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    return null;
                 }
 
                 @Override
                 public void HandlerMethod(Object obj) {
-                    //Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
-                    chatAdapter.addItemwithNotify(new OtherChatting ((String) obj));
-                    chatAdapter.notifyDataSetChanged();
+                    try {
+                        JSONObject json = (JSONObject) obj;
+                        if(json.getBoolean("result")){
+                            chatAdapter.addItemwithNotify(new OtherChatting (json.getString("description")));
+                        }
+
+
+                    }
+                    catch (Exception e){
+
+                    }
+                    //  chatAdapter.notifyDataSetChanged();
                 }
             });
         }

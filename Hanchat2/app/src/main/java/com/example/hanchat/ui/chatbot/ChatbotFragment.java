@@ -22,12 +22,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.example.hanchat.R;
-import com.example.hanchat.data.EmptyData;
 import com.example.hanchat.data.chatting.Chatting;
 import com.example.hanchat.data.chatting.OtherChatting;
 import com.example.hanchat.data.chatting.UserChatting;
 import com.example.hanchat.module.ChatBotConnecter;
-import com.example.hanchat.module.ImageManagement_mj;
+import com.example.hanchat.module.ImageManagement;
 import com.example.hanchat.module.adapter.RecyclerAdapter;
 import com.example.hanchat.module.adapter.RecyclerManager;
 
@@ -39,7 +38,7 @@ public class ChatbotFragment extends Fragment {
         return new ChatbotFragment();
     }
 
-    ImageManagement_mj imageManagement;
+    ImageManagement imageManagement;
     RecyclerAdapter<Chatting> adapter;
     Intent intent;
 
@@ -134,7 +133,7 @@ public class ChatbotFragment extends Fragment {
 
         // 채팅 전송
         bt_chat.setOnClickListener(new ChatBotConnecter(this, et_chat, adapter));
-        imageManagement=new ImageManagement_mj(this, adapter);
+        imageManagement=new ImageManagement(this, adapter);
 
         //엔터 키입력
         et_chat.setOnKeyListener(new View.OnKeyListener() {

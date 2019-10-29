@@ -15,18 +15,7 @@ import com.example.hanchat.ui.group.grouppost.GroupPostFragmentArgs;
 public class GroupMainViewModel extends ViewModel {
     // TODO: Implement the ViewModel
 
-    NavDestination dest = null;
-    GroupPost post = null;
     Bundle bundle = null;
-
-    public void save(View view){
-         NavController nc = Navigation.findNavController(view);
-         dest = nc.getCurrentDestination();
-    }
-
-    public void save(GroupPost post){
-        this.post = post;
-    }
 
     public void save(Bundle bundle){
         this.bundle = bundle;
@@ -34,14 +23,6 @@ public class GroupMainViewModel extends ViewModel {
 
     public void clear(){
         bundle = null;
-    }
-
-    public GroupPost Restore(View view){
-        if(post != null){
-            return post;
-        }
-        return null;
-            //Navigation.findNavController(view).navigate(dest.getId());
     }
 
     public Bundle Restore(){

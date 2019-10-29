@@ -2,7 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/calendar_nav_graph">
+    android:id="@+id/calendar_nav_graph"
+    app:startDestination="@id/subnav_calendarFragment">
 
     <fragment
         android:id="@+id/subnav_calendarFragment"

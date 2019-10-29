@@ -1,4 +1,4 @@
-package com.example.hanchat.module;
+package com.example.hanchat.module.deprecated;
 
 import android.content.Context;
 import android.view.Gravity;

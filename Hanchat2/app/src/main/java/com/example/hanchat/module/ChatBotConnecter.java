@@ -11,6 +11,8 @@ import com.example.hanchat.data.chatting.OtherChatting;
 import com.example.hanchat.data.chatting.UserChatting;
 import com.example.hanchat.module.adapter.RecyclerAdapter;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,9 +62,14 @@ public class ChatBotConnecter implements View.OnClickListener {
                 //여기는 데이터를 받아서 가공하는 곳
                 @Override
                 public Object DataReceived(String ReceiveString) {
+                    try{
+                        JSONObject json = new JSONObject(ReceiveString);
+                        return json;
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
 
-                    //str = ReceiveString;      // 이런 식으로 저장해서 밑으로 넘길수도 있고
-                    return ReceiveString;       // 이런 식으로 return으로 넘길 수도 있음
+                    return null;
 
                     //일단 여기서는 텍스트를 받기만 하므로 그대로 리턴
                 }
@@ -72,9 +79,17 @@ public class ChatBotConnecter implements View.OnClickListener {
                 @Override
                 public void HandlerMethod(Object obj) {
                     //위의 함수에서 받은 내용을 토스트메시지로 출력
-                    String answer = (String) obj;
-                    Toast.makeText(fragment.getContext(), answer, Toast.LENGTH_LONG).show();
-                    chatAdapter.addItemwithNotify(new OtherChatting(answer));
+                    try{
+                        JSONObject json = (JSONObject) obj;
+                        if(json.getBoolean("result")){
+                            chatAdapter.addItemwithNotify(new OtherChatting(json.getString("answer")));
+
+                        }
+                    }
+                    catch (Exception e){
+
+                    }
+
                     //chatAdapter.add(0, answer);
                     //chatAdapter.notifyDataSetChanged(); // 데이터 변화 시 갱신해 줌
                     //view.append((String) obj);
