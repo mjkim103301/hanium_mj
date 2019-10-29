@@ -87,15 +87,15 @@ public class CalendarFragment extends Fragment {
 
         viewPager.setAdapter(pagerAdapter);
         btn_today=(Button)view.findViewById(R.id.btn_today);
-        dayItem=(ConstraintLayout)view.findViewById(R.id.dayItem);
-
-        dayItem.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view2) {
-
-                Navigation.findNavController(view).navigate(R.id.action_subnav_calendarFragment_To_subnav_scheduleFragment);
-            }
-        });
+//        dayItem=(ConstraintLayout)view.findViewById(R.id.dayItem);
+//
+//        dayItem.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view2) {
+//
+//                Navigation.findNavController(view).navigate(R.id.action_subnav_calendarFragment_To_subnav_scheduleFragment);
+//            }
+//        });
 
 
         for(int i=-25; i<25; i++){

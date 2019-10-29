@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.example.hanchat.R;
+import com.example.hanchat.data.EmptyData;
 import com.example.hanchat.data.chatting.Chatting;
 import com.example.hanchat.data.chatting.OtherChatting;
 import com.example.hanchat.data.chatting.UserChatting;
@@ -82,12 +83,12 @@ public class ChatbotFragment extends Fragment {
 
         /*NavSetting();
         IntentProfileSetting(context);*/
-//        chatAdapterSetting();
-//        ButtonSetting();
-//
-//        //서버 연결 테스트
-//        et_chat.setText("안녕");
-//        bt_chat.callOnClick();
+        chatAdapterSetting();
+        ButtonSetting();
+
+        //서버 연결 테스트
+        et_chat.setText("안녕");
+        //bt_chat.callOnClick();
         return view;
     }
 
@@ -135,7 +136,7 @@ public class ChatbotFragment extends Fragment {
         adapter.addItem(new OtherChatting("안녕하세요 HANCHAT 임시UI입니다!"));
         adapter.addItem(new UserChatting("내일 7시에 은행동에서 친구랑 만나!"));
         adapter.addItem(new OtherChatting("이제 시작해볼까요?"));
-//        adapter.addItem(new EmptyData());
+        //adapter.addItem(new EmptyData());
         adapter.notifyDataSetChanged();
     }
 
