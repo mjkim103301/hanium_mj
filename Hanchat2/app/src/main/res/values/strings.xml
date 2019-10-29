@@ -32,7 +32,7 @@
     <string name="menu_send">설정</string>
 
     <!--bottom nav strings-->
-    <string name="title_chat">chat</string>
+    <string name="title_chat">hanchat</string>
     <string name="title_group_main">group</string>
     <string name="title_calendar">calendar</string>
     <string name="title_more">more</string>

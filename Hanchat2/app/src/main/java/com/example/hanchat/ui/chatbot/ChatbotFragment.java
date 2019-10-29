@@ -147,6 +147,14 @@ public class ChatbotFragment extends Fragment {
                 return false;
             }
         });
+
+
+        bt_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadImagefromGallery(view);
+            }
+        });
     }
 
     // + 버튼 눌렀을때 실행됨(나 다른방법 써서 버튼 세팅 안할듯)

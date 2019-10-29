@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    tools:context=".ui.chatbot.ChatbotFragment">
+    android:layout_height="fill_parent">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -38,8 +37,7 @@
             android:layout_height="wrap_content"
             android:background="#ffffff"
             android:text="사진"
-            android:layout_weight="1"
-            android:onClick="loadImagefromGallery" />
+            android:layout_weight="1" />
 
         <EditText
             android:id="@+id/et_chat"
