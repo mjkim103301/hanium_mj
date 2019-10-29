@@ -13,14 +13,14 @@ import com.example.hanchat.module.GridAdapter;
 
 import java.util.GregorianCalendar;
 
-public class MonthFragment extends Fragment {
+public class CalendarFragment extends Fragment {
     public Month month=new Month();
     GridView gridView;//그리드 뷰
     public GridAdapter gridAdapter;//그리드 어댑터
 
 
     int real_month;
-    public MonthFragment(int i){
+    public CalendarFragment(int i){
         this.real_month=i;
     }
     @Override
