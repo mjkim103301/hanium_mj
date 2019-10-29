@@ -123,4 +123,3 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "fetch : " + AccountManager.getInstance(this).getLoginToken(), Toast.LENGTH_SHORT).show();
     }
 }
-

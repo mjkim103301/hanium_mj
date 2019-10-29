@@ -17,6 +17,7 @@
             android:layout_weight="3"
             android:id="@+id/tv_calendarBar"
             android:hint="2019년 00월"
+            android:layout_margin="5dp"
             android:textColor="@color/colorBlack"
             android:textSize="30sp"
             />
@@ -26,10 +27,13 @@
             android:layout_weight="8.5"
             android:id="@+id/btn_today"
             android:text="Today"
-            android:background="@color/ColorBasicWhite"
+            android:background="@drawable/button_background"
             android:textColor="@color/colorGreen"
             android:textStyle="bold"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            />
 
     </LinearLayout>
     <LinearLayout

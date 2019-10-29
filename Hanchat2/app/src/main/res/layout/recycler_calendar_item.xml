@@ -12,14 +12,16 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
          >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/dayItem"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:clickable="true"
+
                 android:paddingLeft="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

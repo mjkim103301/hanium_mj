@@ -82,11 +82,11 @@ public class ChatbotFragment extends Fragment {
 
         /*NavSetting();
         IntentProfileSetting(context);*/
-        chatAdapterSetting();
-        ButtonSetting();
-
-        //서버 연결 테스트
-        et_chat.setText("안녕");
+//        chatAdapterSetting();
+//        ButtonSetting();
+//
+//        //서버 연결 테스트
+//        et_chat.setText("안녕");
 //        bt_chat.callOnClick();
         return view;
     }
@@ -211,4 +211,3 @@ public class ChatbotFragment extends Fragment {
         isDown = !isDown;
     }
 }
-
