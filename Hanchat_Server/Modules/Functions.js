@@ -41,8 +41,9 @@ class Functions{
 
   Dialogflow(req, res, resultcallback, errorcallback){
     const body = req.body;
-
+    console.log('request : ', body);
     const text = body.text;
+    
     if(text == "" || text == undefined){
       errorcallback(req, res, "send nothing");
       return;

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,12 +95,12 @@ public class ChatbotFragment extends Fragment {
             public void addItemwithNotify(RecyclerItem item) {
                 super.addItemwithNotify(item);
                 //((LinearLayoutManager) parentView.getLayoutManager()).scrollToPosition(this.getItemCount() - 1);
-               /* new Handler().postDelayed(new Runnable() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         parentView.scrollToPosition(adapter.getItemCount() - 1);
                     }
-                },50);*/
+                },50);
             }
         };
         chating_list.setLayoutManager(new LinearLayoutManager(getContext()));
