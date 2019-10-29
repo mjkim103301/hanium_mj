@@ -1,8 +1,6 @@
 package com.example.hanchat.data.Schedule;
 
-import android.view.View;
-
-import com.example.hanchat.module.RecyclerManager;
+import com.example.hanchat.module.adapter.RecyclerManager;
 
 public abstract class ScheduleContent implements RecyclerManager.RecyclerItem {
 

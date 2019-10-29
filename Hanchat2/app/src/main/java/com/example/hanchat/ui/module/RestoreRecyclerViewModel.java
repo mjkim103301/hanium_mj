@@ -4,8 +4,8 @@ import android.os.Parcelable;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.hanchat.module.RecyclerAdapter;
-import com.example.hanchat.module.RecyclerManager;
+import com.example.hanchat.module.adapter.RecyclerAdapter;
+import com.example.hanchat.module.adapter.RecyclerManager;
 
 import java.util.ArrayList;
 

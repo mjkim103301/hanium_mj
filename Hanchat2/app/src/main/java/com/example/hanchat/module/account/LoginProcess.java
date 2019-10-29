@@ -105,13 +105,13 @@ public class LoginProcess {
                             callback.setAccount(json, AccountManager.LOGIN_FAILED);
                         }
                     } catch (Exception e) {
-
+                        e.printStackTrace();
                     }
                 }
             });
         }
         catch (Exception e){
-
+            e.printStackTrace();
         }
     }
 

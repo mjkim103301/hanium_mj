@@ -14,6 +14,18 @@ class Query{
   constructor(DBConfig){
     this.db = new DB(DBConfig);
   }
+  //유닛 로그
+    UnitLog(action, unit_pid, affected_unit_pid, target_id){
+      sql = 'INSERT INTO UnitLog(log_time, action_id, unit_pid, affected_unit_pid, target_id)';
+      sql = sql + 'VALUES(now(), $1, $2, $3, $4)';
+      values = [action, unit_pid, affected_unit_pid, target_id];
+
+      this.db.query(sql, values).then(res=>{
+        console.log('log : ', res);
+      }).catch(err=>{
+        console.log('log error : ', err);
+      });
+    }
 
    createSchedule(unit_pid, title, category, starttime, endtime, memo, repeattype){
      // INSERT INTO schedule(unit_pid, title, category, starttime, endtime, memo, repeattype) values (1002,'스케쥴2','c','2019-10-26 10:00:00','2019-10-26 12:00:00','메모 시험음 메모',null);
@@ -115,8 +127,28 @@ class Query{
     console.log(err);
   });
 
-    updateUnit(user_pid, name, picture, explanation);
+  updateUnit(pid, name, picture, explanation){
+    sql = "UPDATE unit SET ";
+    if(name != null) sql += `name = ${name} `;
+    if(picture != null) sql += `picture = ${picture} `;
+    if(explanation != null) sql += `explanation = ${explanation} `;
+    sql += "WHERE pid=$1";
+    values = [pid];
+    return this.db.query(sql, values);
   }
+
+  async updateUser(user_pid, name, picture, explanation){
+    let result = await this.updateUnit(user_pid, name, picture, explanation);
+    this.UnitLog('UUS', user_pid, user_pid, null);
+    return result;
+  }
+  async updateGroup(user_pid, group_pid, name, picture, explanation){
+    let result = await this.updateUnit(group_pid, name, picture, explanation);
+    this.UnitLog('UGR', user_pid, group_pid, null);
+    return result;
+  }
+//끝
+
   deleteUser(user_pid){
      //DELETE FROM usertable WHERE user_pid=1001;
      //DELETE FROM unit WHERE pid=1001;

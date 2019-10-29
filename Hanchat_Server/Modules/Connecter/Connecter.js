@@ -9,8 +9,8 @@ const Dialogflow_ProjectId = 'hanchat-klyaoq';
 const Dialogflow_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-Dialogflow.json');
 const TextDetector_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-GCPVision.json');
 
-// const Database_ConfigPath = path.join(__dirname, '..', 'Data/JSON/PostgreSQL_ServerDB_key.json');
-const Database_ConfigPath = path.join(__dirname, '..', 'Data/JSON/PostgreSQL_testDB_key.json');
+const Database_ConfigPath = path.join(__dirname, '..', 'Data/JSON/PostgreSQL_ServerDB_key.json');
+// const Database_ConfigPath = path.join(__dirname, '..', 'Data/JSON/PostgreSQL_testDB_key.json');
 
 //const DB = path.join()
 

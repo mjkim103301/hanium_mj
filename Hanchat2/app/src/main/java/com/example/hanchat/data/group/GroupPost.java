@@ -1,16 +1,12 @@
 package com.example.hanchat.data.group;
 
-import android.content.Context;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
 
 import com.example.hanchat.databinding.RcyclerItemGrouppostBinding;
-import com.example.hanchat.module.RecyclerAdapter;
+import com.example.hanchat.module.adapter.RecyclerAdapter;
 
 public class GroupPost implements RecyclerAdapter.RecyclerItem {
     @Override

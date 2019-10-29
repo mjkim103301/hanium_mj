@@ -24,7 +24,7 @@ module.exports = function(Functions){
     next();
   });
 
-  apptest.use('/account', require('./Routes/AppRoute/Account.js')(Functions));
+  apptest.use('/account', require('./AppRoute/Account.js')(Functions));
 
   apptest.post('/chatbot', (req, res) =>{
     console.log('chatbot : ');

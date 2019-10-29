@@ -1,6 +1,5 @@
 package com.example.hanchat.ui.group.grouppostlist;
 
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -9,9 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
-import androidx.navigation.Navigator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,9 +21,8 @@ import android.widget.TextView;
 
 import com.example.hanchat.R;
 import com.example.hanchat.data.group.GroupPost;
-import com.example.hanchat.module.RecyclerAdapter;
-import com.example.hanchat.module.RecyclerManager;
-import com.example.hanchat.ui.group.GroupMainFragment;
+import com.example.hanchat.module.adapter.RecyclerAdapter;
+import com.example.hanchat.module.adapter.RecyclerManager;
 
 public class GroupPostlistFragment extends Fragment {
 

@@ -7,8 +7,8 @@ import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.hanchat.databinding.RcyclerItemEmptyviewBinding;
-import com.example.hanchat.module.RecyclerAdapter;
-import com.example.hanchat.module.RecyclerManager;
+import com.example.hanchat.module.adapter.RecyclerAdapter;
+import com.example.hanchat.module.adapter.RecyclerManager;
 
 public class EmptyData implements RecyclerManager.RecyclerItem {
     int width = 300;

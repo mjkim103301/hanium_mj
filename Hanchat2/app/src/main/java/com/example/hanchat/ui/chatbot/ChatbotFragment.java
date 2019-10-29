@@ -26,8 +26,8 @@ import com.example.hanchat.data.chatting.OtherChatting;
 import com.example.hanchat.data.chatting.UserChatting;
 import com.example.hanchat.module.ChatBotConnecter;
 import com.example.hanchat.module.ImageManagement_mj;
-import com.example.hanchat.module.RecyclerAdapter;
-import com.example.hanchat.module.RecyclerManager;
+import com.example.hanchat.module.adapter.RecyclerAdapter;
+import com.example.hanchat.module.adapter.RecyclerManager;
 
 public class ChatbotFragment extends Fragment {
 

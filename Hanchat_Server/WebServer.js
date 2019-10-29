@@ -37,6 +37,7 @@ class app{
   listen(Portnumber, callback){
     Functions.test(()=>{
       this.app.listen(Portnumber, callback);
+      Functions.printtime();
     });
   }
 

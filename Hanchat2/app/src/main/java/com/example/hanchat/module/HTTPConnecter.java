@@ -139,11 +139,13 @@ public class HTTPConnecter {
         th_Sender.start();
     }
 
-    private JSONObject mapTOJsonObject(Map<String, ?> data) throws Exception{
+    private JSONObject mapTOJsonObject(Map<String, ?> data) throws Exception {
         JSONObject json = new JSONObject();
-        for( Map.Entry<String, ?> entry : data.entrySet() ) {
-            String key = entry.getKey();
-            json.put(key, entry.getValue());
+        if (data != null){
+            for (Map.Entry<String, ?> entry : data.entrySet()) {
+                String key = entry.getKey();
+                json.put(key, entry.getValue());
+            }
         }
         return json;
     }

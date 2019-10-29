@@ -5,7 +5,7 @@ import android.view.View;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.hanchat.databinding.RcyclerItemChatUserBinding;
-import com.example.hanchat.module.RecyclerAdapter;
+import com.example.hanchat.module.adapter.RecyclerAdapter;
 
 public class UserChatting extends Chatting {
     @Override

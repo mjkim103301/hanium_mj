@@ -6,7 +6,7 @@ import android.view.View;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.hanchat.databinding.RcyclerItemPostcommentBinding;
-import com.example.hanchat.module.RecyclerAdapter;
+import com.example.hanchat.module.adapter.RecyclerAdapter;
 
 public class PostComment implements RecyclerAdapter.RecyclerItem {
     Uri profileImage;
