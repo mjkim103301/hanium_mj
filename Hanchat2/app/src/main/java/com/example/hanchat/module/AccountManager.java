@@ -48,14 +48,20 @@ public class AccountManager {
     }
 
     public void autoLogin(Context context, Callback callback){
-        if(!pref.contains("id")){
-            createUser(context, callback);
-            return;
-        }
-        String id = pref.getString("id", null);
-        String pwd = pref.getString("password", null);
 
-        login(id, pwd, context, callback);
+        if(pref.contains("id")){
+            String id = pref.getString("id", null);
+            String pwd = pref.getString("password", null);
+
+            login(id, pwd, context, callback);
+        }
+        else if(pref.contains("pid")){
+            pid = pref.getLong("pid", 0L);
+            login(pid, context, callback);
+        }
+        else{
+            createUser(context, callback);
+        }
     }
     private void login(String id, String password, Context context, final Callback callback){
         LoginProcess.login(id, password, context, new Callback(){
