@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calendar_nav_graph">
+
+    <fragment
+        android:id="@+id/subnav_calendarFragment"
+        android:name="com.example.hanchat.ui.calendar.CalendarFragment"
+        tools:layout="@layout/activity_main_calendar">
+        <action
+            android:id="@+id/action_subnav_calendarFragment_To_subnav_scheduleFragment"
+            app:destination="@id/subnav_scheduleFragment">
+
+        </action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/subnav_scheduleFragment"
+        android:name="com.example.hanchat.ui.calendar.schedule.ScheduleFragment"
+        tools:layout="@layout/activity_schedule">
+
+        <argument
+            android:name="sch_title"
+            app:argType="string"/>
+        <argument
+            android:name="sch_sort"
+            app:argType="string"/>
+        <argument
+            android:name="sch_startTime"
+            app:argType="string"/>
+        <argument
+            android:name="sch_endTime"
+            app:argType="string"/>
+        <argument
+            android:name="sch_location"
+            app:argType="string"/>
+        <argument
+            android:name="sch_memo"
+            app:argType="string"/>
+    </fragment>
+</navigation>
