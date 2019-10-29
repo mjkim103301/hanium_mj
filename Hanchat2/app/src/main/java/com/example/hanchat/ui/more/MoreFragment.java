@@ -4,11 +4,13 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.hanchat.R;
+import com.example.hanchat.module.AccountManager;
 import com.example.hanchat.module.CalendarAPIManager;
 import com.google.android.gms.common.SignInButton;
 
@@ -40,7 +43,8 @@ public class MoreFragment extends Fragment {
         et_id = view.findViewById(R.id.et_id);
         et_username = view.findViewById(R.id.et_username);
         signInButton = view.findViewById(R.id.sign_in_button);
-
+        Long pid = AccountManager.getInstance(getContext()).getPid();
+        ((TextView)view.findViewById(R.id.et_pid)).setText(String.valueOf(pid));
         //GetData();
         ButtonSetting();
         return view;

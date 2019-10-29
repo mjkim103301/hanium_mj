@@ -42,9 +42,10 @@ public class ChatBotConnecter implements View.OnClickListener {
         try{
             //서버로 보낼 내용 : des
             //먼저 Json 형식으로 변환
-            Map<String, String> data = new HashMap<>();
+            Map<String, Object> data = new HashMap<>();
 
             //텍스트 처리는 text, 이미지 처리는 image
+            data.put("pid", account.getPid());
             data.put("logintoken", account.getLoginToken());
             data.put("text", des);
 

@@ -25,12 +25,12 @@ public class AccountManager {
 
 
     private static AccountManager instance = null;
-    final private String prefId = "AccountPref";
+    private final static String prefId = "AccountPref";
     SharedPreferences pref = null;
-    private String pid = "0";
+    private Long pid = 0L;
     private String loginToken = "";
 
-    public String getPid(){
+    public Long getPid(){
         return pid;
     }
     public String getLoginToken() {
@@ -100,8 +100,6 @@ public class AccountManager {
                 callback.setAccount(json, Resultno);
             }
         });
-
-
     }
 
     public void createUser(final Context context, final Callback callback){
@@ -110,8 +108,9 @@ public class AccountManager {
             public void setAccount(JSONObject json, int Resultno) {
                 if(Resultno == ACCOUNT_CREATE_SUCCESS){
                     try{
-                        long pid = json.getLong("pid");
+                        pid = json.getLong("pid");
                         pref.edit().putLong("pid", pid).apply();
+
                         login(pid, context, callback);
                     }
                     catch (Exception e){

@@ -20,7 +20,7 @@ class Function_Account{
         logintoken : new_logintoken
       };
       returnResults(response, result);
-      console.log(result);
+      console.log('result : ', result);
     }).catch(err=>{
       console.log(err);
       returnFailure(response, 'cannot get logintoken');
@@ -45,7 +45,7 @@ module.exports = function(Functions){
     //로그인 확인 후 로그인 토큰 반환
     const body = req.body;
     console.log('login : ');
-    console.log(body);
+    console.log('request : ', body);
 
     if(body.pid == null){
       let id = body.id;
@@ -84,6 +84,7 @@ module.exports = function(Functions){
   account.post('/createuser', (req, response) =>{
     console.log('createuser : ');
     const body = req.body;
+    console.log('request : ', body);
     Functions.getQuery().createUser().then(res=>{
       let result = {
         result : true,

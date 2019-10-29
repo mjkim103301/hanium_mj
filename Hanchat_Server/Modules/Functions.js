@@ -43,7 +43,7 @@ class Functions{
     const body = req.body;
     console.log('request : ', body);
     const text = body.text;
-    
+
     if(text == "" || text == undefined){
       errorcallback(req, res, "send nothing");
       return;
@@ -73,9 +73,6 @@ class Functions{
 
   Visionapi(req, res, resultcallback, errorcallback){
     const body = req.body;
-    console.log('body -');
-    console.log(body);
-    console.log('text -');
     console.log(decodeURI(body.text));
 
     const file = req.file;
@@ -88,14 +85,12 @@ class Functions{
     }
 
     const filepath = this.uploadpath + file.filename;
-    console.log('filepath : ' + filepath);
     const filedata = fs.readFileSync(filepath);
 
     var encodeddata = Buffer.from(filedata).toString('base64');
 
     Connecter.sendtoVision(encodeddata).then((r)=>{
       let result = r.textAnnotations;
-      console.log(result);
 
       resultcallback(req, res, result);
       var no = Math.floor(Math.random() * (100000));

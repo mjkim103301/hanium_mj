@@ -152,12 +152,12 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
         //connecter=new HTTPConnecter("18.219.204.210", 55252);
         des=encodedImage;
         try{
-            Map<String, String> data=new HashMap<>();
+            Map<String, Object> data=new HashMap<>();
 
             data.put("image", des);
 
 
-            connecter.sendImage("/apptest/test", null, path, new HTTPConnecter.Callback() {
+            connecter.sendImage("/apptest/image", null, path, new HTTPConnecter.Callback() {
                 @Override
                 public Object DataReceived(String ReceiveString) {
                     return ReceiveString;
@@ -184,7 +184,7 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
             //data.put("image", des);
 
 
-            connecter.sendImage("/apptest/test", null, bitmap, new HTTPConnecter.Callback() {
+            connecter.sendImage("/apptest/image", null, bitmap, new HTTPConnecter.Callback() {
                 @Override
                 public Object DataReceived(String ReceiveString) {
                     return ReceiveString;

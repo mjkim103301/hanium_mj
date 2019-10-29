@@ -26,6 +26,7 @@
         android:paddingLeft="25dp"
         android:paddingBottom="10dp"
         android:paddingRight="15dp"
+        android:maxLines="10"
         android:background="@drawable/chatbubble_left"
         android:text="@{model.chat}"/>
 

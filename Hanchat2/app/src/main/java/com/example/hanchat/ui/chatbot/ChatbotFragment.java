@@ -100,7 +100,7 @@ public class ChatbotFragment extends Fragment {
                     public void run() {
                         parentView.scrollToPosition(adapter.getItemCount() - 1);
                     }
-                },50);
+                },200);
             }
         };
         chating_list.setLayoutManager(new LinearLayoutManager(getContext()));

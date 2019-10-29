@@ -30,7 +30,6 @@ module.exports = function(Functions){
     console.log('chatbot : ');
     Functions.Dialogflow(req, res, (req, res, result)=>{
       res.send(JSON.stringify(result));
-
     }, (req, res, err)=>{
       res.send(JSON.stringify(err));
     });
@@ -42,10 +41,21 @@ module.exports = function(Functions){
       console.log('image : \n');
       Functions.Visionapi(req, res, (req, res, r)=>{
         if(r == null){
-          res.send('글을 인식하지 못했습니다.');
+          let result = {
+            result : false
+          };
+          //res.send('글을 인식하지 못했습니다.');
+          console.log('result : ', result);
+          res.send(result);
         }
         else{
-          res.send(r[0].description);
+          //res.send(r[0].description);
+          let result = {
+            result : true,
+            description : r[0].description
+          };
+          console.log('result : ', result);
+          res.send(result);
         }
 
       }, (req, res, err)=>{
@@ -54,21 +64,20 @@ module.exports = function(Functions){
   });
 
 
-
-  apptest.post('/test', Functions.upload.single('userimage'), function(req, res){
-    console.log('test : \n');
-    Functions.Visionapi(req, res, (req, res, r)=>{
-      if(r == null){
-        res.end('글을 인식하지 못했습니다.');
-      }
-      else{
-        res.send(r[0].description);
-      }
-
-    }, (req, res, err)=>{
-      senderrormsg(res, error);
-    });
-  });
+  // apptest.post('/test', Functions.upload.single('userimage'), function(req, res){
+  //   console.log('test : \n');
+  //   Functions.Visionapi(req, res, (req, res, r)=>{
+  //     if(r == null){
+  //       res.end('글을 인식하지 못했습니다.');
+  //     }
+  //     else{
+  //       res.send(r[0].description);
+  //     }
+  //
+  //   }, (req, res, err)=>{
+  //     senderrormsg(res, error);
+  //   });
+  // });
 
 
   return apptest;
