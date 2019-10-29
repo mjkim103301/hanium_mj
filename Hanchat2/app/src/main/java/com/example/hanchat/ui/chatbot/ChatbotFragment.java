@@ -88,11 +88,7 @@ public class ChatbotFragment extends Fragment {
 
         //서버 연결 테스트
         et_chat.setText("안녕");
-<<<<<<< HEAD
         //bt_chat.callOnClick();
-=======
-//        bt_chat.callOnClick();
->>>>>>> parent of 70c1eb3... Merge remote-tracking branch 'gitlab/newCalendar' into BottomNavigationView
         return view;
     }
 

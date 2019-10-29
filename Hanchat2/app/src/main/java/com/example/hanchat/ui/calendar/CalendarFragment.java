@@ -1,23 +1,40 @@
 package com.example.hanchat.ui.calendar;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.viewpager.widget.ViewPager;
 
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.hanchat.MainActivity;
 import com.example.hanchat.R;
+import com.example.hanchat.data.calendar.MonthFragment;
+import com.example.hanchat.data.group.GroupPost;
+import com.example.hanchat.databinding.RecyclerCalendarItemBinding;
 import com.example.hanchat.module.CalendarAPIManager;
+import com.example.hanchat.module.ViewPagerAdapter;
+import com.example.hanchat.ui.group.grouppostlist.GroupPostlistFragmentDirections;
 
 import pub.devrel.easypermissions.EasyPermissions;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 public class CalendarFragment extends Fragment {
 
@@ -31,11 +48,26 @@ public class CalendarFragment extends Fragment {
     Intent intent;
     View view;
 
+    ViewPager viewPager;
+    //ArrayList<Month> calendarList=new ArrayList<>();
+    ViewPagerAdapter pagerAdapter;
+
+    TextView tv_calendarBar;
+    GridView gridView;
+    Button btn_today;
+    RecyclerCalendarItemBinding binding;
+
+
+    ConstraintLayout dayItem;
+
+    MonthFragment calendarFragment;
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        view = inflater.inflate(R.layout.activity_main_calendar, container, false);
 //        calendarAPIManager = new CalendarAPIManager(CalendarActivity.this);
+
 
 //
 //        intent = new Intent(getContext(), MainActivity.class);
@@ -48,7 +80,6 @@ public class CalendarFragment extends Fragment {
 //        IntentProfileSetting(CalendarActivity.this);*/
 //        ButtonSetting();
 
-<<<<<<< HEAD
         tv_calendarBar=(TextView)view.findViewById(R.id.tv_calendarBar);
         gridView=(GridView)view.findViewById(R.id.gridView);
         viewPager=(ViewPager)view.findViewById(R.id.viewPager_month);
@@ -123,8 +154,6 @@ public class CalendarFragment extends Fragment {
 
 
 
-=======
->>>>>>> parent of 70c1eb3... Merge remote-tracking branch 'gitlab/newCalendar' into BottomNavigationView
 
         return view;
     }
@@ -134,6 +163,8 @@ public class CalendarFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(CalendarViewModel.class);
         // TODO: Use the ViewModel
+
+
     }
 
 
@@ -147,6 +178,7 @@ public class CalendarFragment extends Fragment {
 //        });
 
     }
+
 
     /* CalendarAPIManager 사용하는 액티비티에서 이 코드 써야함 */
     @Override
