@@ -25,9 +25,9 @@
             app:layout_constraintEnd_toStartOf="@id/btn_today"
             />
         <Button
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="8.5"
+
             android:id="@+id/btn_today"
             android:text="Today"
             app:layout_constraintDimensionRatio="2:1"
