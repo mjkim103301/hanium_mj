@@ -1,5 +1,4 @@
-var app = require('./WebServer.js');
+var app = require('./Server/Router.js');
 const Portnumber = 55252;
 
-
-app.listen(Portnumber, () => console.log(`Server start at : ${Portnumber}`));
+app.listen(__dirname, Portnumber, () => console.log(`Server start at : ${Portnumber}`));

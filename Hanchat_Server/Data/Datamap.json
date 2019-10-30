@@ -1,0 +1,11 @@
+{
+  "RootDirectorySavePath" : "Data/RootDirectory",
+
+  "Dialogflow_ProjectId" : "hanchat-klyaoq",
+  "Dialogflow_key" : "Data/JSON/APIkey-Dialogflow.json",
+  "GCPVision_key" : "Data/JSON/APIkey-GCPVision.json",
+  "Database_Config" : "Data/JSON/PostgreSQL_ServerDB_key.json",
+
+  "UploadPath" : "upload/",
+  "GCPVisionTestData" : "Data/TestImage/Testdata2.txt"
+}
