@@ -77,7 +77,7 @@ typings/
 
 
 #api key files
-Data/Keys/*
+.json
 
 #upload files
 upload/*
