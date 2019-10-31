@@ -1,11 +1,13 @@
 {
-  "RootDirectorySavePath" : "Data/RootDirectory",
+  "Data" : {
+    "Dialogflow_ProjectId" : "hanchat-klyaoq",
+    "UploadPath" : "upload/"
+  },
+  "Path" : {
+    "Dialogflow_key" : "Keys/APIkey-Dialogflow.json",
+    "GCPVision_key" : "Keys/APIkey-GCPVision.json",
+    "Database_Config" : "Keys/PostgreSQL_ServerDB_key.json",
+    "GCPVisionTestData" : "TestImage/Testdata2.txt"
+  }
 
-  "Dialogflow_ProjectId" : "hanchat-klyaoq",
-  "Dialogflow_key" : "Data/JSON/APIkey-Dialogflow.json",
-  "GCPVision_key" : "Data/JSON/APIkey-GCPVision.json",
-  "Database_Config" : "Data/JSON/PostgreSQL_ServerDB_key.json",
-
-  "UploadPath" : "upload/",
-  "GCPVisionTestData" : "Data/TestImage/Testdata2.txt"
 }

@@ -1,12 +1,14 @@
-//const sql = require('mysql');
+/*
+  데이터베이스와의 연결 설정
+*/
 const fs = require('fs');
 const {Client} = require('pg');
 
 
 class Database_Connecter {
-  constructor(ConfigPath){
-
-    this.client = new Client(JSON.parse(fs.readFileSync(ConfigPath)));
+  constructor(Config){
+    console.log(JSON.parse(Config));
+    this.client = new Client(JSON.parse(Config));
     this.client.connect();
     this.client.query('select now()', (err, res) =>{
       console.log(err, res.rows[0]);
@@ -24,9 +26,7 @@ class Database_Connecter {
   }
 
   async query(sql, values){
-    let res;
-    res = await this.client.query(sql, values);
-    return res;
+    return await this.client.query(sql, values);
   }
 }
 

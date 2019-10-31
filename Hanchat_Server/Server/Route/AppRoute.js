@@ -1,26 +1,13 @@
-function senderrormsg(res, received){
-  let Msg;
-  if(received == undefined){
-    Msg = "null";
-  }
-  else{
-    if(received.length < 25){
-      Msg = received;
-    }
-    else{
-      Msg = received.substring(0, 22) + "...";
-    }
-  }
-  res.send(`Error!   your msg : ${Msg} `);
-}
+/*
+  앱 라우터
+  AppRoute 폴더에 모음
+*/
 
 class AppRoute{
-  constructor(Functions){
+  constructor(Functions, appRoute){
     this.Functions = Functions;
-    const express = require('express');
-    const appRoute = express.Router();
 
-    this.logsetting(appRoute);
+    this.Functions.logRouter(appRoute, 'appRoute');
     this.Routing(appRoute);
 
     appRoute.post('/chatbot', (req, res) =>{
@@ -28,13 +15,13 @@ class AppRoute{
       console.log('chatbot : ');
       this.Functions.Dialogflow(req, res).then(result =>{
         this.Functions.returnResults(res, result);
-      }.catch(err=>{
+      }).catch(err=>{
         this.Functions.returnFailure(res, err);
-      }));
+      });
 
     });
 
-    appRoute.post('/image', Functions.upload.single('userimage'), (req, res) =>{
+    appRoute.post('/image', Functions.multer.single('userimage'), (req, res) =>{
         console.log('image : \n');
         Functions.Visionapi(req, res).then( r =>{
           if(r == null){
@@ -49,25 +36,24 @@ class AppRoute{
             this.Functions.returnResults(res, result);
           }
 
-        }.catch(err=>{
+        }).catch(err=>{
           this.Functions.returnFailure(res, err);
-        }));
-    });
-  }
-
-  logsetting(appRoute){
-    appRoute.use((req, res, next)=>{
-      process.stdout.write('appRoute/');
-      next();
+        });
     });
   }
 
   Routing(appRoute){
-    appRoute.use('/account', require('./AppRoute/Account.js')(Functions));
+    appRoute.use('/account', require('./AppRoute/Account.js')(this.Functions));
+    appRoute.use('/apiRequest', require('./AppRoute/APIRequest.js')(this.Functions));
   }
+
+
 }
 
 
 module.exports = function(Functions){
-  return new AppRoute(Functions);
+  const express = require('express');
+  const appRoute = express.Router();
+  new AppRoute(Functions, appRoute);
+  return appRoute;
 };

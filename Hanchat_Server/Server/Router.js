@@ -1,11 +1,19 @@
+/*
+  웹 서버 라우팅
+  서버의 미들웨어 설정
+  라우트 경로는 Route 폴더에 모음
+*/
+
+
+const express = require('express');
+const bodyParser = require('body-parser');
 
 class Router{
   constructor(rootDirName){
-    const express = require('express');
-    const bodyParser = require('body-parser');
     const app = express();
 
     this.Functions = require('./Functions.js')(rootDirName);
+    this.uploadpath = this.Functions.getGCPVisionImageUploadPath();
 
     this.multersetting(app);
     this.middlewaresetting(app);
@@ -20,25 +28,26 @@ class Router{
 
   multersetting(app){
     app.use('/upload', express.static('upload'));
-    this.uploadpath = uploadpath;
     const multer = require('multer');
     const storage = multer.diskStorage({
       destination: function(req, file, cb){
         //console.log(uploadpath);
-        cb(null, uploadpath);
+        console.log('uploadpath : ', Router.this.uploadpath);
+        cb(null, Router.this.uploadpath);
       },
       filename: function(req, file, cb){
         cb(null, file.originalname);
       }
     });
     this.upload = multer({storage : storage});
+    this.Functions.setmulter(this.upload);
   }
 
   middlewaresetting(app){
     app.use(bodyParser.json({limit: '10mb', extended: true}));
     app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
-    appRoute = require('./Routes/appRoute.js')(this.Functions);
+    let appRoute = require('./Route/AppRoute.js')(this.Functions);
     app.use('/apptest', appRoute);
     app.use('/appRoute', appRoute);
     //app.use('/net', require('./Routes/net.js')(Functions));
@@ -61,9 +70,9 @@ class Router{
 
 module.exports = (rootDirName, Portnumber, callback)=>{
   let router = new Router(rootDirName);
-  router.getFunctions().test().then(()=>{
+  router.getFunctions().connecterTest().then(()=>{
     callback();
-    Functions.printtime();
+    router.getFunctions().printtime();
     return router;
   }).catch(err =>{
     console.log(err);

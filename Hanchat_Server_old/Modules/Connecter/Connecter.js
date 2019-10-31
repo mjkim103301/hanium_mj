@@ -1,19 +1,26 @@
-const dialogflow = require('./Connecter/Dialogflow_Connecter.js');
-const gcpvision = require('./Connecter/GCPVision_Connecter.js');
-const database = require('./Connecter/Database_Connecter.js');
+const dialogflow = require('./Dialogflow_Connecter.js');
+const gcpvision = require('./GCPVision_Connecter.js');
+const keytoconfig = require('./KeytoConfig.js');
 
+const path = require('path');
+// const Query = require('./Database_Connecter.js');
+const Query = require('./Query.js');
+const Dialogflow_ProjectId = 'hanchat-klyaoq';
+const Dialogflow_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-Dialogflow.json');
+const TextDetector_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-GCPVision.json');
+
+const Database_ConfigPath = path.join(__dirname, '..', 'Data/JSON/PostgreSQL_ServerDB_key.json');
+// const Database_ConfigPath = path.join(__dirname, '..', 'Data/JSON/PostgreSQL_testDB_key.json');
+
+//const DB = path.join()
 
 class Connecter {
-  constructor(Tools) {
+  constructor() {
     console.log('connecting...');
-    const DataMapProvider = Tools.getDataMap();
-    const Dialogflow_ProjectId = DataMapProvider.getDialogflowProjectId();
-    const Dialogflow_keyfilePath = DataMapProvider.getDialogflowKey();
-    const GCPVision_keyfilePath = DataMapProvider.getGCPVisionKey();
-    const Database_Config = DataMapProvider.getDatabaseConfig();
-    this.Dialogflowapi = new dialogflow(Dialogflow_ProjectId, Tools.googleApiKeytoConfig(Dialogflow_keyfilePath));
-    this.Visionapi = new gcpvision(Tools.googleApiKeytoConfig(GCPVision_keyfilePath));
-    this.Database = new database(Database_Config);
+
+    this.Dialogflowapi = new dialogflow(Dialogflow_ProjectId, keytoconfig(Dialogflow_keyfilePath));
+    this.Visionapi = new gcpvision(keytoconfig(TextDetector_keyfilePath));
+    this.Query = new Query(Database_ConfigPath);
 
   }
 
@@ -25,6 +32,10 @@ class Connecter {
   async sendtoDialogflow(text, sessionId){
     const result = await this.Dialogflowapi.sendtoDialogflow(text, sessionId);
     return result;
+  }
+
+  getQuery(){
+    return this.Query;
   }
 
   async test2(){
@@ -51,14 +62,9 @@ class Connecter {
 
   }
 
-  getDatabaseConnecter(){
-    return this.Database;
-  }
 }
 
-module.exports = (DataPathProvider) =>{
-  return new Connecter(DataPathProvider);
-};
+module.exports = new Connecter();
 
 /*
 ddd = new Connecter('hello');

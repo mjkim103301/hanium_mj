@@ -1,0 +1,7 @@
+{
+  "host":"18.219.204.210",
+  "user":"ubuntu",
+  "password":"ubuntu",
+  "port":3306,
+  "database":"testdb"
+}

@@ -1,19 +1,33 @@
-/*
-  Dialogflow와의 연결 설정
-*/
-
 const dialogflow = require('dialogflow');
 
-class Dialogflow_Connecter {
-  constructor (projectId, key){
-    this.projectId = projectId;
-    let config = require('./googleApiKeytoConfig.js')(key);
+class Dialogflow {
+  constructor (projectId, config){
+  this.projectId = projectId;
+
     this.sessionClient = new dialogflow.SessionsClient(config);
     console.log('Set Dialogflowapi...');
   }
 
+  // sendtoDialogflow (text, sessionId){
+  //   console.log(text);
+  //   const sessionPath = this.sessionClient.sessionPath(this.projectId, sessionId);
+  //
+  //   const request = {
+  //     session: sessionPath,
+  //     queryInput: {
+  //       text: {
+  //         text: text,
+  //         languageCode: 'ko-KR'
+  //       }
+  //     }
+  //   };
+  //   console.log(2);
+  //   return this.sessionClient.detectIntent(request);
+  // }
+
   async sendtoDialogflow(text, sessionId){
     const sessionPath = this.sessionClient.sessionPath(this.projectId, sessionId);
+
     const request = {
       session: sessionPath,
       queryInput: {
@@ -23,16 +37,7 @@ class Dialogflow_Connecter {
         }
       }
     };
-
-    const [r] = await this.sessionClient.detectIntent(request);
-    let answer = r.queryResult;
-    let result = {
-      result : true,
-      intent : answer.intent.displayName,
-      answer : answer.fulfillmentText,
-      params : answer.parameters.fields
-    };
-    console.log('result : ', result);
+    const [result] = await this.sessionClient.detectIntent(request);
     return result;
   }
 }
@@ -50,4 +55,4 @@ test.sendToDialogflow('내일 5시에 회의', 'test-id').then((r) =>{
 */
 
 
-module.exports = Dialogflow_Connecter;
+module.exports = Dialogflow;

@@ -1,8 +1,13 @@
+/*
+  구글 클라우드 Vision 과의 연결 설정
+*/
+
 const vision = require('@google-cloud/vision');
 
 
 class GCPVision_Connecter{
-  constructor (config){
+  constructor (key){
+    const config = require('./googleApiKeytoConfig.js')(key);
     this.client = new vision.ImageAnnotatorClient(config);
     console.log('Set Visionapi...');
   }

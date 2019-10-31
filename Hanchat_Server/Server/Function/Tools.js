@@ -1,3 +1,7 @@
+/*
+  각종 잡다한 도구들의 모음
+*/
+
 
 const moment = require('moment');
 require('moment-timezone');
@@ -7,24 +11,27 @@ const path = require('path');
 moment.tz.setDefault("Asia/Seoul");
 
 class Tools{
-  constructor(){
-    this.DataMapProvider = require("./Tool/DataMapProvider.js");
+  constructor(rootDirName){
+    this.rootDirName = rootDirName;
   }
 
+//시간 출력
   printtime(){
     console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   }
 
-  async test(Connecter){
-    const re1 = await Connecter.sendtoDialogflow('안녕', 'start-id');
+//커넥터 테스트
+  async test(Connecter, DataProvider){
+    const re1 = await Connecter.getDialogflow().sendtoDialogflow('안녕', 'start-id');
     console.log('Dialogflow Connected');
 
-    var data = fs.readFileSync(this.DataPathProvider.getGCPVisionTestDataPath(),'utf-8');
-    const re2 = await Connecter.sendtoVision(data);
+    var data = DataProvider.getData('GCPVisionTestData');
+    const re2 = await Connecter.getGCPVision().sendtoVision(data);
     console.log('Visionapi Connected');
 
   }
 
+//무작위 문자열 생성
   getRandomString(length){
     var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
     var randomstring = '';
@@ -35,27 +42,28 @@ class Tools{
     return randomstring;
   }
 
-  googleApiKeytoConfig(KeyFilePath){
-    const keyfile = JSON.parse(fs.readFileSync(KeyFilePath));
 
-    let privateKey = keyfile.private_key;
-    let clientEmail = keyfile.client_email;
 
-    let config = {
-      credentials: {
-        private_key: privateKey,
-        client_email: clientEmail,
-      }
-    };
 
-    return config;
+//루트로부터의 디렉터리로 require
+  rootRequire(modulename){
+    return require(path.join(this.rootDirName, modulename));
   }
 
-  getDataMap(){
-    return this.DataMapProvider;
+//루트로부터의 디렉터리 경로
+  getRootPath(pathname){
+    return path.join(this.rootDirName, pathname);
+  }
+
+//라우트 경로 콘솔에 로깅
+  logRouter(router, routerName){
+    router.use((req, res, next)=>{
+      process.stdout.write(routerName);
+      next();
+    });
   }
 }
 
-module.exports = () =>{
-  return new Tools();
+module.exports = (rootDirName) =>{
+  return new Tools(rootDirName);
 };

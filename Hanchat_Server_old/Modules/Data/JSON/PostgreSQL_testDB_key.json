@@ -1,0 +1,7 @@
+{
+  "user":"hj",
+  "host":"127.0.0.1",
+  "database":"testdb",
+  "password":"qwerty20",
+  "port": 5432
+}

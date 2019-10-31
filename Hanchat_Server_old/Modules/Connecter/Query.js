@@ -1,4 +1,4 @@
-//const DB = require('./Database_Connecter');
+const DB = require('./Database_Connecter');
 let sql;
 let values;
 let fetchtime;
@@ -11,13 +11,8 @@ let fetchtime;
 // 4. useringroup에 managerpid는 뭐에요?
 
 class Query{
-  constructor(Database_Connecter){
-    this.db = Database_Connecter;
-    this.Auth = require('./Auth.js')(this.db);
-  }
-
-  getAuth(){
-    return this.Auth;
+  constructor(DBConfig){
+    this.db = new DB(DBConfig);
   }
 
   //유닛 로그
@@ -86,7 +81,35 @@ class Query{
   }
 
 //수정 시작
+  //로그인토큰이 유효한지 검사
+  async authLoginToken(user_pid, logintoken){
+    sql = `SELECT logintoken = $1 as isvalid FROM usertable WHERE user_pid = $2`;
+    value = [logintoken, user_pid];
+    let result = await this.db.query(sql, value);
 
+    return result.rows[0].isvalid;
+  }
+
+  //pid로 유저가 있는지 검사
+  async authUserForPid(user_pid){
+    sql = `SELECT user_pid = ${user_pid} as isvalid FROM usertable WHERE user_pid = ${user_pid}`;
+    let result = await this.db.query(sql);
+
+    return result.rows[0].isvalid;
+  }
+
+  //그룹과의 관계 반환
+  async authUserinGroup(group_pid, user_pid){
+    sql = `SELECT grade FROM useringroup WHERE (group_pid = $1 and user_pid = $2)`;
+    value = [group_pid, user_pid];
+    let result = await this.db.query(sql, value);
+    let ans = {
+      grade : 'N'
+    };
+    if(result.rows != null)
+      ans.grade = result.rows[0].grade;
+    return ans;
+  }
 
   selectScheduleByKeyword(unit_pid, keyword){
     // SELECT * FROM schedule where (unit_pid= 1002 and (memo ~'^.*시험.*$' or title ~ '^.*시험.*$'));
@@ -566,6 +589,4 @@ class Query{
  }
 }
 
-module.exports = (DB) =>{
-  return new Query(DB);
-} ;
+module.exports = Query;
