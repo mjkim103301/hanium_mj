@@ -1,6 +1,9 @@
 package com.example.hanchat.module;
 
+import org.json.JSONObject;
+
 import java.security.MessageDigest;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -57,5 +60,16 @@ public class Tools {
             }
         }
         return temp.toString();
+    }
+
+    private JSONObject mapTOJsonObject(Map<String, ?> data) throws Exception {
+        JSONObject json = new JSONObject();
+        if (data != null){
+            for (Map.Entry<String, ?> entry : data.entrySet()) {
+                String key = entry.getKey();
+                json.put(key, entry.getValue());
+            }
+        }
+        return json;
     }
 }

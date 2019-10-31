@@ -4,7 +4,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.hanchat.R;
-import com.example.hanchat.module.AccountManager;
+import com.example.hanchat.module.account.AccountManager;
 import com.example.hanchat.module.CalendarAPIManager;
 import com.google.android.gms.common.SignInButton;
 

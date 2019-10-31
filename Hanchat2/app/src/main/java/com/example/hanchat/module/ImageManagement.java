@@ -42,7 +42,7 @@ public class ImageManagement {//} extends AppCompatActivity {
 
     public ImageManagement(Fragment fragment, RecyclerAdapter chatAdapter){
         this.fragment = fragment;
-        this.connecter = HttpConnecter.getinstance(R.string.server_ip, R.string.server_port, fragment.getContext());
+        this.connecter = HttpConnecter.getinstance(R.string.server_ip, R.string.server_port);
         this.chatAdapter = chatAdapter;
         //Activity.onActivityResult += this.onActivityResult;
     }
@@ -107,11 +107,13 @@ public class ImageManagement {//} extends AppCompatActivity {
 
             } else {
                 Toast.makeText(fragment.getContext(), "취소 되었습니다.", Toast.LENGTH_LONG).show();
+                return;
             }
 
         } catch (Exception e) {
             Toast.makeText(fragment.getContext(), "Oops! 로딩에 오류가 있습니다.", Toast.LENGTH_LONG).show();
             e.printStackTrace();
+            return;
         }
         //String real_path=getRealImagePath(uri);
         //SendImage(real_path);
@@ -138,25 +140,17 @@ public class ImageManagement {//} extends AppCompatActivity {
 
     public void SendImage(Bitmap bitmap){
         try{
-            connecter.sendImage("/apptest/image", null, bitmap, new HttpConnecter.Callback() {
+            connecter.sendImage(R.string.route_image, null, bitmap, new HttpConnecter.ResponseRecivedCallback() {
                 @Override
-                public Object DataReceived(String ReceiveString) {
-                    try{
-                        JSONObject json = new JSONObject(ReceiveString);
-                        return json;
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    return null;
+                public void DataReceived(JSONObject data) {
+
                 }
 
                 @Override
-                public void HandlerMethod(Object obj) {
+                public void DataInvoked(JSONObject data) {
                     try {
-                        JSONObject json = (JSONObject) obj;
-                        if(json.getBoolean("result")){
-                            chatAdapter.addItemwithNotify(new OtherChatting (json.getString("description")));
+                        if(data.getBoolean("result")){
+                            chatAdapter.addItemwithNotify(new OtherChatting (data.getString("description")));
                         }
 
 
@@ -164,8 +158,13 @@ public class ImageManagement {//} extends AppCompatActivity {
                     catch (Exception e){
 
                     }
-                    //  chatAdapter.notifyDataSetChanged();
                 }
+
+                @Override
+                public void ExceptionThrowed(Exception e) {
+                    Toast.makeText(fragment.getContext(), "서버에 연결할 수 없습니다", Toast.LENGTH_LONG).show();
+                }
+
             });
         }
         catch (Exception e){

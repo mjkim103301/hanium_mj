@@ -1,20 +1,15 @@
 package com.example.hanchat;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavHostController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.hanchat.module.AccountManager;
+import com.example.hanchat.module.account.AccountManager;
 import com.example.hanchat.module.ApplicationSharedRepository;
 import com.example.hanchat.ui.calendar.CalendarFragment;
 import com.example.hanchat.ui.chatbot.ChatbotFragment;
@@ -91,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         AccountManager am = AccountManager.getInstance();
         am.autoLogin(this, new AccountManager.Callback() {
             @Override
-            public void setAccount(JSONObject json, int Resultno) {
+            public void backgroundProcess(JSONObject json, int Resultno) {
                 switch(Resultno){
                     case AccountManager.ACCOUNT_CREATE_SUCCESS:
                     case AccountManager.ACCOUNT_CREATE_FAILED:

@@ -1,48 +1,40 @@
 package com.example.hanchat.module.account;
 
-import android.content.Context;
-
 import com.example.hanchat.R;
-import com.example.hanchat.module.AccountManager;
 import com.example.hanchat.module.connecter.HttpConnecter;
 
 import org.json.JSONObject;
 
 public class CreateAccountProcess {
-    public static void CreateAccount(Context context, final AccountManager.Callback callback) {
-        HttpConnecter httpConnecter = HttpConnecter.getinstance(R.string.server_ip, R.string.server_port, context);
+    public static void CreateAccount(final AccountManager.Callback callback) {
+        HttpConnecter httpConnecter = HttpConnecter.getinstance(R.string.server_ip, R.string.server_port);
 
         try {
-            httpConnecter.Post("/apptest/account/createuser", null, new HttpConnecter.Callback() {
+            httpConnecter.Post(R.string.route_createUser, null, new HttpConnecter.ResponseRecivedCallback() {
                 @Override
-                public Object DataReceived(String ReceiveString) {
-                    JSONObject json = null;
-                    try {
-                        json = new JSONObject(ReceiveString);
+                public void DataReceived(JSONObject data) {
+                    callback.backgroundProcess(data, 0);
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    return json;
                 }
 
                 @Override
-                public void HandlerMethod(Object obj) {
-                    if (obj == null) {
-                        return;
-                    }
-                    JSONObject json = (JSONObject) obj;
+                public void DataInvoked(JSONObject data) {
                     try {
-                        if (json.getBoolean("result")) {
-                            callback.setAccount(json, AccountManager.ACCOUNT_CREATE_SUCCESS);
+                        if (data.getBoolean("result")) {
+                            callback.backgroundProcess(data, ACCOUNT_CREATE_SUCCESS);
                         } else {
-                            callback.setAccount(json, AccountManager.ACCOUNT_CREATE_FAILED);
+                            callback.backgroundProcess(data, AccountManager.ACCOUNT_CREATE_FAILED);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                }
+
+                @Override
+                public void ExceptionThrowed(Exception e) {
 
                 }
+
             });
 
         }

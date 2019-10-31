@@ -38,29 +38,28 @@ import java.util.Random;
 public class HttpConnecter {
 
     //통신 완료 후에 실행될 콜백 함수 정의를 위한 인터페이스
-    public interface Callback{
+    public interface ResponseRecivedCallback {
         //서버에서 받은 데이터를 처리할 콜백 함수 (쓰레드로 실행됨)
         //UIChange로 전달할 데이터를 return
-        Object DataReceived(String ReceiveString);
+        void DataReceived(JSONObject data);
 
 
         //데이터를 모두 처리하고 나서 UI 등을 처리할 콜백 함수 (메인 쓰레드에서 실행됨)
         //UI 등과 같이 메인 쓰레드가 아니면 실행할 수 없는 부분을 처리
         //위의 함수에서 Object를 받아서 처리하는 함수를 만드세요
-        void HandlerMethod(Object obj);
+        void DataInvoked(JSONObject data);
 
-
-        //함수 실행 순서 : DataReceived  ->  UIChange
+        void ExceptionThrowed(Exception e);
     }
 
     private static Map<String, HttpConnecter> instanceMap = new HashMap<>();
 
-    private static Context appContext = null;
+//    private static Context appContext = null;
     private Handler handler;
     private String Host;
 
     //생성자로 ip주소, 포트번호를 전달받음
-    protected HttpConnecter(String Host){
+    private HttpConnecter(String Host){
         this.Host = Host;
         this.handler = new Handler();
     }
@@ -86,30 +85,26 @@ public class HttpConnecter {
 
     //ip주소, 포트번호를 전달받음
     public static HttpConnecter getinstance(@StringRes int Hostip, @StringRes int Port){
-        if(appContext == null)
-            appContext = ApplicationSharedRepository.getAppContext();
+        //if(appContext == null)
+        Context appContext = ApplicationSharedRepository.getAppContext();
         return getinstance(appContext.getString(Hostip), appContext.getString(Port));
+
     }
 
     //Post 형식으로 전달할때
     //Pathname : 주소에서 /로 시작해서 ? 전까지의 부분 (ex : "/chatbot_data"), Map과 통신 이후에 수행할 콜백을 받음
     //콜백은 위의 인터페이스 활용
-    public void Post(String Pathname, Map<String, ?> data, Callback callback) throws Exception{
-        PostSender th_Sender = new PostSender();
-        th_Sender.SetConnection(Host + Pathname);
-        th_Sender.SetMessage(mapTOJsonObject(data));
-        th_Sender.SetCallback(callback);
-        th_Sender.start();
+    public void Post(@StringRes int Pathname, JSONObject data, ResponseRecivedCallback responseRecivedCallback){
+        Context appContext = ApplicationSharedRepository.getAppContext();
+        this.Post(appContext.getString(Pathname), data, responseRecivedCallback);
     }
-    public void Post(String Pathname, JSONObject data, Callback callback) {
+    public void Post(String Pathname, JSONObject data, ResponseRecivedCallback responseRecivedCallback) {
         PostSender th_Sender = new PostSender();
-        th_Sender.SetConnection(Host + Pathname);
         th_Sender.SetMessage(data);
-        th_Sender.SetCallback(callback);
-        th_Sender.start();
+        senderSetting(th_Sender, Pathname, responseRecivedCallback);
     }
 
-    public void Get(String Pathname, Map<String, String> data, Callback callback){
+    public void Get(String Pathname, Map<String, String> data, ResponseRecivedCallback responseRecivedCallback){
         Sender th_Sender = new Sender();
         String address = Host + Pathname;
         if(data != null){
@@ -129,36 +124,34 @@ public class HttpConnecter {
         }
 
         th_Sender.SetConnection(address);
-        th_Sender.SetCallback(callback);
+        th_Sender.SetCallback(responseRecivedCallback);
         th_Sender.start();
     }
 
-    public void sendImage(String Pathname, Map<String, ?> data, String filepath, Callback callback) throws Exception{
+
+    public void sendImage(String Pathname, JSONObject data, String filepath, ResponseRecivedCallback responseRecivedCallback) {
         ImageSender th_Sender = new ImageSender();
-        th_Sender.SetConnection(Host + Pathname);
-        th_Sender.SetMessage(mapTOJsonObject(data), filepath);
-        th_Sender.SetCallback(callback);
-        th_Sender.start();
+        th_Sender.SetMessage(data, filepath);
+        senderSetting(th_Sender, Pathname, responseRecivedCallback);
     }
 
-    public void sendImage(String Pathname, Map<String, ?> data, Bitmap bitmap, Callback callback) throws Exception{
+    public void sendImage(@StringRes int Pathname, JSONObject data, Bitmap bitmap, ResponseRecivedCallback responseRecivedCallback){
+        Context appContext = ApplicationSharedRepository.getAppContext();
+        this.sendImage(appContext.getString(Pathname), data, bitmap, responseRecivedCallback);
+    }
+    public void sendImage(String Pathname, JSONObject data, Bitmap bitmap, ResponseRecivedCallback responseRecivedCallback){
         ImageSender th_Sender = new ImageSender();
-        th_Sender.SetConnection(Host + Pathname);
-        th_Sender.SetMessage(mapTOJsonObject(data), bitmap);
-        th_Sender.SetCallback(callback);
-        th_Sender.start();
+        th_Sender.SetMessage(data, bitmap);
+        senderSetting(th_Sender, Pathname, responseRecivedCallback);
     }
 
-    private JSONObject mapTOJsonObject(Map<String, ?> data) throws Exception {
-        JSONObject json = new JSONObject();
-        if (data != null){
-            for (Map.Entry<String, ?> entry : data.entrySet()) {
-                String key = entry.getKey();
-                json.put(key, entry.getValue());
-            }
-        }
-        return json;
+    private void senderSetting(Sender sender, String Pathname, ResponseRecivedCallback responseRecivedCallback){
+        sender.SetConnection(Host + Pathname);
+
+        sender.SetCallback(responseRecivedCallback);
+        sender.start();
     }
+
 
     private class Sender extends Thread {
         private int timeout = 10000;
@@ -166,7 +159,7 @@ public class HttpConnecter {
         private final String reqtype;
         String contenttype;
         JSONObject json = null;
-        private Callback cb = null;
+        private ResponseRecivedCallback cb = null;
 
 
         Sender(){
@@ -181,16 +174,18 @@ public class HttpConnecter {
         //연결할 url 설정
         void SetConnection(String url){ _url = url; }
 
-        //데이터를 받아서 처리할 콜백과 UI를 처리할 콜백 세팅
-        void SetCallback(Callback callback){
-            cb = callback;
+        //응답을 받은뒤의 콜백함수
+        void SetCallback(ResponseRecivedCallback responseRecivedCallback){
+            cb = responseRecivedCallback;
         }
+
+        //메세지 설정
         void SetMessage(JSONObject json){
             this.json = json;
         }
 
-
-        private HttpURLConnection openConnection() throws Exception {
+        //연결 설정
+        private HttpURLConnection openConnection() throws Exception{
 
             URL url = new URL(_url);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -228,13 +223,13 @@ public class HttpConnecter {
                 //메시지 받기
                 final int ResponseCode = conn.getResponseCode();
 
-                BufferedReader reader;
-                if(ResponseCode == HttpURLConnection.HTTP_OK){
-                    reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                }
-                else{
-                    reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-                }
+                BufferedReader reader= new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//                if(ResponseCode == HttpURLConnection.HTTP_OK){
+//                    reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//                }
+//                else{
+//                    //reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+//                }
 
                 String line;
 
@@ -255,16 +250,26 @@ public class HttpConnecter {
             }
             catch (Exception e){
                 e.printStackTrace();
+                cb.ExceptionThrowed(e);
             }
 
-            final Object obj = cb.DataReceived(Receivedata.toString());
+            try{
+                final JSONObject jsondata = new JSONObject(Receivedata.toString());
+                cb.DataReceived(jsondata);
 
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    cb.HandlerMethod(obj);
-                }
-            });
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        cb.DataInvoked(jsondata);
+                    }
+                });
+
+            }catch (Exception e){
+                e.printStackTrace();
+                cb.ExceptionThrowed(e);
+            }
+
+
 
         }
     }
@@ -292,8 +297,8 @@ public class HttpConnecter {
     }
 
     private class ImageSender extends Sender {
-        final private String lineEnd = "\r\n";
-        final private String twoHyphens = "--";
+        final private String lineEnd;
+        final private String twoHyphens;
         final private String boundary;
 
         private String filepath = null;
@@ -303,12 +308,13 @@ public class HttpConnecter {
 
             super("multipart/form-data; charset=utf-8; boundary=", "POST");
 
-            boundary = makeboundary();
+            lineEnd = "\r\n";
+            twoHyphens = "--";
+            boundary = makeBoundary();
             contenttype += boundary;
-
         }
 
-        String makeboundary(){
+        String makeBoundary(){
             StringBuilder builder = new StringBuilder("HC");
             Random rnd = new Random();
             for (int i = 0; i < 10; i++) {
