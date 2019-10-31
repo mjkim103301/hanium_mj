@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.example.hanchat.R;
 import com.example.hanchat.module.AccountManager;
-import com.example.hanchat.module.HTTPConnecter;
+import com.example.hanchat.module.connecter.HttpConnecter;
 import com.example.hanchat.module.Tools;
 
 import org.json.JSONObject;
@@ -28,8 +28,8 @@ public class SignUpProcess {
             data.put("salt" + i , salt[i]);
         }
         try {
-            HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, context)
-                    .Post("/apptest/account/signup", data, new HTTPConnecter.Callback() {
+            HttpConnecter.getinstance(R.string.server_ip, R.string.server_port, context)
+                    .Post("/apptest/account/signup", data, new HttpConnecter.Callback() {
                         @Override
                         public Object DataReceived(String ReceiveString) {
                             try {

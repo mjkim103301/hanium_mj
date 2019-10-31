@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    server info -->
+    <string name="route_host">13.125.224.21</string>
+
+<!--    account route-->
+    <string name="route_login">/account/login</string>
+    <string name="route_createUser">/account/createUser</string>
+    <string name="route_getSalts">/account/getsalts</string>
+
+<!--    apiRequest route-->
+    <string name="route_chatbot">/apiRequest/chatbot</string>
+    <string name="route_image">/apiRequest/image</string>
+
+</resources>

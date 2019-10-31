@@ -9,14 +9,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 class Router{
-  constructor(rootDirName){
+  constructor(Functions){
     const app = express();
 
-    this.Functions = require('./Functions.js')(rootDirName);
-    this.uploadpath = this.Functions.getGCPVisionImageUploadPath();
+    const GCPVisionImageUploadPath = Functions.getGCPVisionImageUploadPath();
 
-    this.multersetting(app);
-    this.middlewaresetting(app);
+    this.multersetting(app, Functions);
+    this.middlewaresetting(app, Functions);
     this.logsetting(app);
 
 
@@ -26,30 +25,33 @@ class Router{
 
   }
 
-  multersetting(app){
+  multersetting(app, Functions){
     app.use('/upload', express.static('upload'));
     const multer = require('multer');
     const storage = multer.diskStorage({
-      destination: function(req, file, cb){
+      destination: (req, file, cb) => {
         //console.log(uploadpath);
-        console.log('uploadpath : ', Router.this.uploadpath);
-        cb(null, Router.this.uploadpath);
+        cb(null, Functions.getGCPVisionImageUploadPath());
       },
-      filename: function(req, file, cb){
+      filename: (req, file, cb) => {
         cb(null, file.originalname);
       }
     });
-    this.upload = multer({storage : storage});
-    this.Functions.setmulter(this.upload);
+    Functions.setmulter( multer({storage : storage}));
   }
 
-  middlewaresetting(app){
+  middlewaresetting(app, Functions){
     app.use(bodyParser.json({limit: '10mb', extended: true}));
     app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
-    let appRoute = require('./Route/AppRoute.js')(this.Functions);
+    let appRoute = require('./Route/AppRoute.js')(Functions);
     app.use('/apptest', appRoute);
     app.use('/appRoute', appRoute);
+
+    let account = require('./Route/Account.js')(Functions);
+    app.use('./account', account);
+
+
     //app.use('/net', require('./Routes/net.js')(Functions));
 
   }
@@ -69,10 +71,10 @@ class Router{
 }
 
 module.exports = (rootDirName, Portnumber, callback)=>{
-  let router = new Router(rootDirName);
-  router.getFunctions().connecterTest().then(()=>{
+  Functions = require('./Functions.js')(rootDirName);
+  let router = new Router(Functions);
+  Functions.connecterTest().then(()=>{
     callback();
-    router.getFunctions().printtime();
     return router;
   }).catch(err =>{
     console.log(err);

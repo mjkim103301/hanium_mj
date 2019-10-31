@@ -13,20 +13,6 @@ let fetchtime;
 class Query{
   constructor(Database_Connecter){
     this.db = Database_Connecter;
-    this.Auth = require('./Auth.js')(this.db);
-  }
-
-  getAuth(){
-    return this.Auth;
-  }
-
-  //유닛 로그
-  UnitLog(action, unit_pid, affected_unit_pid, target_id){
-    sql = 'INSERT INTO UnitLog(log_time, action_id, unit_pid, affected_unit_pid, target_id)';
-    sql = sql + 'VALUES(now(), $1, $2, $3, $4)';
-    values = [action, unit_pid, affected_unit_pid, target_id];
-
-    return this.db.query(sql, values);
   }
 
   createSchedule(title, category, starttime, endtime, memo, repeattype){
@@ -104,46 +90,6 @@ class Query{
     });
   }
 
-
-  //유저 만들기 (로깅) - user_pid 반환
-  async createUser(){
-    try{
-      await this.db.query('BEGIN');
-      sql = "INSERT INTO usertable VALUES(default) RETURNING user_pid";
-      let result = await this.db.query(sql);
-      let pid = result.rows[0].user_pid;
-      await this.UnitLog('CUS', pid, pid, null);
-      await this.db.query('COMMIT');
-      return result.rows[0].user_pid;
-    } catch(e){
-      await this.db.query('ROLLBACK');
-      throw e;
-    }
-  }
-  //로그인 토큰 갱신
-  async updateUserLoginToken(user_pid, new_logintoken){
-    sql = `UPDATE usertable SET logintoken = '${new_logintoken}' WHERE user_pid=${user_pid}`;
-    let result = await this.db.query(sql);
-    return new_logintoken;
-  }
-  //id로 salts 얻기
-  async getSalts(id){
-    sql = `SELECT * FROM userlogin WHERE id = ${id}`;
-    let result = await this.db.query(sql);
-    if(result.rows == null){
-      return { result : false, reason : 'id not found' };
-    }
-    let r = result.rows[0];
-    let ans = {
-      result : true,
-      salt1 : r.salt1,
-      salt2 : r.salt2,
-      salt3 : r.salt3,
-      salt4 : r.salt4,
-      salt5 : r.salt5
-    };
-    return ans;
-  }
 
   //그룹 만들기 (로깅) -  group_pid 반환
   async createGroup(host_pid, ispublic){

@@ -15,6 +15,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.hanchat.module.AccountManager;
+import com.example.hanchat.module.ApplicationSharedRepository;
 import com.example.hanchat.ui.calendar.CalendarFragment;
 import com.example.hanchat.ui.chatbot.ChatbotFragment;
 import com.example.hanchat.ui.group.GroupMainFragment;
@@ -86,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void appInitialize(){
-        AccountManager am = AccountManager.getInstance(this);
+        ApplicationSharedRepository.setAppContext(getApplicationContext());
+        AccountManager am = AccountManager.getInstance();
         am.autoLogin(this, new AccountManager.Callback() {
             @Override
             public void setAccount(JSONObject json, int Resultno) {
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchFromServer(){
-        Toast.makeText(this, "fetch : " + AccountManager.getInstance(this).getLoginToken(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "fetch : " + AccountManager.getInstance().getLoginToken(), Toast.LENGTH_SHORT).show();
     }
 }
 

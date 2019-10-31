@@ -9,10 +9,10 @@ class Dialogflow_Connecter {
     this.projectId = projectId;
     let config = require('./googleApiKeytoConfig.js')(key);
     this.sessionClient = new dialogflow.SessionsClient(config);
-    console.log('Set Dialogflowapi...');
+    console.log('Set Dialogflow');
   }
 
-  async sendtoDialogflow(text, sessionId){
+  async sendToDialogflow(text, sessionId){
     const sessionPath = this.sessionClient.sessionPath(this.projectId, sessionId);
     const request = {
       session: sessionPath,
@@ -25,15 +25,7 @@ class Dialogflow_Connecter {
     };
 
     const [r] = await this.sessionClient.detectIntent(request);
-    let answer = r.queryResult;
-    let result = {
-      result : true,
-      intent : answer.intent.displayName,
-      answer : answer.fulfillmentText,
-      params : answer.parameters.fields
-    };
-    console.log('result : ', result);
-    return result;
+    return r;
   }
 }
 

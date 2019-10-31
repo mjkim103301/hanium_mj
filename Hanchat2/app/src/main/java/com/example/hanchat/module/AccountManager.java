@@ -26,7 +26,9 @@ public class AccountManager {
 
     private static AccountManager instance = null;
     private final static String prefId = "AccountPref";
-    SharedPreferences pref = null;
+
+    Context appContext;
+    SharedPreferences pref;
     private Long pid = 0L;
     private String loginToken = "";
 
@@ -37,13 +39,14 @@ public class AccountManager {
         return loginToken;
     }
 
-    private AccountManager(Context context){
-        pref = context.getSharedPreferences(prefId, Context.MODE_PRIVATE);
+    private AccountManager(){
+        appContext = ApplicationSharedRepository.getAppContext();
+        pref = appContext.getSharedPreferences(prefId, appContext.MODE_PRIVATE);
     }
 
-    public static AccountManager getInstance(Context context){
+    public static AccountManager getInstance(){
         if(instance == null)
-            instance = new AccountManager(context);
+            instance = new AccountManager();
         return instance;
     }
 

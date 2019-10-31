@@ -7,14 +7,8 @@ const {Client} = require('pg');
 
 class Database_Connecter {
   constructor(Config){
-    console.log(JSON.parse(Config));
     this.client = new Client(JSON.parse(Config));
     this.client.connect();
-    this.client.query('select now()', (err, res) =>{
-      console.log(err, res.rows[0]);
-      console.log('Database connected');
-    });
-
 
     //연결 지속을 위한 반복 요청
     setInterval(()=>{
@@ -23,10 +17,11 @@ class Database_Connecter {
       });
     }, 1200000);
 
+    console.log('set Database');
   }
 
   async query(sql, values){
-    return await this.client.query(sql, values);
+    return this.client.query(sql, values);
   }
 }
 

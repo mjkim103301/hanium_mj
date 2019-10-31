@@ -7,22 +7,19 @@ import android.graphics.Bitmap;
 
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
-import java.util.Map;
 
 import android.database.Cursor;
 
-import java.util.HashMap;
 import android.provider.MediaStore;
 import android.net.Uri;
-import android.util.Base64;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.hanchat.R;
 import com.example.hanchat.data.chatting.OtherChatting;
 import com.example.hanchat.module.adapter.RecyclerAdapter;
+import com.example.hanchat.module.connecter.HttpConnecter;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -40,12 +37,12 @@ public class ImageManagement {//} extends AppCompatActivity {
     static final String TAG = "MainActivity";
     //AppCompatActivity MainActivity;
     Fragment fragment;
-    HTTPConnecter connecter;
+    HttpConnecter connecter;
     RecyclerAdapter chatAdapter;
 
     public ImageManagement(Fragment fragment, RecyclerAdapter chatAdapter){
         this.fragment = fragment;
-        this.connecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, fragment.getContext());
+        this.connecter = HttpConnecter.getinstance(R.string.server_ip, R.string.server_port, fragment.getContext());
         this.chatAdapter = chatAdapter;
         //Activity.onActivityResult += this.onActivityResult;
     }
@@ -141,7 +138,7 @@ public class ImageManagement {//} extends AppCompatActivity {
 
     public void SendImage(Bitmap bitmap){
         try{
-            connecter.sendImage("/apptest/image", null, bitmap, new HTTPConnecter.Callback() {
+            connecter.sendImage("/apptest/image", null, bitmap, new HttpConnecter.Callback() {
                 @Override
                 public Object DataReceived(String ReceiveString) {
                     try{

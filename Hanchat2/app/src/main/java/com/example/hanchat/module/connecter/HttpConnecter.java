@@ -1,11 +1,12 @@
-package com.example.hanchat.module;
+package com.example.hanchat.module.connecter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 
 import androidx.annotation.StringRes;
-import androidx.core.content.res.TypedArrayUtils;
+
+import com.example.hanchat.module.ApplicationSharedRepository;
 
 import org.json.JSONObject;
 
@@ -34,7 +35,7 @@ import java.util.Random;
 //자세한 사용법은 드라이브에
 
 
-public class HTTPConnecter {
+public class HttpConnecter {
 
     //통신 완료 후에 실행될 콜백 함수 정의를 위한 인터페이스
     public interface Callback{
@@ -52,40 +53,42 @@ public class HTTPConnecter {
         //함수 실행 순서 : DataReceived  ->  UIChange
     }
 
-    private static Map<String, HTTPConnecter> instanceMap = new HashMap<>();
+    private static Map<String, HttpConnecter> instanceMap = new HashMap<>();
 
+    private static Context appContext = null;
     private Handler handler;
     private String Host;
 
     //생성자로 ip주소, 포트번호를 전달받음
-    private HTTPConnecter(String Host){
+    protected HttpConnecter(String Host){
         this.Host = Host;
         this.handler = new Handler();
     }
 
     //ip주소, 포트번호를 전달받음
-    public static HTTPConnecter getinstance(String Hostip, int Port){
+    public static HttpConnecter getinstance(String Hostip, int Port){
         return getinstance(Hostip, String.valueOf(Port));
     }
 
     //ip주소, 포트번호를 전달받음
-    public static HTTPConnecter getinstance(String Hostip, String Port){
+    public static HttpConnecter getinstance(String Hostip, String Port){
         String host = "http://" + Hostip + ":" + Port;
         if(instanceMap.containsKey(host)){
             return instanceMap.get(host);
         }
         else{
-            HTTPConnecter newinstance = new HTTPConnecter(host);
+            HttpConnecter newinstance = new HttpConnecter(host);
             instanceMap.put(host, newinstance);
             return newinstance;
         }
     }
 
 
-
     //ip주소, 포트번호를 전달받음
-    public static HTTPConnecter getinstance(@StringRes int Hostip, @StringRes int Port, Context context){
-        return getinstance(context.getString(Hostip), context.getString(Port));
+    public static HttpConnecter getinstance(@StringRes int Hostip, @StringRes int Port){
+        if(appContext == null)
+            appContext = ApplicationSharedRepository.getAppContext();
+        return getinstance(appContext.getString(Hostip), appContext.getString(Port));
     }
 
     //Post 형식으로 전달할때
@@ -95,6 +98,13 @@ public class HTTPConnecter {
         PostSender th_Sender = new PostSender();
         th_Sender.SetConnection(Host + Pathname);
         th_Sender.SetMessage(mapTOJsonObject(data));
+        th_Sender.SetCallback(callback);
+        th_Sender.start();
+    }
+    public void Post(String Pathname, JSONObject data, Callback callback) {
+        PostSender th_Sender = new PostSender();
+        th_Sender.SetConnection(Host + Pathname);
+        th_Sender.SetMessage(data);
         th_Sender.SetCallback(callback);
         th_Sender.start();
     }

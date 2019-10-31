@@ -4,8 +4,7 @@ import android.content.Context;
 
 import com.example.hanchat.R;
 import com.example.hanchat.module.AccountManager;
-import com.example.hanchat.module.HTTPConnecter;
-import com.example.hanchat.module.Tools;
+import com.example.hanchat.module.connecter.HttpConnecter;
 
 import org.json.JSONObject;
 
@@ -15,14 +14,14 @@ import java.util.Map;
 import static com.example.hanchat.module.Tools.Encrypt;
 
 public class LoginProcess {
-    static HTTPConnecter httpConnecter = null;
+    static HttpConnecter httpConnecter = null;
 
     public static void login(final String id, final String password, final Context context, final AccountManager.Callback callback){
-        httpConnecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, context);
+        httpConnecter = HttpConnecter.getinstance(R.string.server_ip, R.string.server_port, context);
         Map<String, String> data = new HashMap<>();
         data.put("id", id);
         try {
-            httpConnecter.Post("/apptest/account/getsalts", data, new HTTPConnecter.Callback() {
+            httpConnecter.Post("/apptest/account/getsalts", data, new HttpConnecter.Callback() {
                 @Override
                 public Object DataReceived(String ReceiveString) {
                     JSONObject json = null;
@@ -61,7 +60,7 @@ public class LoginProcess {
     }
 
     public static void login(final long pid, final Context context, final AccountManager.Callback callback){
-        httpConnecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, context);
+        httpConnecter = HttpConnecter.getinstance(R.string.server_ip, R.string.server_port, context);
         Map<String, Long> data = new HashMap<>();
         data.put("pid", pid);
 
@@ -80,7 +79,7 @@ public class LoginProcess {
 
     private static void connectToServer(Map<String, ?> data, final AccountManager.Callback callback) {
         try {
-            httpConnecter.Post("/apptest/account/login", data, new HTTPConnecter.Callback() {
+            httpConnecter.Post("/apptest/account/login", data, new HttpConnecter.Callback() {
                 @Override
                 public Object DataReceived(String ReceiveString) {
                     JSONObject json = null;

@@ -4,17 +4,16 @@ import android.content.Context;
 
 import com.example.hanchat.R;
 import com.example.hanchat.module.AccountManager;
-import com.example.hanchat.module.HTTPConnecter;
-import com.example.hanchat.module.Tools;
+import com.example.hanchat.module.connecter.HttpConnecter;
 
 import org.json.JSONObject;
 
 public class CreateAccountProcess {
     public static void CreateAccount(Context context, final AccountManager.Callback callback) {
-        HTTPConnecter httpConnecter = HTTPConnecter.getinstance(R.string.server_ip, R.string.server_port, context);
+        HttpConnecter httpConnecter = HttpConnecter.getinstance(R.string.server_ip, R.string.server_port, context);
 
         try {
-            httpConnecter.Post("/apptest/account/createuser", null, new HTTPConnecter.Callback() {
+            httpConnecter.Post("/apptest/account/createuser", null, new HttpConnecter.Callback() {
                 @Override
                 public Object DataReceived(String ReceiveString) {
                     JSONObject json = null;

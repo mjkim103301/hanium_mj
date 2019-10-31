@@ -9,20 +9,19 @@ class GCPVision_Connecter{
   constructor (key){
     const config = require('./googleApiKeytoConfig.js')(key);
     this.client = new vision.ImageAnnotatorClient(config);
-    console.log('Set Visionapi...');
+    console.log('Set GCPVision');
   }
 
-  async sendtoVision(encodingtext){
+  async sendToVision(encodingtext){
     const request = {
       image: {
         content: encodingtext
-      },
+      }
     };
 
     const [r] = await this.client.textDetection(request);
     let result = r.textAnnotations;
     return result;
-
   }
 }
 

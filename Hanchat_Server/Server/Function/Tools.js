@@ -22,13 +22,16 @@ class Tools{
 
 //커넥터 테스트
   async test(Connecter, DataProvider){
-    const re1 = await Connecter.getDialogflow().sendtoDialogflow('안녕', 'start-id');
+    console.log('\n test start');
+    const re1 = await Connecter.getDialogflow().sendToDialogflow('안녕', 'start-id');
     console.log('Dialogflow Connected');
 
     var data = DataProvider.getData('GCPVisionTestData');
-    const re2 = await Connecter.getGCPVision().sendtoVision(data);
+    const re2 = await Connecter.getGCPVision().sendToVision(data);
     console.log('Visionapi Connected');
 
+    const re3 = await Connecter.getDatabaseConnecter().query('select now()');
+    console.log('Database Connected');
   }
 
 //무작위 문자열 생성
