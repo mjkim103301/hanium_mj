@@ -40,7 +40,7 @@ class AccountManager{
   async createUser(){
     try{
       await this.db.query('BEGIN');
-      sql = "INSERT INTO usertable VALUES(default) RETURNING user_pid";
+      let sql = "INSERT INTO usertable VALUES(default) RETURNING user_pid";
       let result = await this.db.query(sql);
       let pid = result.rows[0].user_pid;
 
@@ -48,29 +48,29 @@ class AccountManager{
       await this.Functions.UnitLog('CUS', pid, pid, null);
 
       //새 로그인토큰 생성
-      let logintoken = await this.updateUserLoginToken(pid);
+      let logintokenres = await this.getLoginToken(pid);
 
       let answer = {
-        result : true,
         pid : pid,
-        logintoken : logintoken
+        logintoken : logintokenres.logintoken
       };
       await this.db.query('COMMIT');
+
+      return answer;
     } catch(e){
       await this.db.query('ROLLBACK');
       throw e;
     }
 
-    return answer;
+    
   }
 
 //로그인 토큰 갱신 - logintoken만 반환
   async getLoginToken(user_pid){
     const new_logintoken = this.Functions.getRandomString(14);
-    sql = `UPDATE usertable SET logintoken = '${new_logintoken}' WHERE user_pid=${user_pid}`;
+    let sql = `UPDATE usertable SET logintoken = '${new_logintoken}' WHERE user_pid=${user_pid}`;
     let result = await this.db.query(sql);
     let ans = {
-      result : true,
       logintoken : new_logintoken
     };
     return ans;
@@ -78,10 +78,9 @@ class AccountManager{
 
 //id에 맞는 salt 얻기 - salt 5개 반환
   async getsalts(){
-    sql = `SELECT * FROM userlogin WHERE id = ${id}`;
+    let sql = `SELECT * FROM userlogin WHERE id = ${id}`;
     let result = await this.db.query(sql);
     let ans = {
-      result : true,
       salt1 : r.salt1,
       salt2 : r.salt2,
       salt3 : r.salt3,

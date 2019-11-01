@@ -9,14 +9,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 class Router{
-  constructor(Functions){
-    const app = express();
+  constructor(app, Functions){
 
     const GCPVisionImageUploadPath = Functions.getGCPVisionImageUploadPath();
 
     this.multersetting(app, Functions);
     this.middlewaresetting(app, Functions);
-    this.logsetting(app);
+    this.logsetting(app, Functions);
 
 
     app.all('/', (req,res) =>{
@@ -49,17 +48,17 @@ class Router{
     app.use('/appRoute', appRoute);
 
     let account = require('./Route/Account.js')(Functions);
-    app.use('./account', account);
+    app.use('/account', account);
 
 
     //app.use('/net', require('./Routes/net.js')(Functions));
 
   }
 
-  logsetting(app){
+  logsetting(app, Functions){
     app.use((req, res, next)=>{
       console.log('\n');
-      this.Functions.printtime();
+      Functions.printtime();
       process.stdout.write('/');
       next();
     });
@@ -72,10 +71,11 @@ class Router{
 
 module.exports = (rootDirName, Portnumber, callback)=>{
   Functions = require('./Functions.js')(rootDirName);
-  let router = new Router(Functions);
+
+  const app = express();
+  let router = new Router(app, Functions);
   Functions.connecterTest().then(()=>{
-    callback();
-    return router;
+    app.listen(Portnumber, callback);
   }).catch(err =>{
     console.log(err);
     throw err;

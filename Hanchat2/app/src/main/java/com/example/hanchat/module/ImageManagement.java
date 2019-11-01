@@ -161,7 +161,7 @@ public class ImageManagement {//} extends AppCompatActivity {
                 }
 
                 @Override
-                public void ExceptionThrowed(Exception e) {
+                public void ConnectionFailed(Exception e) {
                     Toast.makeText(fragment.getContext(), "서버에 연결할 수 없습니다", Toast.LENGTH_LONG).show();
                 }
 

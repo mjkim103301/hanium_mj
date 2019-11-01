@@ -61,7 +61,7 @@ class Tools{
 //라우트 경로 콘솔에 로깅
   logRouter(router, routerName){
     router.use((req, res, next)=>{
-      process.stdout.write(routerName);
+      process.stdout.write(`${routerName}/`);
       next();
     });
   }

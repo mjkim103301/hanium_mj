@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import com.example.hanchat.R;
 import com.example.hanchat.data.chatting.OtherChatting;
 import com.example.hanchat.data.chatting.UserChatting;
-import com.example.hanchat.module.account.AccountManager;
 import com.example.hanchat.module.adapter.RecyclerAdapter;
 import com.example.hanchat.module.connecter.HttpConnecter;
 
@@ -70,7 +69,7 @@ public class ChatBotConnecter implements View.OnClickListener {
                 }
 
                 @Override
-                public void ExceptionThrowed(Exception e) {
+                public void ConnectionFailed(Exception e) {
                     Toast.makeText(fragment.getContext(), "서버에 연결할 수 없습니다", Toast.LENGTH_LONG).show();
                 }
 

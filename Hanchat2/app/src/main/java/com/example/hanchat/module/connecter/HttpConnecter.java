@@ -8,6 +8,7 @@ import androidx.annotation.StringRes;
 
 import com.example.hanchat.module.ApplicationSharedRepository;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -39,17 +40,20 @@ public class HttpConnecter {
 
     //통신 완료 후에 실행될 콜백 함수 정의를 위한 인터페이스
     public interface ResponseRecivedCallback {
+        String KEY_RESULT = "result";
+
         //서버에서 받은 데이터를 처리할 콜백 함수 (쓰레드로 실행됨)
         //UIChange로 전달할 데이터를 return
-        void DataReceived(JSONObject data);
+        void DataReceived(JSONObject data) throws JSONException;
 
 
         //데이터를 모두 처리하고 나서 UI 등을 처리할 콜백 함수 (메인 쓰레드에서 실행됨)
         //UI 등과 같이 메인 쓰레드가 아니면 실행할 수 없는 부분을 처리
         //위의 함수에서 Object를 받아서 처리하는 함수를 만드세요
-        void DataInvoked(JSONObject data);
+        void DataInvoked(JSONObject data) throws JSONException;
 
-        void ExceptionThrowed(Exception e);
+        //예외 (오류)가 났을시의 처리 - 메인 스레드에서 실행
+        void ConnectionFailed(Exception e);
     }
 
     private static Map<String, HttpConnecter> instanceMap = new HashMap<>();
@@ -223,13 +227,14 @@ public class HttpConnecter {
                 //메시지 받기
                 final int ResponseCode = conn.getResponseCode();
 
-                BufferedReader reader= new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//                if(ResponseCode == HttpURLConnection.HTTP_OK){
-//                    reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//                }
-//                else{
-//                    //reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-//                }
+                BufferedReader reader;//= new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                if(ResponseCode == HttpURLConnection.HTTP_OK){
+                    reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                }
+                else{
+
+                    throw new Exception("error");
+                }
 
                 String line;
 
@@ -248,9 +253,15 @@ public class HttpConnecter {
                 //데이터를 주고받을때마다 연결을 햇다 끊엇다 해야하나?
 
             }
-            catch (Exception e){
+            catch (final Exception e){
                 e.printStackTrace();
-                cb.ExceptionThrowed(e);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        cb.ConnectionFailed(e);
+                    }
+                });
+                return;
             }
 
             try{
@@ -260,13 +271,31 @@ public class HttpConnecter {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        cb.DataInvoked(jsondata);
+                        try {
+                            cb.DataInvoked(jsondata);
+                        }
+                        catch (final Exception e){
+                            e.printStackTrace();
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    cb.ConnectionFailed(e);
+                                }
+                            });
+                        }
                     }
                 });
 
-            }catch (Exception e){
+            }catch (final Exception e){
                 e.printStackTrace();
-                cb.ExceptionThrowed(e);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        cb.ConnectionFailed(e);
+                    }
+                });
+
+                return;
             }
 
 

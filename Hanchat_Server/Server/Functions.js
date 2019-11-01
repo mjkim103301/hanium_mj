@@ -99,6 +99,7 @@ class Functions{
 
 //Return Req
   returnResults(res, result){
+    result.result = true;
     res.send(JSON.stringify(result));
   }
 
@@ -108,18 +109,19 @@ class Functions{
 //end Return Req
 
 //unitLog 에 기록
-  async unitLog(action, unit_pid, affected_unit_pid, target_id){
-    sql = 'INSERT INTO UnitLog(log_time, action_id, unit_pid, affected_unit_pid, target_id)';
-    sql = sql + 'VALUES(now(), $1, $2, $3, $4)';
-    values = [action, unit_pid, affected_unit_pid, target_id];
+  async UnitLog(action, unit_pid, affected_unit_pid, target_id){
+    let sql = 'INSERT INTO UnitLog(log_time, action_id, unit_pid, affected_unit_pid, target_id)';
+    sql += 'VALUES(now(), $1, $2, $3, $4)';
+    let values = [action, unit_pid, affected_unit_pid, target_id];
     await this.getDatabaseConnecter().query(sql, values);
   }
 
-  asyncFuncExecutor(res, func, args, errmsg, successfunc){
-    func.apply(null, args).then(r =>{
+  asyncFuncExecutor(res, manager, func, args, errmsg, successfunc){
+    func.apply(manager, args).then(r =>{
       console.log('result : ', r);
       if(successfunc == null){
-        res.send(JSON.stringify(result));
+        r.result = true;
+        res.send(JSON.stringify(r));
       }
       else{
         successfunc(r);

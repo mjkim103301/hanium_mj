@@ -22,14 +22,7 @@ public class Tools {
         return encryptedstr;
     }
 
-    public static String Encrypt(String password, String[] salts){
-        for(int i = 0; i < 5; i++){
-            for(int j = 0; j < 5; j++){
-                password = Tools.getEncryptedString(password, salts[i]);
-            }
-        }
-        return password;
-    }
+
 
     public static String bytesToHex(byte[] bytes) {
         StringBuilder builder = new StringBuilder();

@@ -5,11 +5,15 @@ import android.graphics.Bitmap;
 
 import androidx.annotation.StringRes;
 
-import com.example.hanchat.module.account.AccountManager;
+import com.example.hanchat.module.AccountManager;
 
 import org.json.JSONObject;
 
 
+/*
+    pid와 logintoken을 자동으로 같이 보내주는 커넥터
+
+ */
 public class AuthHttpConnecter {
 
     final private HttpConnecter baseConnecter;

@@ -2,6 +2,7 @@
 <resources>
 <!--    server info -->
     <string name="route_host">13.125.224.21</string>
+    <string name="route_port">55252</string>
 
 <!--    account route-->
     <string name="route_login">/account/login</string>
@@ -9,7 +10,7 @@
     <string name="route_getSalts">/account/getsalts</string>
 
 <!--    apiRequest route-->
-    <string name="route_chatbot">/apiRequest/chatbot</string>
-    <string name="route_image">/apiRequest/image</string>
+    <string name="route_chatbot">/appRoute/apiRequest/chatbot</string>
+    <string name="route_image">/appRoute/apiRequest/image</string>
 
 </resources>

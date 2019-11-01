@@ -55,7 +55,7 @@ class Account{
         let pid = body.pid;
         let logintoken = body.logintoken;
 
-        Functions.asyncFuncExecutor(response, Manager.loginWithPid, [pid, logintoken],
+        Functions.asyncFuncExecutor(response, Manager, Manager.loginWithPid, [pid, logintoken],
         'pid not found', (r)=>{
           if(r.result){
             getLoginToken(response, r.pid);
@@ -82,12 +82,12 @@ class Account{
     });
 
     //새로운 유저를 만들고 pid, logintoken 반환
-    account.post('/createuser', (req, response) =>{
-      console.log('createuser : ');
+    account.post('/createUser', (req, response) =>{
+      console.log('createUser : ');
       const body = req.body;
       console.log('request : ', body);
 
-      Functions.asyncFuncExecutor(response, Manager.createUser, null,
+      Functions.asyncFuncExecutor(response, Manager, Manager.createUser, null,
          'user create failed');
 
     });
