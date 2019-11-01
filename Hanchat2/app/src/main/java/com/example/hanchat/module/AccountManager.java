@@ -10,7 +10,10 @@ import com.example.hanchat.module.connecter.HttpConnecter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/*
+    계정과 관련된 모든 일을 처리하는 매니저
 
+ */
 public class AccountManager {
 
     //AccountManager 전용 콜백 인터페이스

@@ -1,3 +1,8 @@
+/*
+  없애고 나눌 예정
+*/
+
+
 //const DB = require('./Database_Connecter');
 let sql;
 let values;

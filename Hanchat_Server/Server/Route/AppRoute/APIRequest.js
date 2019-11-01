@@ -1,5 +1,5 @@
 /*
-  API 호출 요청의 모음
+  API 호출 요청을 모은 라우터
   Dialogflow, GCPVision
 */
 
@@ -7,7 +7,7 @@ class ApiRequest{
   constructor(Functions, app){
     Functions.logRouter(app, 'apiRequest');
 
-    const Manager = require('./ApiRequestManager.js');
+    const Manager = require('./ApiRequestManager.js')(Functions);
 
 
     app.post('/chatbot', (req, res) =>{
@@ -15,15 +15,18 @@ class ApiRequest{
       const body = req.body;
       console.log('request : ', body);
 
-      const text = req.text;
-      const pid = req.pid;
-      Manager.chatbot(pid, text).then(result =>{
-        console.log('result : ', result);
-        Functions.returnResults(res, result);
-      }).catch(err=>{
-        console.log(err);
-        Functions.returnFailure(res, 'dialogflow error');
-      });
+      const text = body.text;
+      const pid = body.pid;
+
+      Functions.asyncFuncExecutor(res, Manager, Manager.chatbot, [pid, text],
+      'dialogflow error');
+      // Manager.chatbot(pid, text).then(result =>{
+      //   console.log('result : ', result);
+      //   Functions.returnResults(res, result);
+      // }).catch(err=>{
+      //   console.log(err);
+      //   Functions.returnFailure(res, 'dialogflow error');
+      // });
 
 
     });
@@ -53,29 +56,31 @@ class ApiRequest{
           var encodeddata = Buffer.from(data).toString('base64');
 
           //api 호출
-          Manager.vision(encodeddata).then(r=>{
-            Functions.returnResults(res, r);
-          }).catch(err=>{
-            Functions.returnFailure(res, 'visionapi error');
-          });
+          Functions.asyncFuncExecutor(res, Manager, Manager.vision,
+             [encodeddata], 'visionapi error');
+          // Manager.vision(encodeddata).then(r=>{
+          //   Functions.returnResults(res, r);
+          // }).catch(err=>{
+          //   Functions.returnFailure(res, 'visionapi error');
+          // });
         });
 
-        Manager.vision().then( r =>{
-          if(r == null){
-            Functions.returnFailure(res, "error");
-          }
-          else{
-            //res.send(r[0].description);
-            let result = {
-              result : true,
-              description : r[0].description
-            };
-            Functions.returnResults(res, result);
-          }
-
-        }).catch(err=>{
-          this.Functions.returnFailure(res, err);
-        });
+        // Manager.vision().then( r =>{
+        //   if(r == null){
+        //     Functions.returnFailure(res, "error");
+        //   }
+        //   else{
+        //     //res.send(r[0].description);
+        //     let result = {
+        //       result : true,
+        //       description : r[0].description
+        //     };
+        //     Functions.returnResults(res, result);
+        //   }
+        //
+        // }).catch(err=>{
+        //   this.Functions.returnFailure(res, err);
+        // });
     });
   }
 

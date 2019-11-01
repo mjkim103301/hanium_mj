@@ -1,4 +1,4 @@
-package com.example.hanchat.module;
+package com.example.hanchat.module.deprecated;
 
 import android.view.View;
 import android.widget.EditText;
@@ -9,12 +9,14 @@ import androidx.fragment.app.Fragment;
 import com.example.hanchat.R;
 import com.example.hanchat.data.chatting.OtherChatting;
 import com.example.hanchat.data.chatting.UserChatting;
+import com.example.hanchat.module.AccountManager;
 import com.example.hanchat.module.adapter.RecyclerAdapter;
 import com.example.hanchat.module.connecter.HttpConnecter;
 
 import org.json.JSONObject;
 
 /*완료*/
+@Deprecated
 public class ChatBotConnecter implements View.OnClickListener {
     HttpConnecter connecter;
     //AppCompatActivity Activity;

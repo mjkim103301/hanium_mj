@@ -13,14 +13,19 @@ class Router{
 
     const GCPVisionImageUploadPath = Functions.getGCPVisionImageUploadPath();
 
+    this.logsetting(app, Functions);
     this.multersetting(app, Functions);
     this.middlewaresetting(app, Functions);
-    this.logsetting(app, Functions);
 
 
     app.all('/', (req,res) =>{
       res.redirect('/net');
     });
+
+    //연결 확인을 위한 반복 요청
+    setInterval(()=>{
+      Functions.connecterTest();
+    }, 1200000);
 
   }
 

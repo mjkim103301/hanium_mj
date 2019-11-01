@@ -1,4 +1,7 @@
 
+/*
+  ApiRequest의 함수 구현
+*/
 
 class ApiRequestManager{
   constructor(Functions){
@@ -8,11 +11,10 @@ class ApiRequestManager{
 //Dialogflow 호출
   async chatbot(pid, text){
     const sessionId = `hanchat-${pid}`;
-    const r = this.Functions.sendToDialogflow(text,sessionId);
+    const r = await this.Functions.sendToDialogflow(text, sessionId);
 
     let answer = r.queryResult;
     let result = {
-      result : true,
       intent : answer.intent.displayName,
       answer : answer.fulfillmentText,
       params : answer.parameters.fields
@@ -23,10 +25,9 @@ class ApiRequestManager{
 
 //GCPVision 호출
   async vision(base64data){
-    const r = this.Functions.sendToVision(base64data);
+    const r = await this.Functions.sendToVision(base64data);
     let answer = r.textAnnotations;
     let result = {
-      result : true,
       description : answer[0].description
     };
 

@@ -6,7 +6,9 @@ import java.security.MessageDigest;
 import java.util.Map;
 import java.util.Random;
 
-
+/*
+    잡다한 작업 모음
+ */
 public class Tools {
     public static String getEncryptedString(String str, String salt){
         str += salt;

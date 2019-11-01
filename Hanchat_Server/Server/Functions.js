@@ -116,6 +116,9 @@ class Functions{
     await this.getDatabaseConnecter().query(sql, values);
   }
 
+//비동기 작업 대신 돌려주는 함수
+//응답할 곳, 실행시킬 함수의 주인, 실행시킬 함수,
+// 매개변수(배열로), 실패시 응답할 에러 메시지, 성공시 실행시킬 함수( nullable)
   asyncFuncExecutor(res, manager, func, args, errmsg, successfunc){
     func.apply(manager, args).then(r =>{
       console.log('result : ', r);

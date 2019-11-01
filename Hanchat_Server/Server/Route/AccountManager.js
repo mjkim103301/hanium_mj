@@ -62,7 +62,7 @@ class AccountManager{
       throw e;
     }
 
-    
+
   }
 
 //로그인 토큰 갱신 - logintoken만 반환
@@ -71,6 +71,7 @@ class AccountManager{
     let sql = `UPDATE usertable SET logintoken = '${new_logintoken}' WHERE user_pid=${user_pid}`;
     let result = await this.db.query(sql);
     let ans = {
+      pid : user_pid,
       logintoken : new_logintoken
     };
     return ans;

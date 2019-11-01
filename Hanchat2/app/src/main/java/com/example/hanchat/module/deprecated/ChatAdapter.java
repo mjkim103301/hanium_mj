@@ -15,6 +15,7 @@ import com.example.hanchat.R;
 
 import java.util.ArrayList;
 
+@Deprecated
 public class ChatAdapter extends BaseAdapter {
 
     // 채팅 기록을 보관하는 배열

@@ -20,15 +20,19 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.hanchat.R;
 import com.example.hanchat.data.chatting.Chatting;
 import com.example.hanchat.data.chatting.OtherChatting;
 import com.example.hanchat.data.chatting.UserChatting;
-import com.example.hanchat.module.ChatBotConnecter;
+import com.example.hanchat.module.ChatbotManager;
 import com.example.hanchat.module.ImageManagement;
 import com.example.hanchat.module.adapter.RecyclerAdapter;
 import com.example.hanchat.module.adapter.RecyclerManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ChatbotFragment extends Fragment {
 
@@ -40,6 +44,7 @@ public class ChatbotFragment extends Fragment {
 
     ImageManagement imageManagement;
     RecyclerAdapter<Chatting> adapter;
+    ChatbotManager chatbotManager;
     Intent intent;
 
     Button bt_go_cal;
@@ -68,21 +73,20 @@ public class ChatbotFragment extends Fragment {
         //공지
         isDown = false;
 
+        chatbotManager = new ChatbotManager();
+
         /*NavSetting();
         IntentProfileSetting(context);*/
         chatAdapterSetting();
         ButtonSetting();
 
-        //서버 연결 테스트
-        et_chat.setText("안녕");
-        //bt_chat.callOnClick();
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(ChatbotViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(ChatbotViewModel.class);
         // TODO: Use the ViewModel
     }
 
@@ -132,7 +136,34 @@ public class ChatbotFragment extends Fragment {
     private void ButtonSetting(){
 
         // 채팅 전송
-        bt_chat.setOnClickListener(new ChatBotConnecter(this, et_chat, adapter));
+//        bt_chat.setOnClickListener(new ChatBotConnecter(this, et_chat, adapter));
+        bt_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = et_chat.getText().toString();
+                adapter.addItemwithNotify(new UserChatting(text));
+                et_chat.setText(null);
+                chatbotManager.chatbot(text, new ChatbotManager.ChatbotCallback() {
+                    @Override
+                    public void DataReceived(JSONObject data) throws JSONException {
+                        //여기서 일정 만들기
+                    }
+
+                    @Override
+                    public void DataInvoked(JSONObject data) throws JSONException {
+                        if(data.getBoolean(KEY_RESULT)){
+                            String ans = data.getString(KEY_ANSWER);
+                            adapter.addItemwithNotify(new OtherChatting(ans));
+                        }
+                    }
+
+                    @Override
+                    public void ConnectionFailed(Exception e) {
+                        Toast.makeText(ChatbotFragment.this.getContext(), "서버와 연결할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
         imageManagement=new ImageManagement(this, adapter);
 
         //엔터 키입력

@@ -1,6 +1,7 @@
 /*
   앱에서의 모든 호출을 담당하는 라우터
   AppRoute 폴더에 모음
+  여기에 접근하려면 유효한 pid와 logintoken 필요
 */
 
 class AppRoute{
@@ -9,7 +10,7 @@ class AppRoute{
     Functions.logRouter(appRoute, 'appRoute');
 
     const AuthManager = require('./AuthManager.js')(Functions.getConnecter().getDatabaseConnecter());
-    this.middlewaresetting(appRoute, AuthManager);
+    this.middlewaresetting(appRoute, Functions, AuthManager);
     this.Routing(appRoute, Functions);
 
 
@@ -22,7 +23,7 @@ class AppRoute{
   }
 
 //모든 요청 전에 먼저 로그인 유효성 검사
-  middlewaresetting(app, AuthManager){
+  middlewaresetting(app, Functions, AuthManager){
     app.use((req, res, next) =>{
       process.stdout.write(' [auth logintoken ');
       const pid = req.body.pid;
@@ -35,9 +36,11 @@ class AppRoute{
         }
         else{
           console.log('failed] : invalid logintoken');
+          Functions.returnFailure('invalid logintoken');
         }
       }).catch(err =>{
         console.log('failed] : pid not found');
+        Functions.returnFailure('pid not found');
       });
     });
   }

@@ -12,19 +12,21 @@ class Account{
 
     //로그인 토큰 얻기에서 응답까지
     const getLoginToken = (response, user_pid) => {
-      Manager.getLoginToken(user_pid).then(res=>{
-        console.log('getloginToken : ');
-        let result = {
-          result : true,
-          pid : user_pid,
-          logintoken : res.logintoken
-        };
-        console.log('result : ', result);
-        Functions.returnResults(response, result);
-      }).catch(err=>{
-        console.log(err);
-        Functions.returnFailure(response, 'cannot get logintoken');
-      });
+      Functions.asyncFuncExecutor(response, Manager, Manager.getLoginToken,
+      [user_pid], 'get logintoken failed');
+      // Manager.getLoginToken(user_pid).then(res=>{
+      //   console.log('getloginToken : ');
+      //   let result = {
+      //     result : true,
+      //     pid : user_pid,
+      //     logintoken : res.logintoken
+      //   };
+      //   console.log('result : ', result);
+      //   Functions.returnResults(response, result);
+      // }).catch(err=>{
+      //   console.log(err);
+      //   Functions.returnFailure(response, 'cannot get logintoken');
+      // });
     };
 
     //로그인 - pid, logintoken 반환
