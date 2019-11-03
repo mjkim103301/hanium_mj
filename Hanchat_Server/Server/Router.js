@@ -14,22 +14,25 @@ class Router{
     const GCPVisionImageUploadPath = Functions.getGCPVisionImageUploadPath();
 
     this.logsetting(app, Functions);
-    this.multersetting(app, Functions);
     this.middlewaresetting(app, Functions);
+    this.Routing(app, Functions);
 
 
-    app.all('/', (req,res) =>{
-      res.redirect('/net');
-    });
 
-    //연결 확인을 위한 반복 요청
+    //일정 시간마다 테스트 실행
     setInterval(()=>{
       Functions.connecterTest();
     }, 1200000);
 
   }
 
-  multersetting(app, Functions){
+
+//이 라우터를 거치는 연결에 대한 설정
+  middlewaresetting(app, Functions){
+    app.use(bodyParser.json({limit: '10mb', extended: true}));
+    app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
+
+
     app.use('/upload', express.static('upload'));
     const multer = require('multer');
     const storage = multer.diskStorage({
@@ -44,22 +47,7 @@ class Router{
     Functions.setmulter( multer({storage : storage}));
   }
 
-  middlewaresetting(app, Functions){
-    app.use(bodyParser.json({limit: '10mb', extended: true}));
-    app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
-
-    let appRoute = require('./Route/AppRoute.js')(Functions);
-    app.use('/apptest', appRoute);
-    app.use('/appRoute', appRoute);
-
-    let account = require('./Route/Account.js')(Functions);
-    app.use('/account', account);
-
-
-    //app.use('/net', require('./Routes/net.js')(Functions));
-
-  }
-
+//이 라우터를 거칠때 로그 출력
   logsetting(app, Functions){
     app.use((req, res, next)=>{
       console.log('\n');
@@ -69,11 +57,26 @@ class Router{
     });
   }
 
-  getFunctions(){
-    return this.Functions;
+//라우팅
+  Routing(app, Functions){
+    app.all('/', (req,res) =>{
+      res.redirect('/net');
+    });
+
+
+    let appRoute = require('./Route/AppRoute.js')(Functions);
+    app.use('/apptest', appRoute);
+    app.use('/appRoute', appRoute);
+
+    let account = require('./Route/Account.js')(Functions);
+    app.use('/account', account);
+
+    //app.use('/net', require('./Routes/net.js')(Functions));
   }
+
 }
 
+//다른 곳에서 require를 할때 실행되는 부분
 module.exports = (rootDirName, Portnumber, callback)=>{
   Functions = require('./Functions.js')(rootDirName);
 

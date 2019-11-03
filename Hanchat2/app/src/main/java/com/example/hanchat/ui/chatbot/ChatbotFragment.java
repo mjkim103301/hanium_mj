@@ -26,7 +26,7 @@ import com.example.hanchat.R;
 import com.example.hanchat.data.chatting.Chatting;
 import com.example.hanchat.data.chatting.OtherChatting;
 import com.example.hanchat.data.chatting.UserChatting;
-import com.example.hanchat.module.ChatbotManager;
+import com.example.hanchat.module.connecter.ChatbotConnecter;
 import com.example.hanchat.module.ImageManagement;
 import com.example.hanchat.module.adapter.RecyclerAdapter;
 import com.example.hanchat.module.adapter.RecyclerManager;
@@ -44,7 +44,7 @@ public class ChatbotFragment extends Fragment {
 
     ImageManagement imageManagement;
     RecyclerAdapter<Chatting> adapter;
-    ChatbotManager chatbotManager;
+    ChatbotConnecter chatbotConnecter;
     Intent intent;
 
     Button bt_go_cal;
@@ -73,7 +73,7 @@ public class ChatbotFragment extends Fragment {
         //공지
         isDown = false;
 
-        chatbotManager = new ChatbotManager();
+        chatbotConnecter = new ChatbotConnecter();
 
         /*NavSetting();
         IntentProfileSetting(context);*/
@@ -143,7 +143,7 @@ public class ChatbotFragment extends Fragment {
                 String text = et_chat.getText().toString();
                 adapter.addItemwithNotify(new UserChatting(text));
                 et_chat.setText(null);
-                chatbotManager.chatbot(text, new ChatbotManager.ChatbotCallback() {
+                chatbotConnecter.chatbot(text, new ChatbotConnecter.ChatbotCallback() {
                     @Override
                     public void DataReceived(JSONObject data) throws JSONException {
                         //여기서 일정 만들기

@@ -5,14 +5,16 @@
   하위 모듈들은 Funtion 폴더에 모음
 */
 
-
 const fs = require('fs');
 const path = require('path');
+const moment = require('moment');
+require('moment-timezone');
+
+moment.tz.setDefault("Asia/Seoul");
 
 class Functions{
   constructor(rootDirName){
-    this.Tools = require('./Function/Tools.js')(rootDirName);
-    this.Tools.printtime();
+    this.rootDirName = rootDirName;
     this.DataProvider = require("./Function/DataProvider.js")(`${rootDirName}/Data`);
     this.Connecter = require('./Function/Connecter.js')(this.DataProvider);
     this.UploadPath = this.DataProvider.getData('UploadPath');
@@ -20,9 +22,6 @@ class Functions{
   }
 
 //getter
-  getTools(){
-    return this.Tools;
-  }
   getDataMap(){
     return this.DataProvider;
   }
@@ -53,6 +52,9 @@ class Functions{
   }
   async sendToVision(base64data){
     return this.getGCPVisionConnecter().sendToVision(base64data);
+  }
+  async query(sql, values){
+    return this.getDatabaseConnecter().query(sql, values);
   }
 //end Connecter
 
@@ -137,34 +139,59 @@ class Functions{
 
 
 //Tools
+//콘솔에 시간 출력
   printtime(){
-    this.Tools.printtime();
+    console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   }
+//라우터를 거칠때 콘솔에 시간 출력하게 설정
   logRouter(router, routerName){
-    this.Tools.logRouter(router, routerName);
+    router.use((req, res, next)=>{
+      process.stdout.write(`${routerName}/`);
+      next();
+    });
   }
+
+//연결 테스트
   async connecterTest(){
-    return await this.Tools.test(this.Connecter, this.DataProvider);
+    console.log();
+    this.printtime();
+    console.log('test start');
+    const re1 = await this.sendToDialogflow('안녕', 'start-id');
+    console.log('Dialogflow Connected');
+
+    var data = DataProvider.getData('GCPVisionTestData');
+    const re2 = await this.sendToVision(data);
+    console.log('Visionapi Connected');
+
+    const re3 = await this.query('select now()');
+    console.log('Database Connected');
   }
+
+//길이만큼의 랜덤 문자열 생성
   getRandomString(length){
-    return this.Tools.getRandomString(length);
+    var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+    var randomstring = '';
+    for (var i=0; i<length; i++) {
+      var rnum = Math.floor(Math.random() * chars.length);
+      randomstring += chars.substring(rnum,rnum+1);
+    }
+    return randomstring;
   }
-  googleApiKeytoConfig(KeyFilePath){
-    return this.Tools.googleApiKeytoConfig(KeyFilePath);
-  }
+
+//루트에서의 경로로 require
   rootRequire(modulename){
-    return this.Tools.rootRequire(modulename);
+    return require(path.join(this.rootDirName, modulename));
   }
+
+//루트에서의 경로 얻기
   getRootPath(pathname){
-    return this.Tools.getRootPath(pathname);
+    return path.join(this.rootDirName, pathname);
   }
 //end Tools
 
 }
 
-function dd(){
-  let d =arguments.length;
-}
+
 module.exports = (rootDirName) =>{
   return new Functions(rootDirName);
 };

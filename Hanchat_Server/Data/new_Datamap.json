@@ -1,0 +1,28 @@
+{
+  "Value" : {
+    "Dialogflow_ProjectId" : "hanchat-klyaoq",
+    "UploadPath" : "upload/"
+  },
+
+  "File" : {
+    "Dialogflow_key" : {
+      "Path" : "Keys/APIkey-Dialogflow.json",
+      "Type" : "json"
+    },
+
+    "GCPVision_key" : {
+      "Path" : "Keys/APIkey-GCPVision.json",
+      "Type" : "json"
+    },
+
+    "Database_Config" : {
+      "Path" : "Keys/PostgreSQL_ServerDB_key.json",
+      "Type" : "json"
+    },
+
+    "GCPVisionTestData" : {
+      "Path" : "TestImage/Testdata2.txt",
+      "Type" : "string"
+    }
+  }
+}

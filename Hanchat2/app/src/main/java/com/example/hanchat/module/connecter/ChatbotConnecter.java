@@ -1,4 +1,4 @@
-package com.example.hanchat.module;
+package com.example.hanchat.module.connecter;
 
 import com.example.hanchat.R;
 import com.example.hanchat.module.connecter.AuthHttpConnecter;
@@ -10,7 +10,7 @@ import org.json.JSONObject;
 /*
     챗봇과 관련된 모든 일을 처리하는 클래스
  */
-public class ChatbotManager {
+public class ChatbotConnecter {
     AuthHttpConnecter authHttpConnecter;
 
     public interface ChatbotCallback extends HttpConnecter.ResponseRecivedCallback{
@@ -22,7 +22,7 @@ public class ChatbotManager {
 
     }
 
-    public ChatbotManager() {
+    public ChatbotConnecter() {
         authHttpConnecter = new AuthHttpConnecter(HttpConnecter.getinstance(R.string.route_host, R.string.route_port));
 
     }

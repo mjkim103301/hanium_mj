@@ -33,7 +33,10 @@ import java.util.Random;
 
 //먼저 맨위의 패키지 이름부터 바꾸고
 //AndroidManifest.xml 파일에서 <uses-permission android:name="android.permission.INTERNET" /> 추가
-//자세한 사용법은 드라이브에
+
+/*
+    인터넷 연결해주는 커넥터
+ */
 
 
 public class HttpConnecter {
