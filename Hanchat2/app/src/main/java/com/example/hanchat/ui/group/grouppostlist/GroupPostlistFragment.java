@@ -26,7 +26,17 @@ import com.example.hanchat.data.group.GroupPost;
 import com.example.hanchat.module.adapter.RecyclerAdapter;
 import com.example.hanchat.module.adapter.RecyclerManager;
 
+/*
+    포스트들의 리스트를 보여주는 프래그먼트
+    리사이클러뷰에 액션 더함
+    1. 글이 길면 줄이기
+    2. 터치하면 그 정보들을 args로 그룹 포스트 프래그먼트 전환
+    3. 맨 밑으로 가면 다음 정보들 얻어오기
+
+    뷰모델은 RestroeRecycler 뷰모델 상속
+ */
 public class GroupPostlistFragment extends Fragment {
+    // TODO: 2019-11-06 리스트에 그룹 수를 표시하고 그룹 수를 터치하면 그룹의 리스트 출력
 
     private GroupPostlistViewModel mViewModel;
 

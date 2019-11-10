@@ -30,11 +30,17 @@ import com.example.hanchat.module.connecter.ChatbotConnecter;
 import com.example.hanchat.module.ImageManagement;
 import com.example.hanchat.module.adapter.RecyclerAdapter;
 import com.example.hanchat.module.adapter.RecyclerManager;
+import com.example.hanchat.ui.RestoreRecyclerFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ChatbotFragment extends Fragment {
+/*
+    챗봇 프래그먼트
+    채팅과 사진이 가능하게
+    뷰모델에는 채팅 리스트 저장하기
+ */
+public class ChatbotFragment extends RestoreRecyclerFragment {
 
     private ChatbotViewModel mViewModel;
 
@@ -77,7 +83,6 @@ public class ChatbotFragment extends Fragment {
 
         /*NavSetting();
         IntentProfileSetting(context);*/
-        chatAdapterSetting();
         ButtonSetting();
 
         return view;
@@ -87,11 +92,7 @@ public class ChatbotFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(getActivity()).get(ChatbotViewModel.class);
-        // TODO: Use the ViewModel
-    }
 
-
-    private void chatAdapterSetting() {
         RecyclerView chating_list = view.findViewById(R.id.chating_list);
         adapter = new RecyclerAdapter<Chatting>(){
             @Override
@@ -124,11 +125,7 @@ public class ChatbotFragment extends Fragment {
         });
         chating_list.setAdapter(adapter);
 
-        adapter.addItem(new OtherChatting("안녕하세요 HANCHAT 임시UI입니다!"));
-        adapter.addItem(new UserChatting("내일 7시에 은행동에서 친구랑 만나!"));
-        adapter.addItem(new OtherChatting("이제 시작해볼까요?"));
-        //adapter.addItem(new EmptyData());
-        adapter.notifyDataSetChanged();
+        mViewModel.setRecyclerAdapterWithParentView(this, adapter);
     }
 
 
@@ -159,7 +156,7 @@ public class ChatbotFragment extends Fragment {
 
                     @Override
                     public void ConnectionFailed(Exception e) {
-                        Toast.makeText(ChatbotFragment.this.getContext(), "서버와 연결할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity().getApplicationContext(), "서버와 연결할 수 없습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

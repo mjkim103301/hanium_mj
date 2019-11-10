@@ -16,6 +16,10 @@ import android.view.ViewGroup;
 import com.example.hanchat.R;
 import com.example.hanchat.module.adapter.RecyclerAdapter;
 
+/*
+    그룹 포스트와 그 댓글을 보여주는 프래그먼트
+    뷰모델은 리사이클러뷰 데이터 저장
+ */
 public class GroupPostFragment extends Fragment {
 
     private GroupPostViewModel mViewModel;

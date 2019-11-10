@@ -3,7 +3,7 @@ package com.example.hanchat.ui.group.grouppostlist;
 import android.os.Parcelable;
 
 import com.example.hanchat.data.group.GroupPost;
-import com.example.hanchat.ui.module.RestoreRecyclerViewModel;
+import com.example.hanchat.ui.RestoreRecyclerViewModel;
 
 public class GroupPostlistViewModel extends RestoreRecyclerViewModel {
     // TODO: Implement the ViewModel

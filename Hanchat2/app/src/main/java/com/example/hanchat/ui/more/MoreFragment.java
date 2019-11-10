@@ -23,6 +23,11 @@ import com.google.android.gms.common.SignInButton;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
+/*
+    로그인, 설정 등을 하는 프래그먼트
+    로그인 부분을 액티비티로 빼는게 나을듯
+    자기 프로필 설정을 할수 있게 바꿀것
+ */
 public class MoreFragment extends Fragment {
 
     private MoreViewModel mViewModel;
