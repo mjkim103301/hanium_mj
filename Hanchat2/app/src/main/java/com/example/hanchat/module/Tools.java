@@ -3,6 +3,9 @@ package com.example.hanchat.module;
 import org.json.JSONObject;
 
 import java.security.MessageDigest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 
@@ -66,5 +69,19 @@ public class Tools {
             }
         }
         return json;
+    }
+
+    public static Date StringToDate(String input){
+        String dateinfo = input.substring(0, 20);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(dateinfo);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
     }
 }

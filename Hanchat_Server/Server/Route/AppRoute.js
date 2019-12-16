@@ -36,11 +36,11 @@ class AppRoute{
         }
         else{
           console.log('failed] : invalid logintoken');
-          Functions.returnFailure('invalid logintoken');
+          Functions.returnFailure(res, 'invalid logintoken');
         }
       }).catch(err =>{
         console.log('failed] : pid not found');
-        Functions.returnFailure('pid not found');
+        Functions.returnFailure(res, 'pid not found');
       });
     });
   }

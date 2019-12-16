@@ -1,6 +1,9 @@
 package com.example.hanchat.module.schedule;
 
+import com.google.api.client.util.DateTime;
+
 import java.text.DateFormat;
+import java.util.Date;
 
 public class ScheduleBuilder {
     /*
@@ -21,7 +24,10 @@ public class ScheduleBuilder {
     //daterange면 그 전부
     //keyword면  카테고리, 제목, 그룹, 장소 다 찾아보기
 
-    public void Build(){
+    public void Build(Date dateRange, Date startDate, Date endDate,
+                      ){
+
+
         //DateFormat
     }
 }

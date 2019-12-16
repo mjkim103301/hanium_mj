@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_only_rcyclerview">
         <action
             android:id="@+id/action_subnav_group_main_to_subnav_group_post"
-            app:destination="@id/subnav_group_post">
+            app:destination="@+id/subnav_group_post">
 
         </action>
 

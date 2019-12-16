@@ -1,15 +1,16 @@
 package com.example.hanchat.data.Schedule;
 
 import com.example.hanchat.module.adapter.RecyclerManager;
-import com.google.api.client.util.DateTime;
+
+import java.util.Date;
 
 public abstract class ScheduleContent implements RecyclerManager.RecyclerItem {
     long unit_pid;
     long id;
     String title;
     String category;
-    DateTime starttime;
-    DateTime endtime;
+    Date starttime;
+    Date endtime;
     String place;
     String memo;
 
@@ -17,7 +18,7 @@ public abstract class ScheduleContent implements RecyclerManager.RecyclerItem {
 
 
     public ScheduleContent(long unit_pid, long id, String title, String category,
-    DateTime starttime, DateTime endtime, String place, String memo) {
+    Date starttime, Date endtime, String place, String memo) {
         this.unit_pid = unit_pid;
         this.id = id;
         this.title = title;
