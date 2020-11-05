@@ -28,4 +28,9 @@
 - DB - PostgreSQL, aws ec2
 - API - Dialogflow, GCP Vision
 - 개발 기간: 5개월
-- 작동 화면
+
+작동 화면
+-----------
+<img src="/sample/appImage.PNG" title="px(픽셀) 크기 설정" alt="앱 이미지"></img><br/>
+<img src="/sample/server.PNG" title="px(픽셀) 크기 설정" alt="서버 동작"></img><br/>
+<img src="/sample/db.PNG" title="px(픽셀) 크기 설정" alt="데이터베이스"></img><br/>
